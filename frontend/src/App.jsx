@@ -73,21 +73,23 @@ function NavBar() {
 function App() {
   return (
     <div className="App">
-      <div className="wrapper">
-        <div className="logo-container">
-          <img className="logo-main" src="./logo-main.png" alt="Mint logo"></img>
-        </div>
         <Authenticator.Provider>
           <BrowserRouter>
             <NavBar></NavBar>
-            <main>
-              <Routes>     
-                <Route path="/login" element={<Login />} />
-              </Routes>
-            </main>
+            <div className="container">
+              <div className="wrapper">
+                <div className="logo-container">
+                  <img className="logo-main" src="./logo-main.png" alt="Mint logo"></img>
+                </div>
+                <main>
+                  <Routes>     
+                    <Route path="/login" element={<Login />} />
+                  </Routes>
+                </main>
+              </div>
+            </div>
           </BrowserRouter>
         </Authenticator.Provider>
-      </div>
       <footer>
         <p className="footer-text">&copy; {getYear()} holmesgroup</p>
       </footer>
