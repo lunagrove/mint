@@ -2,13 +2,13 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import RouteGuard from "./RouteGuard";
 import { Auth } from "aws-amplify";
 
 import Login from "./Login";
-import { useState, useEffect } from "react";
-import axios from 'axios';
-import './App.css';
 import { getYear } from "./utilities/dates";
+
+import './App.css';
 
 const amplifyConfig = {
   Auth: {
@@ -27,6 +27,7 @@ const amplifyConfig = {
     ],
   },
 };
+
 Amplify.configure(amplifyConfig);
 
 const handleSignOut = async () => {
@@ -40,6 +41,7 @@ const handleSignOut = async () => {
 
 function NavBar() {
   const {user} = useAuthenticator((context) => [context.user]);
+  console.log('user', user);
 
   return (
     <nav>
@@ -47,7 +49,7 @@ function NavBar() {
         <li>
           <Link to="/">Home</Link>
         </li>
-        {user? (
+        {user && (
           <>
           <li>
               <Link to="/profile">Profile</Link>
@@ -56,13 +58,10 @@ function NavBar() {
             <Link to="#" onClick={handleSignOut}>Logout</Link>
           </li>
           {user && ( 
-            <p className="welcome-msg">Welcome {user.username}</p>
+            <p className="welcome-msg">Welcome {user.attributes.email}</p>
           )}
           </>
-        ) : (
-          <li>
-              <Link to="/login">Login</Link>
-          </li>
+        
         )}
         
       </ul>
@@ -82,9 +81,7 @@ function App() {
                   <img className="logo-main" src="./logo-main.png" alt="Mint logo"></img>
                 </div>
                 <main>
-                  <Routes>     
-                    <Route path="/login" element={<Login />} />
-                  </Routes>
+                  <Login></Login>
                 </main>
               </div>
             </div>
@@ -94,7 +91,7 @@ function App() {
         <p className="footer-text">&copy; {getYear()} holmesgroup</p>
       </footer>
     </div>
-  )
+  );
 }
 
 export default App;

@@ -7,7 +7,7 @@ export function FrontendStack({ stack, app }) {
   const site = new StaticSite(stack, "ReactSite", {
     path: "frontend",
     buildOutput: "dist",
-    buildCommand: "yarn build",
+    buildCommand: "npm run build",
     // Pass in our environment variables
     environment: {
       VITE_APP_API_URL: api.customDomainUrl || api.url,

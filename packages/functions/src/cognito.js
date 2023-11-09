@@ -69,13 +69,10 @@ the signUp function from the userPool object.
 @param {string} userData.password - The password to sign up with.
 @returns {Promise} - A Promise that resolves to the signUp result object.
 */
-export async function signUp({ username, email, password }) {
-  const attributeList = [
-    new CognitoUserAttribute({ Name: "email", Value: email })
-  ]
+export async function signUp({ email, password }) {
 
   const cognitoSignUp = promisify(userPool.signUp).bind(userPool)
-  const result = await cognitoSignUp(username, password, attributeList, null)
+  const result = await cognitoSignUp(email, password, [], null)
   return result
 }
 
@@ -89,9 +86,9 @@ It creates a CognitoUser object and calls the confirmRegistration function on it
 @param {string} userData.code - The confirmation code to use for confirmation.
 @returns {Promise} - A Promise that resolves to the confirmRegistration result object.
 */
-export async function confirmUser({ username, email, code }) {
+export async function confirmUser({ email, code }) {
   const userData = {
-    Username: username,
+    Username: email,
     Pool: userPool,
   }
 
@@ -110,17 +107,17 @@ It creates a CognitoUser object and calls the authenticateUser function on it.
 @param {string} userData.password - The password of the user to sign in.
 @returns {Promise} - A Promise that resolves to the authenticateUser result object.
 */
-export async function signIn({ username, password }) {
+export async function signIn({ email, password }) {
   return new Promise((resolve, reject) => {
     const authData = {
-      Username: username,
+      Username: email,
       Password: password,
     }
 
     const authDetails = new AuthenticationDetails(authData)
 
     const userData = {
-      Username: username,
+      Username: email,
       Pool: userPool,
     }
 
@@ -156,9 +153,9 @@ It creates a CognitoUser object and calls the forgotPassword function on it.
 @param {string} userData.username - The username of the user to send the forgot password email to.
 @returns {Promise} - A Promise that resolves to the forgotPassword result object.
 */
-export async function forgotPassword({ username }) {
+export async function forgotPassword({ email }) {
   const cognitoUser = new CognitoUser({
-    Username: username,
+    Username: email,
     Pool: userPool
   })
   return new Promise((resolve, reject) => {
@@ -182,9 +179,9 @@ It creates a CognitoUser object and calls the confirmPassword function on it.
 @param {string} userData.newPassword - The new password to set for the user.
 @returns {Promise} - A Promise that resolves to the confirmPassword result object.
 */
-export async function resetPassword({ username, code, newPassword }) {
+export async function resetPassword({ email, code, newPassword }) {
   const cognitoUser = new CognitoUser({
-    Username: username,
+    Username: email,
     Pool: userPool
   })
   return new Promise((resolve, reject) => {

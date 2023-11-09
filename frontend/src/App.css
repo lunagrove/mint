@@ -7,6 +7,10 @@ html {
 
 /* default styles */
 
+html {
+  overflow-y:scroll;
+}
+
 html,
 body {
   min-height: 100%;
@@ -36,7 +40,7 @@ h1, h2, h3, p {
 
 .wrapper {
   flex: 1;
-  max-width: 600px;
+  width: 600px;
 }
 
 nav {
@@ -150,4 +154,3 @@ footer {
   font-size: 0.9em;
   font-weight: 400;
 }
-

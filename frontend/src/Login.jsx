@@ -14,5 +14,5 @@ export default function Login() {
     return <Navigate to="/" />;
   }
 
-  return <Authenticator signUpAttributes={["email"]} />;
+  return <Authenticator signUpAttributes={[]} />;
 }
