@@ -30,59 +30,50 @@ h1, h2, h3, p {
   padding: 0;
 }
 
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.nav-left, .nav-center, .nav-right {
+  flex: 1;
+}
+
+.nav-left {
+  display: flex;
+  gap: 10px;
+  text-align: left; 
+}
+
+.nav-center {
+  text-align: center; 
+}
+
+.nav-right {
+  text-align: right;  
+}
+
+.nav-user {
+  height: 30px;
+}
+
+.nav-logout {
+  text-decoration: none;
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 194px);
+  min-height: calc(100vh - 246px);
   justify-content: space-between;
   align-items: center;
 }
 
 .wrapper {
   flex: 1;
-  width: 600px;
-}
-
-nav {
-  height: 40px;
-  align-items: center;
   width: 100%;
-  padding-left: 20px;
-}
-
-nav p {
-  margin: 0;
-  padding: 0.5rem;
-  align-items: center; 
-}
-
-nav ul {
-  display: flex;
-  gap: 10px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-nav li {
-  margin: 0;
-  padding: 0;
-}
-
-nav li a, nav li a:hover {
-  display: block;
-  padding: 0.5rem;
-  text-decoration: none;
-}
-
-.logo-container {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 30px;
-}
-
-.logo-main {
-  max-width: 420px;
 }
 
 [data-amplify-authenticator] [data-amplify-router] {
@@ -115,14 +106,17 @@ nav li a, nav li a:hover {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.amplify-button--primary {
-  background-color: #01210a;
+.amplify-button {
   border-radius: 15px;
-  color: #ebfef0;
   font-size: 1.2em;
   font-weight: 400;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   height: 50px;
+}
+
+.amplify-button--primary {
+  background-color: #01210a;
+  color: #ebfef0;
 }
 
 .amplify-field-group__outer-start .amplify-field-group__control, .amplify-field-group__outer-end .amplify-field-group__control {
@@ -138,6 +132,23 @@ nav li a, nav li a:hover {
 
 .amplify-tabs-item[data-state=active] {
   border-color: #01210a;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  margin: 5px 40px;
+  gap: 40px 40px;
+  padding: 20px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  height: 100%;
 }
 
 footer {
