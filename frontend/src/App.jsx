@@ -1,13 +1,12 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { Amplify } from "aws-amplify";
-import { Authenticator } from "@aws-amplify/ui-react";
-
-import RouteGuard from "./RouteGuard";
-import { Auth } from "aws-amplify";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Login from "./Login";
 import Card from "./Card";
+import Snippet from "./Snippet";
 import { getYear } from "./utilities/dates";
+import { Auth, API } from "aws-amplify";
 
 import './App.css';
 
@@ -33,23 +32,55 @@ Amplify.configure(amplifyConfig);
 
 function App() {
 
+  const cardTypes = [
+    'Profile',
+    'Companies and Roles',
+    'Education',
+    'Side Projects',
+    'Experience',
+    'Skills'
+  ]
+
+  const [snippets, setSnippets] = useState([]);
+
+  useEffect(() => {
+    const fetchSnippets = async () => {
+      try {
+        const session = await Auth.currentSession();
+        const token = session.getAccessToken().getJwtToken();
+        const response = await API.get("api", "/snippets", {
+          headers: {
+            Authorization: `Bearer ${token}`  
+        }
+        });
+        setSnippets(response.snippets);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSnippets();
+  }, []);
+
   return (
     <div className="App">
       <BrowserRouter>
         <Navbar></Navbar>
         <div className="container">
           <div className="wrapper">
-            <main>
               <Login></Login>
               <div className="card-grid">
-                <Card cardNumber={1} />
-                <Card cardNumber={2} />
-                <Card cardNumber={3} />
-                <Card cardNumber={4} />
-                <Card cardNumber={5} />
-                <Card cardNumber={6} />
+                {cardTypes.map((cardType) => (
+                  <Card key={cardType} cardType={cardType} />
+                ))} 
               </div>
-            </main>
+              <div className="snippet-container">
+                <h3>Most Recent Snippets</h3>
+                {snippets && snippets.length > 0 ? (
+                  snippets.map((snippet) => <Snippet key={snippet} snippet={snippet} />)
+                ) : (
+                  <Snippet snippet='No snippets available. Add some snippets!'/>
+                )}
+              </div>
           </div>
         </div>
       </BrowserRouter>

@@ -14,25 +14,12 @@ function getPool() {
   return pool;
 }
 
-export async function getClickCount() {
+export async function getSnippets(userId) {
   const res = await getPool().query(`
-  SELECT clickcount FROM statistics
-  WHERE id = 'CLICK COUNT'
-  `);
-  return res.rows[0].clickcount;
+  SELECT * FROM experience
+  WHERE userid = $1
+  ORDER BY experienceId DESC LIMIT 5
+  `, [userId]);
+  return res.rows;
 }
 
-export async function editClickCount() {
-  const res = await getPool().query(`
-  UPDATE statistics SET clickcount = clickcount + 1 WHERE id = 'CLICK COUNT' RETURNING clickcount
-  `);
-  return res.rows[0].clickcount;
-}
-
-export async function createEmail(email, fname, lname) {
-  const res = await getPool().query(`
-  INSERT INTO emails (email, firstname, lastname)
-  VALUES ($1, $2, $3)
-  RETURNING id, email`, [email, fname, lname])
-  return res.rows[0];
-}

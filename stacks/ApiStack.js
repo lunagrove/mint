@@ -25,12 +25,7 @@ export function API({ stack }) {
       },
     },
     routes: {
-      "GET /count": {
-        function: "packages/functions/src/getCount.main",
-        authorizer: "none",
-      },
-      "PUT /count": "packages/functions/src/editCount.main",
-      "PUT /contact": "packages/functions/src/createContact.main"
+      "GET /snippets": "packages/functions/src/getSnippets.main"
     },
   });
 

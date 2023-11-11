@@ -4,9 +4,6 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 function Navbar() {
 
     const {user} = useAuthenticator((context) => [context.user]);
-    /* if (user) {
-        console.log('user', user);
-    } */
 
     const handleSignOut = async () => {
         try {
