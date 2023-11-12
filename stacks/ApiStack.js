@@ -25,7 +25,9 @@ export function API({ stack }) {
       },
     },
     routes: {
-      "GET /snippets": "packages/functions/src/getSnippets.main"
+      "GET /snippets": "packages/functions/src/getSnippets.main",
+      "GET /profile": "packages/functions/src/getProfile.main",
+      "POST /user": "packages/functions/src/createUser.main"
     },
   });
 

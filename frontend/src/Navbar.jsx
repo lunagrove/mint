@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { FaUserCircle } from 'react-icons/fa';
+import { Auth } from "aws-amplify";
 
 function Navbar() {
 
@@ -18,9 +20,11 @@ function Navbar() {
         <nav>
             <div className="nav-container">
                 <div className="nav-left">
-                    <img className="nav-user" src="./logged-in-user.png" alt="User icon"></img>
                     {user && (
-                        <p className="welcome-msg">Welcome {user.attributes.email}</p>
+                        <>
+                            <FaUserCircle className="icon-large nav-user" />
+                            <p className="welcome-msg">Welcome {user?.attributes.email}</p>
+                        </>
                     )}
                 </div>
                 <div className="nav-center">
