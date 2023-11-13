@@ -1,4 +1,4 @@
-import { getSnippets } from "@mint/core/database";
+import { getSkills } from "@mint/core/database";
 
 export async function main(event, context) {
 
@@ -8,15 +8,15 @@ export async function main(event, context) {
         if (!userId) {
             return {
                     statusCode: 500,
-                    body: JSON.stringify({ error: 'Failed to retrieve snippets' })
+                    body: JSON.stringify({ error: 'Failed to retrieve skills' })
                 };
         }
         
-        const snippets = await getSnippets(userId);
+        const skills = await getSkills(userId);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ snippets: snippets }),
+            body: JSON.stringify({ skills: skills }),
         }
     } catch (error) {
         console.error(error);

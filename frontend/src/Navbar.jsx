@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+//import { useAuthenticator } from "@aws-amplify/ui-react";
 import { FaUserCircle } from 'react-icons/fa';
 import { Auth } from "aws-amplify";
 
-function Navbar() {
-
-    const {user} = useAuthenticator((context) => [context.user]);
-
+function Navbar({user}) {
+    
     const handleSignOut = async () => {
         try {
           await Auth.signOut();
@@ -23,7 +21,7 @@ function Navbar() {
                     {user && (
                         <>
                             <FaUserCircle className="icon-large nav-user" />
-                            <p className="welcome-msg">Welcome {user?.attributes.email}</p>
+                            <p className="welcome-msg">Welcome {user.attributes ? user.attributes.email : user.username}</p>
                         </>
                     )}
                 </div>

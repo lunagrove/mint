@@ -9,7 +9,7 @@ import Card from "./Card";
 import Snippet from "./Snippet";
 import { getYear } from "./utilities/dates";
 import { Auth, API } from "aws-amplify";
-import cardTypes from "./utilities/constants";
+import { cardTypes } from "./utilities/constants";
 import { FaSpinner } from "react-icons/fa";
 
 import './App.css';
@@ -38,53 +38,91 @@ function App() {
 
   const [snippets, setSnippets] = useState([]);
   const [profile, setProfile] = useState([]);
+  const [skills, setSkills] = useState([]);
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [loadingSnippets, setLoadingSnippets] = useState(true);
+  const [loadingSkills, setLoadingSkills] = useState(true);
 
   const {user} = useAuthenticator((context) => [context.user]);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const session = await Auth.currentSession();
-        const token = session.getAccessToken().getJwtToken();
-        const response = await API.get("api", "/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`  
+    if (user) {
+      const fetchProfile = async () => {
+        try {
+          const session = await Auth.currentSession();
+          const token = session.getAccessToken().getJwtToken();
+          const response = await API.get("api", "/profile", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          if (!response.profile) {       
+            const res = await API.post("api", "/user", {
+              headers: {
+                Authorization: `Bearer ${token}`
+              },
+              body: {
+                userId: user.attributes.sub,
+                email: user.attributes.email
+                }
+              });
+          }
+          setProfile(response.profile);
+          setLoadingProfile(false);
+        } catch (error) {
+          console.log(error);
         }
-        });
-        setProfile(response.profile);
-        setLoadingProfile(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProfile();
+      };
+      fetchProfile();
+    }
   }, [user]);
 
   useEffect(() => {
-    const fetchSnippets = async () => {
-      try {
-        const session = await Auth.currentSession();
-        const token = session.getAccessToken().getJwtToken();
-        const response = await API.get("api", "/snippets", {
-          headers: {
-            Authorization: `Bearer ${token}`  
+    if (user) {
+      const fetchSnippets = async () => {
+        try {
+          const session = await Auth.currentSession();
+          const token = session.getAccessToken().getJwtToken();
+          const response = await API.get("api", "/snippets", {
+            headers: {
+              Authorization: `Bearer ${token}`  
+            }
+          });
+          setSnippets(response.snippets);
+          setLoadingSnippets(false);
+        } catch (error) {
+          console.log(error);
         }
-        });
-        setSnippets(response.snippets);
-        setLoadingSnippets(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchSnippets();
+      };
+      fetchSnippets();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      const fetchSkills = async () => {
+        try {
+          const session = await Auth.currentSession();
+          const token = session.getAccessToken().getJwtToken();
+          const response = await API.get("api", "/skills", {
+            headers: {
+              Authorization: `Bearer ${token}`  
+            }
+          });
+          setSkills(response.skills);
+          setLoadingSkills(false);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchSkills();
+    }
   }, [user]);
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar></Navbar>
+        <Navbar user={user}></Navbar>
         <div className="container">
           <div className="wrapper">
             {!user ? (
@@ -105,7 +143,7 @@ function App() {
                       {snippets && snippets.length > 0 ? (
                         snippets.map((snippet, index) =>
                           <Snippet key={index}
-                                  snippet={snippet} />)
+                                   snippet={snippet} />)
                       ) : (
                         <h2>You have no snippets saved. Try adding some snippets!</h2>
                       )}
@@ -115,11 +153,14 @@ function App() {
               </div>
 
               <div className="card-grid">
-                {cardTypes.map((cardType) => (
-                  <Card key={cardType}
+                {cardTypes.map((cardType, index) => (
+                  <Card key={index}
                         cardType={cardType}
+                        cardNumber={index}
                         profile={profile}
-                        loading={loadingProfile} />
+                        loadingProfile={loadingProfile}
+                        skills={skills}
+                        loadingSkills={loadingSkills} />
                 ))} 
               </div>
             </>

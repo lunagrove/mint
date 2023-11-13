@@ -38,3 +38,11 @@ export async function createUser(userId, emailaddress) {
   RETURNING userId, emailaddress`, [userId, emailaddress])
   return res.rows[0];
 }
+
+export async function getSkills(userId) {
+  const res = await getPool().query(`
+  SELECT * FROM skill
+  WHERE userid = $1
+  `, [userId]);
+  return res.rows;
+}

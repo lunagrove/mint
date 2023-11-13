@@ -1,8 +1,24 @@
 import React from 'react';
 import CardProfile from "./CardProfile";
+import CardSkills from "./CardSkills";
 import { FaSpinner } from "react-icons/fa";
+import { iconMap } from "./utilities/constants";
 
-const Card = ({ cardType, profile, loading }) => {
+const Card = ({
+    cardType,
+    cardNumber,
+    profile,
+    loadingProfile,
+    skills,
+    loadingSkills
+    }) => {
+
+    const IconComponent = iconMap[cardNumber];
+    let skillCount = 0;
+
+    if (skills) {
+        skillCount = skills.length;
+    }
 
     const handleClick = () => {
         console.log(`${cardType} button clicked!`);
@@ -11,17 +27,35 @@ const Card = ({ cardType, profile, loading }) => {
     return (
         <div className="card">
             <div className="card-heading">
-                <img className="mint-leaf-small" src="./Mint-leaf-transparent.png" alt="<Mint leaf>"/>
+                {IconComponent && <IconComponent className="icon-large icon-margin-right" />}
                 <h3>{cardType}</h3>
+                {cardNumber === 5 && (
+                    <h3>&nbsp;({skillCount})</h3>
+                )}
             </div>
             <div className="card-content">               
-                {cardType === 'Profile' ? (
-                    loading ? (
+                {cardNumber === 0 ? (
+                    loadingProfile ? (
                         <FaSpinner className="spin icon-large" />
                     ) : (
                         <CardProfile profile={profile} />
                     )
-                ) : (
+                ) : cardNumber === 5 ? (
+                        loadingSkills ? (
+                            <FaSpinner className="spin icon-large" />
+                        ) : (
+                            skillCount > 0 ? (
+                                <CardSkills skills={skills}/> 
+                            ) : (
+                                <img
+                                    className="plus-button"
+                                    src="./plus-icon-80x80.png"
+                                    alt="Plus icon"
+                                    onClick={handleClick}
+                                />
+                            )
+                        )
+                    ) : (
                         <img
                             className="plus-button"
                             src="./plus-icon-80x80.png"
@@ -30,7 +64,6 @@ const Card = ({ cardType, profile, loading }) => {
                         />
                     )
                 }
-
             </div>
         </div>
     );

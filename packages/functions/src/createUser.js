@@ -1,10 +1,12 @@
-import { createUser } from "@mintinterest/core/database";
+import { createUser } from "@mint/core/database";
 
 export async function main(event) {
   
   try {
 
     const body = JSON.parse(event.body);
+
+    console.log('event.body', body);
 
     if (!body.email || !body.userId) {
       return {
