@@ -21,7 +21,7 @@ const Card = ({
     }
 
     const handleClick = () => {
-        console.log(`${cardType} button clicked!`);
+        console.log(`Add ${cardType} button clicked!`);
     };
 
     return (

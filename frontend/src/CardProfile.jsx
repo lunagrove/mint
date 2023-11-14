@@ -58,7 +58,8 @@ const CardProfile = ({ profile }) => {
             </div> 
             {isModalOpen && (
                 <EditModal onClose={handleCloseModal}
-                           cardNumber={cardNumber} />
+                           cardNumber={cardNumber}
+                           profile={profile} />
             )}
         </>        
     );

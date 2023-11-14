@@ -18,7 +18,7 @@ const CardSkills = ({ skills }) => {
     };
 
     const handleClick = () => {
-        console.log('Skills button clicked!');
+        console.log('Add Skills button clicked!');
     };
 
     const skillCount = skills.length;
@@ -44,7 +44,6 @@ const CardSkills = ({ skills }) => {
                                 alt="Plus icon"
                                 onClick={handleClick}
                             />    
-                        
                         )}
                     </div>
                     <div className="skills-right">
@@ -62,7 +61,8 @@ const CardSkills = ({ skills }) => {
             </div>
             {isModalOpen && (
                 <EditModal onClose={handleCloseModal}
-                           cardNumber={cardNumber} />
+                           cardNumber={cardNumber}
+                           skills={skills} />
             )}
         </>     
     );
