@@ -63,6 +63,10 @@ li {
   margin-right: 10px;
 }
 
+.icon-margin-top {
+  margin-top: 33px;
+}
+
 .mint-leaf-small {
   height: 30px;
   width: 30px;
@@ -580,6 +584,10 @@ form {
 
 .add-skill-button {
   padding-top: 10px;
+}
+
+.add-skill-button.disabled {
+  opacity: 30%;
 }
 
 .add-skill-form {

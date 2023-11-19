@@ -3,8 +3,9 @@ import { useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import EditModal from './EditModal';
 import { cardTypes } from "./utilities/constants";
+import { Auth, API } from "aws-amplify";
 
-const CardProfile = ({ profile }) => {
+const CardProfile = ({ profile, refreshProfile }) => {
 
     const firstName = profile.firstname ? profile.firstname : '';
     const lastName = profile.lastname ? profile.lastname : ''; 
@@ -19,6 +20,25 @@ const CardProfile = ({ profile }) => {
 
     const handleCloseModal = () => {
         setModalOpen(false);
+        refreshProfile();
+    };
+
+    const handleSubmit = async (newProfile) => {
+        try {
+            const result = await API.put("api", "/profile", {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }, 
+                body: {newProfile}
+            })
+            const profile = result;
+            handleCloseModal();
+        }
+        catch (error) {
+          alert(error);
+        }    
     };
 
     return (
@@ -58,8 +78,9 @@ const CardProfile = ({ profile }) => {
             </div> 
             {isModalOpen && (
                 <EditModal onClose={handleCloseModal}
+                           onSubmit={handleSubmit}
                            cardNumber={cardNumber}
-                           profile={profile} />
+                           inputProfile={profile} />
             )}
         </>        
     );

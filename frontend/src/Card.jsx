@@ -3,6 +3,7 @@ import CardProfile from "./CardProfile";
 import CardSkills from "./CardSkills";
 import { FaSpinner } from "react-icons/fa";
 import { iconMap } from "./utilities/constants";
+import { useState, useEffect } from "react";
 
 const Card = ({
     cardType,
@@ -10,15 +11,20 @@ const Card = ({
     profile,
     loadingProfile,
     skills,
-    loadingSkills
+    loadingSkills,
+    refreshProfile,
+    refreshSkills
     }) => {
 
-    const IconComponent = iconMap[cardNumber];
-    let skillCount = 0;
+    const [skillCount, setSkillCount] = useState(0);
 
-    if (skills) {
-        skillCount = skills.length;
-    }
+    const IconComponent = iconMap[cardNumber];
+
+    useEffect(() => {
+        if (skills) {
+            setSkillCount(skills.length);
+        }
+      }, [skills]);
 
     const handleClick = () => {
         console.log(`Add ${cardType} button clicked!`);
@@ -38,22 +44,15 @@ const Card = ({
                     loadingProfile ? (
                         <FaSpinner className="spin icon-large" />
                     ) : (
-                        <CardProfile profile={profile} />
+                        <CardProfile profile={profile}
+                                     refreshProfile={refreshProfile} />
                     )
                 ) : cardNumber === 5 ? (
                         loadingSkills ? (
                             <FaSpinner className="spin icon-large" />
                         ) : (
-                            skillCount > 0 ? (
-                                <CardSkills skills={skills}/> 
-                            ) : (
-                                <img
-                                    className="plus-button"
-                                    src="./plus-icon-80x80.png"
-                                    alt="Plus icon"
-                                    onClick={handleClick}
-                                />
-                            )
+                            <CardSkills skills={skills}
+                                        refreshSkills={refreshSkills}/> 
                         )
                     ) : (
                         <img

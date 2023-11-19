@@ -1,73 +1,90 @@
 import React from 'react';
 import { useState } from "react";
 
-const EditProfile = ( {profile} ) => {
+const EditProfile = ( {profile, onSubmit, onClose} ) => {
 
-    const [firstname, setFirstName] = useState(profile.firstname);
-    const [lastname, setLastName] = useState(profile.lastname);
-    const [phonenumber, setPhoneNumber] = useState(profile.phonenumber);
-    const [location, setLocation] = useState(profile.location);
-    const [linkedin, setLinkedIn] = useState(profile.linkedin);
-    const [website, setWebsite] = useState(profile.website);
+    const [editedProfile, setEditedProfile] = useState(profile);
 
-    const [error, setError] = useState("");
+    const handleChange = (e) => {
+      setEditedProfile((prevProfile) => ({
+            ...prevProfile,
+            [e.target.name]: e.target.value,
+      }));
+    };
+  
+    const handleSubmit = () => {
+      onSubmit(editedProfile);
+      handleClose();
+    };
+
+    const handleClose = () => {
+      onClose();
+    };
 
     return (
-        <form>
-            <h6 className="form-label">Email</h6>
-            <input type="email"
-                  id="email"
-                  className="form-input"
-                  name="email"
-                  value={profile.emailaddress}
-                  readOnly />
-            {error &&
-              <div className="error">
-                {error}
-              </div>}
-            <h6 className="form-label">First name</h6>
-            <input type="text"
-                  id="firstname"
-                  className="form-input"
-                  name="firstname"
-                  value={firstname ? firstname : ""}
-                  onChange={(event) => setFirstName(event.target.value)} />
-            <h6 className="form-label">Last name</h6>
-            <input type="text"
-                  id="lastname"
-                  className="form-input"
-                  name="lastname"
-                  value={lastname ? lastname : ""}
-                  onChange={(event) => setLastName(event.target.value)} />
-            <h6 className="form-label">Phone number</h6>
-            <input type="text"
-                  id="phonenumber"
-                  className="form-input"
-                  name="phonenumber"
-                  value={phonenumber ? phonenumber : ""}
-                  onChange={(event) => setPhoneNumber(event.target.value)} />
-            <h6 className="form-label">Location</h6>
-            <input type="text"
-                  id="location"
-                  className="form-input"
-                  name="location"
-                  value={location ? location : ""}
-                  onChange={(event) => setLocation(event.target.value)} />
-            <h6 className="form-label">LinkedIn</h6>
-            <input type="text"
-                  id="linkedin"
-                  className="form-input"
-                  name="linkedin"
-                  value={linkedin ? linkedin : ""}
-                  onChange={(event) => setLinkedIn(event.target.value)} />
-            <h6 className="form-label">Website</h6>
-            <input type="text"
-                  id="website"
-                  className="form-input"
-                  name="website"
-                  value={website ? website : ""}
-                  onChange={(event) => setWebsite(event.target.value)} />
-        </form>
+      <div className="modal-content">
+            <form>
+                  <h6 className="form-label">Email</h6>
+                  <input type="email"
+                        id="email"
+                        className="form-input"
+                        name="emailaddress"
+                        value={editedProfile.emailaddress}
+                        readOnly />
+                  <h6 className="form-label">First name</h6>
+                  <input type="text"
+                        id="firstname"
+                        className="form-input"
+                        name="firstname"
+                        value={editedProfile.firstname ? editedProfile.firstname : ""}
+                        onChange={handleChange} />
+                  <h6 className="form-label">Last name</h6>
+                  <input type="text"
+                        id="lastname"
+                        className="form-input"
+                        name="lastname"
+                        value={editedProfile.lastname ? editedProfile.lastname : ""}
+                        onChange={handleChange} />
+                  <h6 className="form-label">Phone number</h6>
+                  <input type="text"
+                        id="phonenumber"
+                        className="form-input"
+                        name="phonenumber"
+                        value={editedProfile.phonenumber ? editedProfile.phonenumber : ""}
+                        onChange={handleChange} />
+                  <h6 className="form-label">Location</h6>
+                  <input type="text"
+                        id="location"
+                        className="form-input"
+                        name="location"
+                        value={editedProfile.location ? editedProfile.location : ""}
+                        onChange={handleChange} />
+                  <h6 className="form-label">LinkedIn</h6>
+                  <input type="text"
+                        id="linkedin"
+                        className="form-input"
+                        name="linkedin"
+                        value={editedProfile.linkedin ? editedProfile.linkedin : ""}
+                        onChange={handleChange} />
+                  <h6 className="form-label">Website</h6>
+                  <input type="text"
+                        id="website"
+                        className="form-input"
+                        name="website"
+                        value={editedProfile.website ? editedProfile.website : ""}
+                        onChange={handleChange} />
+            </form>
+            <div className="modal-footer">
+                  <button type="submit"
+                          className="formbutton focused"
+                          id="submitBtn"
+                          onClick={handleSubmit}>Save</button>
+                  <button type="button"
+                          className="formbutton"
+                          id="cancelBtn"
+                          onClick={handleClose}>Cancel</button>
+            </div>
+        </div>
     );
 };
 

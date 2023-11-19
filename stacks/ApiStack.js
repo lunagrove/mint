@@ -28,7 +28,10 @@ export function API({ stack }) {
       "GET /snippets": "packages/functions/src/getSnippets.main",
       "GET /profile": "packages/functions/src/getProfile.main",
       "GET /skills": "packages/functions/src/getSkills.main",
-      "POST /user": "packages/functions/src/createUser.main"
+      "POST /user": "packages/functions/src/createUser.main",
+      "PUT /profile": "packages/functions/src/editProfile.main",
+      "POST /skill": "packages/functions/src/createSkill.main",
+      "DELETE /skill/{skillId}": "packages/functions/src/deleteSkill.main",
     },
   });
 

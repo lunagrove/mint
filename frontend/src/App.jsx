@@ -47,77 +47,88 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      const fetchProfile = async () => {
-        try {
-          const session = await Auth.currentSession();
-          const token = session.getAccessToken().getJwtToken();
-          const response = await API.get("api", "/profile", {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-          if (!response.profile) {       
-            const res = await API.post("api", "/user", {
-              headers: {
-                Authorization: `Bearer ${token}`
-              },
-              body: {
-                userId: user.attributes.sub,
-                email: user.attributes.email
-                }
-              });
-          }
-          setProfile(response.profile);
-          setLoadingProfile(false);
-        } catch (error) {
-          console.log(error);
-        }
-      };
       fetchProfile();
     }
   }, [user]);
 
   useEffect(() => {
     if (user) {
-      const fetchSnippets = async () => {
-        try {
-          const session = await Auth.currentSession();
-          const token = session.getAccessToken().getJwtToken();
-          const response = await API.get("api", "/snippets", {
-            headers: {
-              Authorization: `Bearer ${token}`  
-            }
-          });
-          setSnippets(response.snippets);
-          setLoadingSnippets(false);
-        } catch (error) {
-          console.log(error);
-        }
-      };
       fetchSnippets();
     }
   }, [user]);
 
   useEffect(() => {
     if (user) {
-      const fetchSkills = async () => {
-        try {
-          const session = await Auth.currentSession();
-          const token = session.getAccessToken().getJwtToken();
-          const response = await API.get("api", "/skills", {
-            headers: {
-              Authorization: `Bearer ${token}`  
-            }
-          });
-          setSkills(response.skills);
-          setLoadingSkills(false);
-        } catch (error) {
-          console.log(error);
-        }
-      };
       fetchSkills();
     }
   }, [user]);
+
+  const fetchProfile = async () => {
+    try {
+      const session = await Auth.currentSession();
+      const token = session.getAccessToken().getJwtToken();
+      const response = await API.get("api", "/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (!response.profile) {       
+        const res = await API.post("api", "/user", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          body: {
+            userId: user.attributes.sub,
+            email: user.attributes.email
+            }
+          });
+      }
+      setProfile(response.profile);
+      setLoadingProfile(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchSnippets = async () => {
+    try {
+      const session = await Auth.currentSession();
+      const token = session.getAccessToken().getJwtToken();
+      const response = await API.get("api", "/snippets", {
+        headers: {
+          Authorization: `Bearer ${token}`  
+        }
+      });
+      setSnippets(response.snippets);
+      setLoadingSnippets(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchSkills = async () => {
+    try {
+      const session = await Auth.currentSession();
+      const token = session.getAccessToken().getJwtToken();
+      const response = await API.get("api", "/skills", {
+        headers: {
+          Authorization: `Bearer ${token}`  
+        }
+      });
+      setSkills(response.skills);
+      setLoadingSkills(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRefreshProfile = () => {
+    fetchProfile();
+  };
+
+  const handleRefreshSkills = () => {
+    fetchSkills();
+  };
 
   return (
     <div className="App">
@@ -141,8 +152,8 @@ function App() {
                   ) : (
                     <> 
                       {snippets && snippets.length > 0 ? (
-                        snippets.map((snippet, index) =>
-                          <Snippet key={index}
+                        snippets.map((snippet) =>
+                          <Snippet key={snippet.experienceid}
                                    snippet={snippet} />)
                       ) : (
                         <h2>You have no snippets saved. Try adding some snippets!</h2>
@@ -160,7 +171,9 @@ function App() {
                         profile={profile}
                         loadingProfile={loadingProfile}
                         skills={skills}
-                        loadingSkills={loadingSkills} />
+                        loadingSkills={loadingSkills}
+                        refreshProfile={handleRefreshProfile}
+                        refreshSkills={handleRefreshSkills} />
                 ))} 
               </div>
             </>

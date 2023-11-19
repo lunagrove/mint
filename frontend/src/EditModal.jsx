@@ -1,12 +1,39 @@
 import React from 'react';
+import { useState, useEffect } from "react";
 import { cardTypes, iconMap } from "./utilities/constants";
 import EditProfile from './EditProfile';
 import EditSkills from './EditSkills';
 import { IoMdClose } from "react-icons/io";
 
-const EditModal = ({ onClose, cardNumber, profile, skills }) => {
+const EditModal = ({ onClose, onSubmit, cardNumber, inputProfile, skills }) => {
+
+  const [profile, setProfile] = useState(inputProfile);
+  const [skillCount, setSkillCount] = useState(0);
 
   const IconComponent = iconMap[cardNumber];
+
+  useEffect(() => {
+    if (skills) {
+        setSkillCount(skills.length);
+    }
+  }, [skills]);
+
+  const handleAdd = (numSkills) => {
+    setSkillCount(numSkills);
+  };
+
+  const handleDelete = (numSkills) => {
+    setSkillCount(numSkills);
+  };
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  const handleSubmit = (updatedProfile) => {
+    setProfile(updatedProfile);
+    onSubmit(updatedProfile);
+  };
 
   return (
     <div className="modal-overlay">
@@ -16,42 +43,39 @@ const EditModal = ({ onClose, cardNumber, profile, skills }) => {
             {cardNumber === 0 ? (
                 <h3>Edit {cardTypes[cardNumber]}</h3>
             ) : (
-                <h3>Manage {cardTypes[cardNumber]}</h3>
+                <>
+                  <h3>Manage {cardTypes[cardNumber]}</h3>
+                  {cardNumber === 5 && (
+                    <h3>&nbsp;({skillCount})</h3>
+                  )}
+                </>
             )}
             <IoMdClose className="icon-large close-icon" onClick={onClose}/>
         </div>
-        <div className="modal-content">
-          {cardNumber === 0 && (
-                <EditProfile profile={profile} />
-          
-          )}
-          {cardNumber === 5 && (
-                <EditSkills skills={skills} />
-          
-          )}
-        </div>
-        <div className="modal-footer">
-            {cardNumber === 5 &&
-                (<button type="button"
-                         className="modal-button"
-                         id="cancelBtn"
-                         onClick={onClose}>Close</button>
-                )
-            }
-            {cardNumber === 0 && (
-              <>
-                <button type="submit"
-                        className="formbutton focused"
-                        id="submitBtn"
-                        onClick={onClose}>Save</button>
-                <button type="button"
-                        className="formbutton"
-                        id="cancelBtn"
-                        onClick={onClose}>Cancel</button>
-              </>
-              )
-            }
-        </div>
+        
+        {cardNumber === 0 && (
+              <EditProfile profile={profile}
+                           onSubmit={handleSubmit}
+                           onClose={handleClose} />
+        
+        )}
+        
+        {cardNumber === 5 && (
+            <div className="modal-content">
+                <EditSkills skills={skills}
+                            onAdd={handleAdd}
+                            onDelete={handleDelete} />
+            </div>
+        )}
+        {cardNumber === 5 && (
+          <div className="modal-footer">
+            <button type="button"
+                      className="modal-button"
+                      id="cancelBtn"
+                      onClick={handleClose}>Close</button>
+            </div>
+          )}            
+        
       </div>
     </div>
   );

@@ -46,3 +46,32 @@ export async function getSkills(userId) {
   `, [userId]);
   return res.rows;
 }
+
+export async function editProfile(userid, firstname, lastname, phonenumber, location, linkedin, website) {
+  const res = await getPool().query(`
+  UPDATE users SET firstname = $2, lastname = $3, phonenumber = $4,
+  location = $5, linkedin = $6, website = $7 
+  WHERE userId = $1
+  RETURNING *
+  `, [userid, firstname, lastname, phonenumber, location, linkedin, website])
+  return res.rows[0]
+}
+
+export async function createSkill(userid, description) {
+  const res = await getPool().query(`
+  INSERT INTO skill (userId, description)
+  VALUES ($1, $2)
+  RETURNING *
+  `, [userid, description])
+  return res.rows[0];
+}
+
+export async function deleteSkill(userId, skillId) {
+  const res = await getPool().query(`
+  DELETE FROM skill
+  WHERE userid = $1
+  AND skillid = $2
+  RETURNING *
+  `, [userId, skillId])
+  return res.rows[0]
+}
