@@ -330,6 +330,7 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 5px;
   height: 100%;
   width: 100%;
   padding: 10px;
@@ -367,6 +368,22 @@ button {
   right: 3px;
 }
 
+.save-icon {
+  color: green;
+}
+
+.save-icon:hover {
+  cursor: pointer;
+}
+
+.cancel-icon {
+  color: red;
+}
+
+.cancel-icon:hover {
+  cursor: pointer;
+}
+
 .close-icon:hover {
   cursor: pointer;
 }
@@ -380,14 +397,10 @@ button {
 }
 
 .profile-info {
-  margin-bottom: 15px;
+  margin-bottom: 13px;
 }
 
 .profile-details .profile-info:last-child {
-  margin-bottom: 5px;
-}
-
-.profile-links .profile-info:last-child {
   margin-bottom: 5px;
 }
 
@@ -400,7 +413,15 @@ button {
   margin-bottom: 5px;
 }
 
-.profile-details, .profile-links {
+.profile-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.profile-details, .profile-intro {
   background-color: white;
   border-radius: 5px;
   padding: 10px;
@@ -444,9 +465,11 @@ button {
 }
 
 .skills-footer {
-  text-align: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 
 footer {
@@ -559,6 +582,7 @@ form {
   z-index: 1;
   color: #01210a;
   border: 1px solid #76a584;
+  padding-left: 25px;
 }
 
 .formbutton:first-child {
@@ -605,6 +629,7 @@ form {
   height: 40px;
   display: flex;
   justify-content: space-between;
+  gap: 5px;
   align-items: center;
   padding: 5px 15px 5px 5px;
   border: 1px solid #ccc;
@@ -617,6 +642,13 @@ form {
   justify-content: space-between;
   align-items: center;  
   gap: 5px;
+}
+
+.skill-input {
+  width: 90%;
+  height: 38px;
+  border: 1px solid #ccc;
+  padding-right: 5px;
 }
 
 @media (min-width: 768px) {

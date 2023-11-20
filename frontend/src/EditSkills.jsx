@@ -33,14 +33,13 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                                     .getJwtToken()}`,
                               },
                               body: {description: search}
-                        })
+                        });
                         if (result) {
                               const newSkill = result.skill;
                               setCurrentSkills(prevSkills => [newSkill, ...prevSkills]);
                               setSearch("");
                               setNumSkills(prevNumSkills => {
                                     const updatedNumSkills = prevNumSkills + 1;
-                                    onAdd(updatedNumSkills);
                                     return updatedNumSkills;
                               });
                         }
@@ -51,15 +50,15 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
             }
       };
 
-      const handleDelete = async (skillToDelete) => {
+      const handleDelete = async (skillId) => {
             try {
-                  await API.del("api", "/skill/" + skillToDelete.skillid, {
+                  await API.del("api", `/skill/${skillId}`, {
                     headers: {
                       Authorization: `Bearer ${(await Auth.currentSession())
                         .getAccessToken()
                         .getJwtToken()}`,
                     }
-                  })
+                  });
                   const indexToDelete = currentSkills.findIndex(skill => skill.skillid === skillToDelete.skillid);
                   if (indexToDelete !== -1) {
                         setCurrentSkills(prevSkills => {
@@ -69,19 +68,41 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                         });
                         setNumSkills(prevNumSkills => {
                               const updatedNumSkills = prevNumSkills - 1;
-                              onDelete(updatedNumSkills);
                               return updatedNumSkills;
                         }); 
                   }
-                }
-                catch (error) {
+            }
+            catch (error) {
                   alert(error);
-                }
-      }
+            }
+      };
 
-      const handleEdit = async () => {
-      
-      }
+      const handleEdit = async (skillId, description) => {
+            try {
+                  const result = await API.put("api", `/skill/${skillId}`, {
+                    headers: {
+                      Authorization: `Bearer ${(await Auth.currentSession())
+                        .getAccessToken()
+                        .getJwtToken()}`,
+                    },
+                    body: { description: description },
+                  });
+                  if (result) {
+                        setCurrentSkills((prevSkills) =>
+                              prevSkills.map((skill) =>
+                                    skill.skillid === skillId ? { ...skill, description: description } : skill
+                        ));
+                  };
+            } 
+            catch (error) {
+                  alert(error);
+            }
+      };
+
+      useEffect(() => {
+            onAdd(numSkills);
+            onDelete(numSkills);
+      }, [numSkills, onAdd, onDelete]);
 
       return (
             <>
@@ -92,6 +113,7 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                                      id="description"
                                      className="form-input"
                                      name="description"
+                                     autoComplete="off"
                                      value={search ? search : ""}
                                      onChange={handleInputChange} />
                         </form>
@@ -112,7 +134,7 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                         )}  
                   </div>
                   <ul className="edit-skills-list">
-                        {skills && skills.length > 0 ? (
+                        {currentSkills && currentSkills.length > 0 ? (
                               filteredSkills.length > 0 ? (
                                     filteredSkills.map((item) => (
                                           <EditSkillRow key={item.skillid}

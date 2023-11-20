@@ -55,12 +55,22 @@ const Card = ({
                                         refreshSkills={refreshSkills}/> 
                         )
                     ) : (
-                        <img
-                            className="plus-button"
-                            src="./plus-icon-80x80.png"
-                            alt="Plus icon"
-                            onClick={handleClick}
-                        />
+                        <>
+                            <img
+                                className="plus-button"
+                                src="./plus-icon-80x80.png"
+                                alt="Plus icon"
+                                onClick={handleClick}
+                            />
+                            {cardNumber === 1 && (
+                                <h5>Add companies and roles</h5>)}
+                            {cardNumber === 2 && (
+                                <h5>Add educational institutions, courses and credentials</h5>)}
+                            {cardNumber === 3 && (
+                                <h5>Add side projects</h5>)}
+                            {cardNumber === 4 && (
+                                <h5>Add hobbies and clubs</h5>)}
+                        </>
                     )
                 }
             </div>

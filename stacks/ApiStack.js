@@ -31,7 +31,8 @@ export function API({ stack }) {
       "POST /user": "packages/functions/src/createUser.main",
       "PUT /profile": "packages/functions/src/editProfile.main",
       "POST /skill": "packages/functions/src/createSkill.main",
-      "DELETE /skill/{skillId}": "packages/functions/src/deleteSkill.main",
+      "PUT /skill/{skillId}": "packages/functions/src/editSkill.main",
+      "DELETE /skill/{skillId}": "packages/functions/src/deleteSkill.main"
     },
   });
 

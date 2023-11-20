@@ -50,6 +50,7 @@ const EditProfile = ( {profile, onSubmit, onClose} ) => {
                         id="phonenumber"
                         className="form-input"
                         name="phonenumber"
+                        autoComplete="off"
                         value={editedProfile.phonenumber ? editedProfile.phonenumber : ""}
                         onChange={handleChange} />
                   <h6 className="form-label">Location</h6>
@@ -57,6 +58,7 @@ const EditProfile = ( {profile, onSubmit, onClose} ) => {
                         id="location"
                         className="form-input"
                         name="location"
+                        autoComplete="off"
                         value={editedProfile.location ? editedProfile.location : ""}
                         onChange={handleChange} />
                   <h6 className="form-label">LinkedIn</h6>
@@ -64,6 +66,7 @@ const EditProfile = ( {profile, onSubmit, onClose} ) => {
                         id="linkedin"
                         className="form-input"
                         name="linkedin"
+                        autoComplete="off"
                         value={editedProfile.linkedin ? editedProfile.linkedin : ""}
                         onChange={handleChange} />
                   <h6 className="form-label">Website</h6>
@@ -71,6 +74,7 @@ const EditProfile = ( {profile, onSubmit, onClose} ) => {
                         id="website"
                         className="form-input"
                         name="website"
+                        autoComplete="off"
                         value={editedProfile.website ? editedProfile.website : ""}
                         onChange={handleChange} />
             </form>
@@ -82,7 +86,7 @@ const EditProfile = ( {profile, onSubmit, onClose} ) => {
                   <button type="button"
                           className="formbutton"
                           id="cancelBtn"
-                          onClick={handleClose}>Cancel</button>
+                          onClick={handleClose}>Go Back</button>
             </div>
         </div>
     );

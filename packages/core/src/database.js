@@ -75,3 +75,13 @@ export async function deleteSkill(userId, skillId) {
   `, [userId, skillId])
   return res.rows[0]
 }
+
+export async function editSkill(userid, skillid, description) {
+  const res = await getPool().query(`
+  UPDATE skill SET description = $3 
+  WHERE userId = $1
+  AND skillid = $2
+  RETURNING *
+  `, [userid, skillid, description])
+  return res.rows[0]
+}

@@ -51,6 +51,7 @@ const CardSkills = ({ skills, refreshSkills }) => {
                             alt="Plus icon"
                             onClick={handleEditClick}
                         />
+                        <h5>Add skills</h5>
                     </div>
                 </div>
             ) : (

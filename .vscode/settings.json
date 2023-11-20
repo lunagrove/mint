@@ -1,5 +1,7 @@
 {
   "search.exclude": {
     "**/.sst": true
-  }
+  },
+  "explorer.compactFolders": false,
+  "workbench.editor.enablePreview": false
 }

@@ -12,14 +12,20 @@ const CardProfile = ({ profile, refreshProfile }) => {
     const fullName = `${firstName} ${lastName}`;
 
     const [isModalOpen, setModalOpen] = useState(false);
+    const [isIntroOpen, setIntroOpen] = useState(false);
     const cardNumber = cardTypes.indexOf('Profile');
 
     const handleEditClick = () => {
         setModalOpen(true);
     };
 
+    const handleAddClick = () => {
+        setIntroOpen(true);
+    };
+
     const handleCloseModal = () => {
         setModalOpen(false);
+        setIntroOpen(false);
         refreshProfile();
     };
 
@@ -64,8 +70,6 @@ const CardProfile = ({ profile, refreshProfile }) => {
                         <h6>Location</h6>
                         <p>{profile.location ? profile.location : '---'}</p>
                     </div>
-                </div>
-                <div className="profile-links">
                     <div className="profile-info">
                         <h6>LinkedIn</h6>
                         <p>{profile.linkedin ? profile.linkedin : '---'}</p>
@@ -75,12 +79,29 @@ const CardProfile = ({ profile, refreshProfile }) => {
                         <p>{profile.website ? profile.website : '---'}</p>
                     </div>
                 </div>
+                <div className="profile-intro">
+                    <img
+                        className="plus-button"
+                        src="./plus-icon-80x80.png"
+                        alt="Plus icon"
+                        onClick={handleAddClick}
+                    />
+                    <h5>Add introduction statements</h5>
+                </div>
             </div> 
             {isModalOpen && (
                 <EditModal onClose={handleCloseModal}
                            onSubmit={handleSubmit}
                            cardNumber={cardNumber}
-                           inputProfile={profile} />
+                           inputProfile={profile}
+                           intro={false} />
+            )}
+            {isIntroOpen && (
+                <EditModal onClose={handleCloseModal}
+                           onSubmit={handleSubmit}
+                           cardNumber={cardNumber}
+                           inputProfile={profile}
+                           intro={true} />
             )}
         </>        
     );
