@@ -7,6 +7,9 @@ export async function main(event) {
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
     const skillId = event.pathParameters.skillId;
 
+    const { description } = JSON.parse(event.body); 
+    console.log('description', description);
+
     if (!userId || !skillId) {
       return {
         statusCode: 400,
@@ -14,7 +17,7 @@ export async function main(event) {
       };
     }
 
-    const skill = await editSkill(userId, skillId);
+    const skill = await editSkill(userId, skillId, description);
 
     if (!skill) {
       return {

@@ -7,7 +7,6 @@ export async function main(event) {
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
     
     const { description } = JSON.parse(event.body); 
-    console.log('description', description);
 
     if (!userId || !description) {
       return {

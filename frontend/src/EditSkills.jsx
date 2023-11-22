@@ -10,6 +10,8 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
       const [numSkills, setNumSkills] = useState(skills.length);
       const [search, setSearch] = useState("");
       const [filteredSkills, setFilteredSkills] = useState(skills);
+      const [editingSkillId, setEditingSkillId] = useState(null);
+      const isAnySkillBeingEdited = editingSkillId !== null;
 
       useEffect(() => {
             const newList = currentSkills.filter(
@@ -26,6 +28,7 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
             console.log('Add Skill button clicked!');
             if (search !== "") {
                   try {
+                        setEditingSkillId(null);
                         const result = await API.post("api", "/skill", {
                               headers: {
                                     Authorization: `Bearer ${(await Auth.currentSession())
@@ -115,7 +118,8 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                                      name="description"
                                      autoComplete="off"
                                      value={search ? search : ""}
-                                     onChange={handleInputChange} />
+                                     onChange={handleInputChange}
+                                     disabled={isAnySkillBeingEdited} />
                         </form>
                         <BsSearch className="icon-large icon-margin-top" />
                         {search && filteredSkills.length === 0 ? (
@@ -140,7 +144,9 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                                           <EditSkillRow key={item.skillid}
                                                         skill={item}
                                                         onDelete={handleDelete}
-                                                        onEdit={handleEdit} />
+                                                        onEdit={handleEdit}
+                                                        editingSkillId={editingSkillId}
+                                                        setEditingSkillId={setEditingSkillId} />
                                     ))
                               ) : (
                                     <h4>No matching skills found</h4>

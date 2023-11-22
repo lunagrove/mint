@@ -5,7 +5,7 @@ import { BsPencil } from "react-icons/bs";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
 
-const EditSkillRow = ({ skill, onDelete, onEdit }) => {
+const EditSkillRow = ({ skill, onDelete, onEdit, editingSkillId, setEditingSkillId }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(skill.description);
@@ -16,16 +16,19 @@ const EditSkillRow = ({ skill, onDelete, onEdit }) => {
 
     const handleEditClick = () => {
         setIsEditing(true);
+        setEditingSkillId(skill.skillid);
     };
 
     const handleSaveClick = async () => {
         await onEdit(skill.skillid, editedDescription);
         setIsEditing(false);
+        setEditingSkillId(null);
     }
     
     const handleCancelClick = () => {
         setEditedDescription(skill.description);
         setIsEditing(false);
+        setEditingSkillId(null);
     };
     
     const handleInputChange = (event) => {
@@ -33,7 +36,7 @@ const EditSkillRow = ({ skill, onDelete, onEdit }) => {
     };
 
     return (
-        <li className="edit-skill-row"> 
+        <li className={`edit-skill-row ${editingSkillId !== null && editingSkillId !== skill.skillid ? 'disabled' : ''}`}>
             {isEditing ? (
                 <>
                     <input
