@@ -85,3 +85,41 @@ export async function editSkill(userid, skillid, description) {
   `, [userid, skillid, description])
   return res.rows[0]
 }
+
+export async function getIntro(userId) {
+  const res = await getPool().query(`
+  SELECT * FROM intro
+  WHERE userid = $1
+  ORDER BY createdon DESC
+  `, [userId]);
+  return res.rows;
+}
+
+export async function createIntro(userid, statement) {
+  const res = await getPool().query(`
+  INSERT INTO intro (userId, snippet)
+  VALUES ($1, $2)
+  RETURNING *
+  `, [userid, statement])
+  return res.rows[0];
+}
+
+export async function deleteIntro(userId, introId) {
+  const res = await getPool().query(`
+  DELETE FROM intro
+  WHERE userid = $1
+  AND introid = $2
+  RETURNING *
+  `, [userId, introId])
+  return res.rows[0]
+}
+
+export async function editIntro(userid, introid, statement) {
+  const res = await getPool().query(`
+  UPDATE intro SET snippet = $3 
+  WHERE userId = $1
+  AND introid = $2
+  RETURNING *
+  `, [userid, introid, statement])
+  return res.rows[0]
+}

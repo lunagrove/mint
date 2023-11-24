@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import EditModal from './EditModal';
-import { cardTypes } from "./utilities/constants";
+import { cardTypes } from "../utilities/constants";
 import { Auth, API } from "aws-amplify";
 
 const CardProfile = ({ profile, refreshProfile }) => {

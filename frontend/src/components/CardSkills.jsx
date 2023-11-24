@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from "react";
 import { BsPencil } from "react-icons/bs";
-import { cardTypes, MAX_SKILLS } from "./utilities/constants";
+import { cardTypes, MAX_SKILLS } from "../utilities/constants";
 import EditModal from './EditModal';
 
 const CardSkills = ({ skills, refreshSkills }) => {

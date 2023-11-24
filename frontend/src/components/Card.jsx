@@ -2,7 +2,7 @@ import React from 'react';
 import CardProfile from "./CardProfile";
 import CardSkills from "./CardSkills";
 import { FaSpinner } from "react-icons/fa";
-import { iconMap } from "./utilities/constants";
+import { iconMap } from "../utilities/constants";
 import { useState, useEffect } from "react";
 
 const Card = ({

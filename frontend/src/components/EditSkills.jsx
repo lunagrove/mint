@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import EditSkillRow from './EditSkillRow';
 import { Auth, API } from "aws-amplify";
 import { BsSearch } from "react-icons/bs";
+import { stopWords } from "../utilities/constants";
 
 const EditSkills = ( {skills, onAdd, onDelete} ) => {
 
@@ -14,9 +15,20 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
       const isAnySkillBeingEdited = editingSkillId !== null;
 
       useEffect(() => {
-            const newList = currentSkills.filter(
-                              (item) => item.description.toLowerCase().indexOf(search.toLowerCase()) >= 0
-            );
+            const searchWords = search
+                  .toLowerCase()
+                  .split(' ')
+                  .filter((word) => word.trim() !== '' && !stopWords.includes(word));
+
+            let newList;
+
+            if (searchWords.length === 0) {
+                  newList = currentSkills;
+            } else {
+                  newList = currentSkills.filter((item) =>
+                              searchWords.some((word) => item.description.toLowerCase().includes(word))
+                  );
+            }
             setFilteredSkills(newList);
       }, [currentSkills, search]);
 
@@ -62,7 +74,7 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                         .getJwtToken()}`,
                     }
                   });
-                  const indexToDelete = currentSkills.findIndex(skill => skill.skillid === skillToDelete.skillid);
+                  const indexToDelete = currentSkills.findIndex(skill => skill.skillid === skillId);
                   if (indexToDelete !== -1) {
                         setCurrentSkills(prevSkills => {
                               const updatedSkills = [...prevSkills];
@@ -137,7 +149,7 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                               />
                         )}  
                   </div>
-                  <ul className="edit-skills-list">
+                  <ul className={`edit-skills-list ${!currentSkills || currentSkills.length === 0 ? 'center-vertically' : ''}`}>
                         {currentSkills && currentSkills.length > 0 ? (
                               filteredSkills.length > 0 ? (
                                     filteredSkills.map((item) => (
@@ -152,7 +164,9 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                                     <h4>No matching skills found</h4>
                                   )
                         ) : (
-                              <h2>You have no skills saved. Try adding some skills!</h2>
+                              <li className="center-vertically">
+                                    <h2>You have no skills saved. Try adding some skills!</h2>
+                              </li>
                         )}
                   </ul>
             </>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { VscDebugBreakpointLog } from "react-icons/vsc";
-import { formatLongDate } from "./utilities/dates";
+import { formatLongDate } from "../utilities/dates";
 
 const Snippet = ({ snippet }) => {
 

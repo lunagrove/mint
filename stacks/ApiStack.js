@@ -28,11 +28,15 @@ export function API({ stack }) {
       "GET /snippets": "packages/functions/src/getSnippets.main",
       "GET /profile": "packages/functions/src/getProfile.main",
       "GET /skills": "packages/functions/src/getSkills.main",
+      "GET /intro": "packages/functions/src/getIntro.main",
       "POST /user": "packages/functions/src/createUser.main",
       "PUT /profile": "packages/functions/src/editProfile.main",
       "POST /skill": "packages/functions/src/createSkill.main",
       "PUT /skill/{skillId}": "packages/functions/src/editSkill.main",
-      "DELETE /skill/{skillId}": "packages/functions/src/deleteSkill.main"
+      "DELETE /skill/{skillId}": "packages/functions/src/deleteSkill.main",
+      "POST /intro": "packages/functions/src/createIntro.main",
+      "PUT /intro/{introId}": "packages/functions/src/editIntro.main",
+      "DELETE /intro/{introId}": "packages/functions/src/deleteIntro.main"
     },
   });
 

@@ -1,33 +1,32 @@
-import { editSkill } from "@mint/core/database";
+import { createIntro } from "@mint/core/database";
 
 export async function main(event) {
   
   try {
 
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
-    const skillId = event.pathParameters.skillId;
+    
+    const { statement } = JSON.parse(event.body); 
 
-    const { description } = JSON.parse(event.body); 
-
-    if (!userId || !skillId) {
+    if (!userId || !statement) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing or invalid parameters' })
       };
     }
 
-    const skill = await editSkill(userId, skillId, description);
+    const introStatement = await createIntro(userId, statement);
 
-    if (!skill) {
+    if (!introStatement) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to update skill record' })
+        body: JSON.stringify({ error: 'Failed to create introductory statement record' })
       };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({}),
+      body: JSON.stringify({ statement: introStatement }),
     }
   } catch (error) {
     // Error handling logic

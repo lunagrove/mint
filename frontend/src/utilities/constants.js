@@ -12,7 +12,7 @@ const cardTypes = [
     'Companies and Roles',
     'Education',
     'Side Projects',
-    'Hobbies & Clubs',
+    'Hobbies and Clubs',
     'Skills'
   ]
 
@@ -25,4 +25,48 @@ const iconMap = {
     5: TbTools
   };
 
-export { cardTypes, iconMap, MAX_SKILLS };
+const stopWords = [
+  'in',
+  'on',
+  'to',
+  'and',
+  'the',
+  'a',
+  'with',
+  'for'
+];
+
+const menuItems = [
+  {
+    label: 'Dashboard',
+    route: '/',
+    element: 'HomePage'
+  },
+  {
+    label: 'Companies and roles',
+    route: '/companies',
+    element: 'CompaniesPage'
+  },
+  {
+    label: 'Education',
+    route: '/education',
+    element: 'EducationPage'
+  },
+  {
+    label: 'Side projects',
+    route: '/projects',
+    element: 'ProjectsPage'
+  },
+  {
+    label: 'Hobbies and clubs',
+    route: '/hobbies',
+    element: 'HobbiesPage'
+  },
+  {
+    label: 'Experience',
+    route: '/experience',
+    element: 'ExperiencePage'
+  },
+];
+
+export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems }

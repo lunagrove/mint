@@ -1,10 +1,8 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+import ExperiencePage from '../pages/ExperiencePage';
 
 const Experience = () => {
-
-    const handleClick = () => {
-        console.log('Experience button clicked!');
-    };
 
     return (
         <div className="experience-container">
@@ -13,12 +11,13 @@ const Experience = () => {
                 <h2>Experience</h2>
             </div>
             <div className="experience-add">
-                <img
-                    className="plus-button plus-button-large"
-                    src="./plus-icon-80x80.png"
-                    alt="Plus icon"
-                    onClick={handleClick}
-                />
+                <Link to="/experience">
+                    <img
+                        className="plus-button plus-button-large"
+                        src="./plus-icon-80x80.png"
+                        alt="Plus icon"
+                    />
+                </Link>
                 <h3>Add a new snippet</h3>
             </div>
         </div>

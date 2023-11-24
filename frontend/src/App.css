@@ -106,6 +106,12 @@ button {
   flex: 1;
 }
 
+.nav-right-menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .nav-left {
   display: flex;
   gap: 10px;
@@ -122,6 +128,38 @@ button {
 
 .nav-logout {
   text-decoration: none;
+}
+
+.ellipsis-container {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  right: 0;
+  text-align: left;
+  min-width: 180px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.ellipsis-container:hover .dropdown-content {
+  display: block;
 }
 
 .container {
@@ -258,20 +296,20 @@ button {
   margin: auto;
 }
 
-.snippet-row {
+.snippet-row, .intro-row {
   min-height: 100px;
   flex: 1;
   background-color: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   padding: 5px;
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.snippet-item {
+.snippet-item, .intro-item {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 5px;
@@ -280,17 +318,18 @@ button {
   align-items: top;
 }
 
-.snippet-date {
+.snippet-date, .intro-date {
   padding-left: 30px;
   margin-bottom: 10px;
 }
 
-.snippet-bullet {
+.snippet-bullet, .intro-bullet {
   padding-top: 5px;
 }
 
-.snippet-text {
+.snippet-text, .intro-text {
   flex: 1;
+  white-space: pre-wrap;
 }
 
 .card-grid {
@@ -359,7 +398,7 @@ button {
 }
 
 .edit-icon:hover {
-  cursor: pointer;
+  cursor: pointer; 
 }
 
 .close-icon {
@@ -386,6 +425,7 @@ button {
 
 .close-icon:hover {
   cursor: pointer;
+  outline: 1px solid #ccc; 
 }
 
 .profile-container {
@@ -564,6 +604,14 @@ form {
   margin-bottom: 15px;
 }
 
+.form-textarea {
+  padding: 10px;
+  font-size: 1.1em;
+  border-radius: 15px;
+  border: 1px solid #76a584;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .formbutton {
   width: 180px; 
   height: 45px;
@@ -600,37 +648,56 @@ form {
   margin-left: 10px;
 }
 
-.add-skill {
+.add-skill, .add-intro {
   display: flex;
   justify-content: space-between;
   gap: 10px;
   width: 100%;
 }
 
-.add-skill-button {
+.add-skill-button, .add-intro-button {
   padding-top: 10px;
   cursor: pointer;
 }
 
-.add-skill-button.disabled {
+.add-skill-button.disabled, .add-intro-button.disabled {
   opacity: 30%;
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.add-skill-form {
+.add-skill-form, .add-intro-form {
   width: 100%;
   margin-bottom: 10px;
 }
 
-.add-skill-form input[disabled] {
+.add-skill-form input[disabled], .add-intro-form input[disabled] {
   opacity: 0.8;
   background-color: #ffffff;
   cursor: not-allowed;
 }
 
-.edit-skills-list {
+.edit-skills-list, .edit-intro-list {
+  list-style: none;
   padding: 0;
+}
+
+.intro-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edit-skills-list.center-vertically, .edit-intro-list.center-vertically {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.edit-skills-list li.center-vertically, .edit-intro-list li.center-vertically {
+  list-style: none;
+  text-align: center;
 }
 
 .edit-skill-row {
@@ -697,6 +764,11 @@ form {
 
   .edit-skills-list {
     max-height: 535px;
+    overflow-y: auto;
+  }
+
+  .edit-intro-list {
+    max-height: 480px;
     overflow-y: auto;
   }
 }
