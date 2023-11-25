@@ -48,5 +48,21 @@ function formatLongDate(dateStr, dayName) {
   return dayName ? `${weekday} ${day}${suffix} ${month} ${year}` : `${day}${suffix} ${month} ${year}`;
   
 }
+
+function formatMonthandYear(dateStr) {
+  // create a Date object from the date string
+  const date = new Date(dateStr);
   
-export { getYear, formatLongDate };
+  // Array of month names
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  
+  // Get the month name and year
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  
+  // Construct the formatted date string
+  return `${month} ${year}`;
+  
+}
+  
+export { getYear, formatLongDate, formatMonthandYear };

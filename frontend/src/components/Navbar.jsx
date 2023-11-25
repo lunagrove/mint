@@ -17,7 +17,7 @@ function Navbar() {
         try {
           await Auth.signOut();
           setDropdownVisible(false);
-          window.location.href = '/';
+          window.location.href = '/login';
         } catch (error) {
           alert(error);
         }

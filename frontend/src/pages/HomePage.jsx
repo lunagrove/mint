@@ -1,10 +1,10 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Login from "../components/Login";
 import Experience from "../components/Experience";
 import Card from "../components/Card";
 import Snippet from "../components/Snippet";
-import { getYear } from "../utilities/dates";
 import { Auth, API } from "aws-amplify";
 import { cardTypes } from "../utilities/constants";
 import { FaSpinner } from "react-icons/fa";
@@ -106,57 +106,43 @@ function HomePage() {
   };
 
   return (
-    <div className="App">
-        <div className="container">
-          <div className="wrapper">
-            {!user ? (
-              <Login />
-            ) : (
-            <>
-              <div className="snippet-container">
-                <Experience/>
-                <h3>Most Recent Snippets</h3>
-                <div className="recent-container">
-                  
-                  {loadingSnippets ? (
-                    <div className="snippet-loading">
-                      <FaSpinner className="spin icon-large" />
-                    </div>
-                  ) : (
-                    <> 
-                      {snippets && snippets.length > 0 ? (
-                        snippets.map((snippet) =>
-                          <Snippet key={snippet.experienceid}
-                                   snippet={snippet} />)
-                      ) : (
-                        <h2>You have no snippets saved. Try adding some snippets!</h2>
-                      )}
-                    </>
-                  )}
-                </div>
-              </div>
-
-              <div className="card-grid">
-                {cardTypes.map((cardType, index) => (
-                  <Card key={index}
-                        cardType={cardType}
-                        cardNumber={index}
-                        profile={profile}
-                        loadingProfile={loadingProfile}
-                        skills={skills}
-                        loadingSkills={loadingSkills}
-                        refreshProfile={handleRefreshProfile}
-                        refreshSkills={handleRefreshSkills} />
-                ))} 
-              </div>
+    <>
+      <div className="snippet-container">
+        <Experience/>
+        <h3>Most Recent Snippets</h3>
+        <div className="recent-container">
+          
+          {loadingSnippets ? (
+            <div className="snippet-loading">
+              <FaSpinner className="spin icon-large" />
+            </div>
+          ) : (
+            <> 
+              {snippets && snippets.length > 0 ? (
+                snippets.map((snippet) =>
+                  <Snippet key={snippet.experienceid}
+                            snippet={snippet} />)
+              ) : (
+                <h2>You have no snippets saved. Try adding some snippets!</h2>
+              )}
             </>
-            )}
-          </div>
+          )}
         </div>
-      <footer>
-        <p className="footer-text">&copy; {getYear()} holmesgroup</p>
-      </footer>
-    </div>
+      </div>
+      <div className="card-grid">
+        {cardTypes.map((cardType, index) => (
+          <Card key={index}
+                cardType={cardType}
+                cardNumber={index}
+                profile={profile}
+                loadingProfile={loadingProfile}
+                skills={skills}
+                loadingSkills={loadingSkills}
+                refreshProfile={handleRefreshProfile}
+                refreshSkills={handleRefreshSkills} />
+        ))} 
+      </div>
+    </>      
   );
 }
   

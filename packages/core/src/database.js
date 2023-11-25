@@ -123,3 +123,27 @@ export async function editIntro(userid, introid, statement) {
   `, [userid, introid, statement])
   return res.rows[0]
 }
+
+export async function getEducation(userId) {
+  const res = await getPool().query(`
+  SELECT * FROM education
+  WHERE userid = $1
+  `, [userId]);
+  return res.rows;
+}
+
+export async function getCredentials(userId, educationId) {
+  const res = await getPool().query(`
+  SELECT * FROM credential
+  WHERE userid = $1 AND educationid = $2
+  `, [userId, educationId]);
+  return res.rows;
+}
+
+export async function getCourses(userId, educationId) {
+  const res = await getPool().query(`
+  SELECT * FROM course
+  WHERE userid = $1 AND educationid = $2
+  `, [userId, educationId]);
+  return res.rows;
+}

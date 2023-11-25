@@ -29,6 +29,7 @@ export function API({ stack }) {
       "GET /profile": "packages/functions/src/getProfile.main",
       "GET /skills": "packages/functions/src/getSkills.main",
       "GET /intro": "packages/functions/src/getIntro.main",
+      "GET /education": "packages/functions/src/getEducation.main",
       "POST /user": "packages/functions/src/createUser.main",
       "PUT /profile": "packages/functions/src/editProfile.main",
       "POST /skill": "packages/functions/src/createSkill.main",

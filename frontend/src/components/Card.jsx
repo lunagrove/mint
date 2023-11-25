@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import CardProfile from "./CardProfile";
 import CardSkills from "./CardSkills";
 import { FaSpinner } from "react-icons/fa";
@@ -26,8 +27,11 @@ const Card = ({
         }
       }, [skills]);
 
-    const handleClick = () => {
-        console.log(`Add ${cardType} button clicked!`);
+    const cardConfig = {
+        1: { to: '/companies', heading: 'Add companies and roles' },
+        2: { to: '/education', heading: 'Add educational institutions, courses, and credentials' },
+        3: { to: '/projects', heading: 'Add side projects' },
+        4: { to: '/hobbies', heading: 'Add hobbies and clubs' },
     };
 
     return (
@@ -56,20 +60,14 @@ const Card = ({
                         )
                     ) : (
                         <>
-                            <img
-                                className="plus-button"
-                                src="./plus-icon-80x80.png"
-                                alt="Plus icon"
-                                onClick={handleClick}
-                            />
-                            {cardNumber === 1 && (
-                                <h5>Add companies and roles</h5>)}
-                            {cardNumber === 2 && (
-                                <h5>Add educational institutions, courses and credentials</h5>)}
-                            {cardNumber === 3 && (
-                                <h5>Add side projects</h5>)}
-                            {cardNumber === 4 && (
-                                <h5>Add hobbies and clubs</h5>)}
+                            <Link to={cardConfig[cardNumber]?.to}>
+                                <img
+                                    className="plus-button"
+                                    src="./plus-icon-80x80.png"
+                                    alt="Plus icon"
+                                />
+                            </Link>
+                            <h5>{cardConfig[cardNumber]?.heading}</h5>
                         </>
                     )
                 }

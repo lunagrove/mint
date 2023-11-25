@@ -55,12 +55,22 @@ li {
   color: #01210a;
 }
 
+.icon-xlarge {
+  font-size: 30px;
+  color: #01210a;
+  margin-top: 2px;
+}
+
 .icon-small:active, .icon-medium:active, .icon-large:active {
   transform: scale(0.9);
 }
 
 .icon-margin-right {
   margin-right: 10px;
+}
+
+.icon-margin-left {
+  margin-left: 20px;
 }
 
 .icon-margin-top {
@@ -747,6 +757,69 @@ form {
 
 .skill-input:focus-visible {
   outline: none;
+}
+
+.page-heading {
+  display: flex;
+}
+
+.page-content {
+  margin: 30px 60px 50px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page-list {
+  min-height: 400px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.page-list h2 {
+  text-align: center;
+  margin: auto;
+}
+
+.page-list-loading {
+  align-items: center;
+  justify-content: center;
+}
+
+.education-block {
+  min-height: 110px;
+  background-color: white;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.education-institution {
+  font-style: italic;
+  font-size: 22px;
+}
+
+.education-course {
+  display: flex;
+  gap: 10px;
+}
+
+.education-course-block {
+  display: flex;
+  gap: 30px;
+  padding-left: 8px;
+  padding-top: 8px;
+  align-items: baseline;
+}
+
+.education-course-details {
+  font-weight: normal;
 }
 
 @media (min-width: 768px) {
