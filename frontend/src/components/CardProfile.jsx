@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import EditModal from './EditModal';
-import { cardTypes } from "../utilities/constants";
+import { cardTypes, cardConfig } from "../utilities/constants";
 import { Auth, API } from "aws-amplify";
 
 const CardProfile = ({ profile, refreshProfile }) => {
@@ -86,7 +86,7 @@ const CardProfile = ({ profile, refreshProfile }) => {
                         alt="Plus icon"
                         onClick={handleAddClick}
                     />
-                    <h5>Add introduction statements</h5>
+                    <h5>{cardConfig[cardNumber]?.heading}</h5>
                 </div>
             </div> 
             {isModalOpen && (

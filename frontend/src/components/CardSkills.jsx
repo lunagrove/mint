@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from "react";
 import { BsPencil } from "react-icons/bs";
-import { cardTypes, MAX_SKILLS } from "../utilities/constants";
+import { cardTypes, MAX_SKILLS, cardConfig } from "../utilities/constants";
 import EditModal from './EditModal';
 
 const CardSkills = ({ skills, refreshSkills }) => {
@@ -51,7 +51,7 @@ const CardSkills = ({ skills, refreshSkills }) => {
                             alt="Plus icon"
                             onClick={handleEditClick}
                         />
-                        <h5>Add skills</h5>
+                        <h5>{cardConfig[cardNumber]?.heading}</h5>
                     </div>
                 </div>
             ) : (

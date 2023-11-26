@@ -34,8 +34,6 @@ function EducationPage() {
         }
     };
 
-    console.log('education', education);
-
     return (
         <div className="page-content">
             <div className="page-heading">

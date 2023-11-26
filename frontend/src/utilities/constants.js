@@ -32,6 +32,8 @@ const stopWords = [
   'and',
   'the',
   'a',
+  'an',
+  'i',
   'with',
   'for'
 ];
@@ -69,4 +71,13 @@ const menuItems = [
   },
 ];
 
-export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems }
+const cardConfig = {
+  0: { to: '', heading: 'Add introduction statements'},
+  1: { to: '/companies', heading: 'Add companies and roles' },
+  2: { to: '/education', heading: 'Add educational institutions, courses, and credentials' },
+  3: { to: '/projects', heading: 'Add side projects' },
+  4: { to: '/hobbies', heading: 'Add hobbies and clubs' },
+  5: { to: '', heading: 'Add skills' },
+};
+
+export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig }

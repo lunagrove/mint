@@ -147,3 +147,11 @@ export async function getCourses(userId, educationId) {
   `, [userId, educationId]);
   return res.rows;
 }
+
+export async function getCompanies(userId) {
+  const res = await getPool().query(`
+  SELECT * FROM company
+  WHERE userid = $1
+  `, [userId]);
+  return res.rows;
+}

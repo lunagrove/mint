@@ -1,4 +1,4 @@
-import { getEducation, getCredentials, getCourses } from "@mint/core/database";
+import { getCompanies } from "@mint/core/database";
 
 export async function main(event, context) {
 
@@ -8,13 +8,13 @@ export async function main(event, context) {
         if (!userId) {
             return {
                     statusCode: 500,
-                    body: JSON.stringify({ error: 'Failed to retrieve education records' })
+                    body: JSON.stringify({ error: 'Failed to retrieve company records' })
                 };
         }
         
-        const institutions = await getEducation(userId);
+        const companies = await getCompanies(userId);
 
-        const education = await Promise.all(
+/*        const education = await Promise.all(
             institutions.map(async (institution) => {
                 const educationId = institution.educationid;
                 const credentials = await getCredentials(userId, educationId);
@@ -36,11 +36,11 @@ export async function main(event, context) {
                     details,
                 };
             })
-        );
+        );  */
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ education: education }),
+            body: JSON.stringify({ companies: companies }),
         }
     } catch (error) {
         console.error(error);

@@ -1,4 +1,5 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { GrGroup } from "react-icons/gr";
 
 function HobbiesPage() {
 
@@ -6,7 +7,10 @@ function HobbiesPage() {
   
     return (
         <div className="page-content">
-            <h2>Manage Hobbies and Clubs</h2>
+            <div className="page-heading">
+                <GrGroup className="icon-xlarge icon-margin-right" />
+                <h2>Manage Hobbies and Clubs</h2>
+            </div>
         </div>
   )};
   

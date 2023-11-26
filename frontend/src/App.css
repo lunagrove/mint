@@ -40,6 +40,28 @@ li {
   text-align: left;
 }
 
+button {
+  border-radius: 15px;
+  font-size: 1.2em;
+  font-weight: 400;
+  font-family: 'Lato', sans-serif;
+  height: 50px;
+  background-color: #01210a;
+  color: #ebfef0;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Icon styles */
+
 .icon-small {
   font-size: 15px;
   color: #01210a;
@@ -77,6 +99,33 @@ li {
   margin-top: 33px;
 }
 
+.plus-button {
+  width: 80px;
+  height: 80px;
+}
+
+.plus-button:active {
+  transform: scale(0.9); 
+}
+
+.plus-button-small {
+  width: 60px;
+  height: 60px;
+}
+
+.plus-button-large {
+  width: 100px;
+  height: 100px;
+}
+
+.plus-button-large:active {
+  transform: scale(0.9);
+}
+
+.plus-button:hover {
+  cursor: pointer;
+}
+
 .mint-leaf-small {
   height: 30px;
   width: 30px;
@@ -95,15 +144,38 @@ li {
   margin-right: 10px;
 }
 
-button {
-  border-radius: 15px;
-  font-size: 1.2em;
-  font-weight: 400;
-  font-family: 'Lato', sans-serif;
-  height: 50px;
-  background-color: #01210a;
-  color: #ebfef0;
+.edit-icon:hover {
+  cursor: pointer; 
 }
+
+.close-icon {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+
+.save-icon {
+  color: green;
+}
+
+.save-icon:hover {
+  cursor: pointer;
+}
+
+.cancel-icon {
+  color: red;
+}
+
+.cancel-icon:hover {
+  cursor: pointer;
+}
+
+.close-icon:hover {
+  cursor: pointer;
+  outline: 1px solid #ccc; 
+}
+
+/* Navbar styles */
 
 .nav-container {
   display: flex;
@@ -172,6 +244,8 @@ button {
   display: block;
 }
 
+/* General page styles */
+
 .container {
   display: flex;
   flex-direction: column;
@@ -186,6 +260,8 @@ button {
   flex: 1;
   width: 100%;
 }
+
+/* Login and create account styles */
 
 [data-amplify-authenticator] {
   margin-top: 60px;
@@ -252,15 +328,7 @@ button {
   border-color: #01210a;
 }
 
-.spin {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* HomePage styles */
 
 .snippet-container {
   display: flex;
@@ -342,6 +410,8 @@ button {
   white-space: pre-wrap;
 }
 
+/* Card styles */
+
 .card-grid {
   flex: 1;
   display: grid;
@@ -385,58 +455,7 @@ button {
   padding: 10px;
 }
 
-.plus-button {
-  width: 80px;
-  height: 80px;
-}
-
-.plus-button:active {
-  transform: scale(0.9); 
-}
-
-.plus-button-large {
-  width: 100px;
-  height: 100px;
-}
-
-.plus-button-large:active {
-  transform: scale(0.9);
-}
-
-.plus-button:hover {
-  cursor: pointer;
-}
-
-.edit-icon:hover {
-  cursor: pointer; 
-}
-
-.close-icon {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-}
-
-.save-icon {
-  color: green;
-}
-
-.save-icon:hover {
-  cursor: pointer;
-}
-
-.cancel-icon {
-  color: red;
-}
-
-.cancel-icon:hover {
-  cursor: pointer;
-}
-
-.close-icon:hover {
-  cursor: pointer;
-  outline: 1px solid #ccc; 
-}
+/* Profile card styles */
 
 .profile-container {
   width: 100%;
@@ -478,7 +497,9 @@ button {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.skills-container {
+/* Skills card styles */
+
+.skills-container, .education-container {
   width: 100%;
   height: 100%;
   padding: 5px;
@@ -491,7 +512,7 @@ button {
   justify-content: space-between;
 }
 
-.skills-list, .skills-footer {
+.skills-list, .skills-footer, .education-footer {
   background-color: white;
   border-radius: 5px;
   padding: 10px;
@@ -514,13 +535,15 @@ button {
   list-style: none;
 }
 
-.skills-footer {
+.skills-footer, .education-footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 5px;
 }
+
+/* Footer styles */
 
 footer {
   margin-top: auto;
@@ -536,6 +559,8 @@ footer {
   font-size: 0.9em;
   font-weight: 400;
 }
+
+/* Modal window styles */
 
 .modal-overlay {
   position: fixed;
@@ -592,6 +617,8 @@ footer {
   width: 160px;
   height: 45px;
 }
+
+/* Form styles */
 
 form {
   display: flex;
@@ -657,6 +684,8 @@ form {
   color: red;
   margin-left: 10px;
 }
+
+/* Modal window add and edit styles */
 
 .add-skill, .add-intro {
   display: flex;
@@ -759,6 +788,8 @@ form {
   outline: none;
 }
 
+/* General page styles */
+
 .page-heading {
   display: flex;
 }
@@ -788,13 +819,30 @@ form {
   justify-content: center;
 }
 
-.education-block {
+/* Education page styles for mobile width, less than 1200px*/
+
+.education-row {
   min-height: 110px;
   background-color: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   margin-top: 5px;
   margin-bottom: 10px;
   padding: 20px;
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+
+.education-course-block {
+  display: flex;
+  gap: 15px;
+  padding-left: 8px;
+  padding-top: 8px;
+  align-items: baseline;
+  width: 100%;
+}
+
+.education-block {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -807,19 +855,37 @@ form {
 
 .education-course {
   display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
 .education-course-block {
   display: flex;
-  gap: 30px;
+  gap: 15px;
   padding-left: 8px;
   padding-top: 8px;
   align-items: baseline;
+  width: 100%;
+}
+
+.education-course-name {
+  width: 50%;
 }
 
 .education-course-details {
   font-weight: normal;
+  width: 20%;
+}
+
+.education-add-course {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.education-add-course h5 {
+  text-align: center;
 }
 
 @media (min-width: 768px) {
@@ -850,8 +916,72 @@ form {
   .card-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .education-row {
+    min-height: 110px;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 20px;
+    display: flex;
+    width: 100%;
+    gap: 20px;
+  }
+  
+  .education-course-block {
+    display: flex;
+    gap: 15px;
+    padding-left: 8px;
+    padding-top: 8px;
+    align-items: baseline;
+    width: 100%;
+  }
+  
+  .education-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .education-institution {
+    font-style: italic;
+    font-size: 22px;
+  }
+  
+  .education-course {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .education-course-block {
+    display: flex;
+    gap: 15px;
+    padding-left: 8px;
+    padding-top: 8px;
+    align-items: baseline;
+    width: 100%;
+  }
+  
+  .education-course-name {
+    width: 50%;
+  }
+  
+  .education-course-details {
+    font-weight: normal;
+    width: 20%;
+  }
+  
+  .education-add-course {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .education-add-course h5 {
+    text-align: center;
+  }
 }
 
-@media (max-width: 768px) {
-  
-}

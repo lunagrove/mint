@@ -10,7 +10,7 @@ const Snippet = ({ snippet }) => {
                 <VscDebugBreakpointLog className="icon-medium snippet-bullet"/>
                 <p className="snippet-text">{snippet.snippet}</p>
             </div>
-            <h6 className="snippet-date">Last modified: {formatLongDate(snippet.createdon, false)}</h6>
+            <h6 className="snippet-date">Created on: {formatLongDate(snippet.createdon, false)}</h6>
         </div>
     );
 }

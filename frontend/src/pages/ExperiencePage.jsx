@@ -6,8 +6,10 @@ function ExperiencePage() {
   
     return (
         <div className="page-content">
-            <h2>Manage Experience</h2>
-            
+            <div className="page-heading">
+                <img className="mint-leaf-medium" src="./Mint-leaf-transparent.png" alt="<Mint leaf>"/>
+                <h2>Manage Experience</h2>
+            </div>
         </div>
   )};
   

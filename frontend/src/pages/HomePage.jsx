@@ -14,9 +14,11 @@ function HomePage() {
   const [snippets, setSnippets] = useState([]);
   const [profile, setProfile] = useState([]);
   const [skills, setSkills] = useState([]);
+  const [institutions, setInstitutions] = useState([]);
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [loadingSnippets, setLoadingSnippets] = useState(true);
   const [loadingSkills, setLoadingSkills] = useState(true);
+  const [loadingEducation, setLoadingEducation] = useState(true);
 
   const {user} = useAuthenticator((context) => [context.user]);
 
@@ -35,6 +37,12 @@ function HomePage() {
   useEffect(() => {
     if (user) {
       fetchSkills();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      fetchEducation();
     }
   }, [user]);
 
@@ -97,12 +105,32 @@ function HomePage() {
     }
   };
 
+  const fetchEducation = async () => {
+    try {
+      const session = await Auth.currentSession();
+      const token = session.getAccessToken().getJwtToken();
+      const response = await API.get("api", "/education", {
+        headers: {
+          Authorization: `Bearer ${token}`  
+        }
+      });
+      setInstitutions(response.education);
+      setLoadingEducation(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleRefreshProfile = () => {
     fetchProfile();
   };
 
   const handleRefreshSkills = () => {
     fetchSkills();
+  };
+
+  const handleRefreshEducation = () => {
+    fetchEducation();
   };
 
   return (
@@ -139,7 +167,10 @@ function HomePage() {
                 skills={skills}
                 loadingSkills={loadingSkills}
                 refreshProfile={handleRefreshProfile}
-                refreshSkills={handleRefreshSkills} />
+                refreshSkills={handleRefreshSkills}
+                institutions={institutions}
+                refreshEducation={handleRefreshEducation}
+                loadingEducation={loadingEducation} />
         ))} 
       </div>
     </>      

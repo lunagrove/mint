@@ -1,4 +1,5 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 
 function ProjectsPage() {
 
@@ -6,7 +7,10 @@ function ProjectsPage() {
   
     return (
         <div className="page-content">
-            <h2>Manage Side Projects</h2>
+            <div className="page-heading">
+                <HiOutlineClipboardDocumentList className="icon-xlarge icon-margin-right" />
+                <h2>Manage Side Projects</h2>
+            </div>
         </div>
   )};
   

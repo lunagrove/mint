@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import CardProfile from "./CardProfile";
 import CardSkills from "./CardSkills";
+import CardEducation from "./CardEducation";
 import { FaSpinner } from "react-icons/fa";
-import { iconMap } from "../utilities/constants";
+import { iconMap, cardConfig } from "../utilities/constants";
 import { useState, useEffect } from "react";
 
 const Card = ({
@@ -14,7 +15,10 @@ const Card = ({
     skills,
     loadingSkills,
     refreshProfile,
-    refreshSkills
+    refreshSkills,
+    institutions,
+    refreshEducation,
+    loadingEducation,
     }) => {
 
     const [skillCount, setSkillCount] = useState(0);
@@ -26,13 +30,6 @@ const Card = ({
             setSkillCount(skills.length);
         }
       }, [skills]);
-
-    const cardConfig = {
-        1: { to: '/companies', heading: 'Add companies and roles' },
-        2: { to: '/education', heading: 'Add educational institutions, courses, and credentials' },
-        3: { to: '/projects', heading: 'Add side projects' },
-        4: { to: '/hobbies', heading: 'Add hobbies and clubs' },
-    };
 
     return (
         <div className="card">
@@ -58,20 +55,28 @@ const Card = ({
                             <CardSkills skills={skills}
                                         refreshSkills={refreshSkills}/> 
                         )
-                    ) : (
-                        <>
-                            <Link to={cardConfig[cardNumber]?.to}>
-                                <img
-                                    className="plus-button"
-                                    src="./plus-icon-80x80.png"
-                                    alt="Plus icon"
-                                />
-                            </Link>
-                            <h5>{cardConfig[cardNumber]?.heading}</h5>
-                        </>
-                    )
+                    ) : cardNumber === 2 ? (
+                            loadingEducation ? (
+                                <FaSpinner className="spin icon-large" />
+                            ) : (
+                                <CardEducation institutions={institutions}
+                                               refreshEducation={refreshEducation}/> 
+                            )
+                        ) : (
+                            <>
+                                <Link to={cardConfig[cardNumber]?.to}>
+                                    <img
+                                        className="plus-button"
+                                        src="./plus-icon-80x80.png"
+                                        alt="Plus icon"
+                                    />
+                                </Link>
+                                <h5>{cardConfig[cardNumber]?.heading}</h5>
+                            </>
+                        )
                 }
             </div>
+            
         </div>
     );
 }
