@@ -1,7 +1,5 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Login from "../components/Login";
 import Experience from "../components/Experience";
 import Card from "../components/Card";
 import Snippet from "../components/Snippet";

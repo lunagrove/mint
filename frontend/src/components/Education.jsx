@@ -13,11 +13,14 @@ const Education = ({ education }) => {
                 <div className="education-course">
                     
                     {education.details.length > 0 && (education.details.map((item) =>
-                        <div key={item.id} className="education-course-block">
+                        <div key={item.id} className="education-coursed-block">
                             <PiArrowElbowDownRightFill className="icon-xlarge icon-margin-left" />
-                            <h3 className="education-course-name" >{item.description}</h3>
-                            <p className="education-course-details">From: {formatMonthandYear(item.fromdate)}</p>
-                            <p className="education-course-details">To: {formatMonthandYear(item.todate)}</p>
+                            <div className="education-course-details">
+                                <h3 className="education-course-name" >{item.description}</h3>
+                                <p className="education-course-dates">From: {formatMonthandYear(item.fromdate)}</p>
+                                {item.current ? <p>To: Current</p>
+                                              : <p className="education-course-dates">To: {formatMonthandYear(item.todate)}</p>}
+                            </div>
                         </div>)
                     )}
                 </div>

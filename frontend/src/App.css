@@ -868,13 +868,20 @@ form {
   width: 100%;
 }
 
-.education-course-name {
-  width: 50%;
+.education-course-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.education-course-details {
+.education-course-name {
+  width: 70%;
+}
+
+.education-course-dates {
   font-weight: normal;
-  width: 20%;
+  width: 70%;
 }
 
 .education-add-course {
@@ -916,72 +923,19 @@ form {
   .card-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  .education-row {
-    min-height: 110px;
-    background-color: white;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-    margin-top: 5px;
-    margin-bottom: 10px;
-    padding: 20px;
-    display: flex;
-    width: 100%;
-    gap: 20px;
-  }
   
-  .education-course-block {
+  .education-course-details {
     display: flex;
-    gap: 15px;
-    padding-left: 8px;
-    padding-top: 8px;
-    align-items: baseline;
-    width: 100%;
-  }
-  
-  .education-block {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .education-institution {
-    font-style: italic;
-    font-size: 22px;
-  }
-  
-  .education-course {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .education-course-block {
-    display: flex;
-    gap: 15px;
-    padding-left: 8px;
-    padding-top: 8px;
-    align-items: baseline;
-    width: 100%;
+    flex-direction: row;
   }
   
   .education-course-name {
     width: 50%;
   }
   
-  .education-course-details {
-    font-weight: normal;
+  .education-course-dates {
     width: 20%;
   }
   
-  .education-add-course {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .education-add-course h5 {
-    text-align: center;
-  }
 }
 
