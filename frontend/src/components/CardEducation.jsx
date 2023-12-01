@@ -11,15 +11,15 @@ const CardEducation = ({ institutions, refreshEducation }) => {
         <>
             {institutions && institutions.length > 0 ? (
                 <div className="education-container">
-                    <div className="skills-list">
-                        <div className="skills-left">
+                    <div className="education-list">
+                        <div className="education-left">
                             <ul>
                                 {institutions.map((education, index) => (
-                                    <li key={index}>
+                                    <li key={index} className="education-name">
                                         {education.institution}
-                                        <ul>
+                                        <ul className="education-group">
                                             {education.details.map((course) => (
-                                                <li key={course.id}>
+                                                <li key={course.id} className="education-credential">
                                                     {course.description}
                                                 </li>
                                             ))}
@@ -28,7 +28,7 @@ const CardEducation = ({ institutions, refreshEducation }) => {
                                 ))}
                             </ul> 
                         </div>
-                        <div className="skills-right">
+                        <div className="education-right">
                             <Link to={cardConfig[cardNumber]?.to}>
                                 <BsPencil className="icon-medium edit-icon"/>
                             </Link>

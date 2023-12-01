@@ -31,15 +31,20 @@ const CardSkills = ({ skills, refreshSkills }) => {
                 <div className="skills-container">
                     <div className="skills-list">
                         <div className="skills-left">
-                            <ul>
+
+                            <div className="skills-inner">
                                 {skills.slice(0, MAX_SKILLS).map((skill, index) => (
-                                    <li key={index}>{skill.description}</li>
+                                    <div key={index} className="skill-rectangle">
+                                        {skill.description}
+                                    </div>
                                 ))}
-                                {skillCount > MAX_SKILLS ? (
-                                        <li className="skills-extra">and {skillCount - MAX_SKILLS} more...</li>
-                                    ) : null}
-                            </ul> 
+                            </div>
+                            {skillCount > MAX_SKILLS ? (
+                                <div className="skills-extra">and {skillCount - MAX_SKILLS} more...</div>
+                            ) : null}
+                            
                         </div>
+
                         <div className="skills-right">
                             <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>
                         </div>

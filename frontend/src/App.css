@@ -50,6 +50,12 @@ button {
   color: #ebfef0;
 }
 
+.button-icon {
+  width: 160px;
+  height: 45px;
+  color: #ebfef0;
+}
+
 .spin {
   animation: spin 1s linear infinite;
 }
@@ -97,6 +103,19 @@ button {
 
 .icon-margin-top {
   margin-top: 33px;
+}
+
+.icon-button {
+  color: #ebfef0;
+  margin-left: 8px;
+}
+
+.link-text {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ebfef0;
 }
 
 .plus-button {
@@ -497,7 +516,7 @@ button {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Skills card styles */
+/* Skills, education card styles */
 
 .skills-container, .education-container {
   width: 100%;
@@ -512,7 +531,7 @@ button {
   justify-content: space-between;
 }
 
-.skills-list, .skills-footer, .education-footer {
+.skills-list, .education-list, .skills-footer, .education-footer {
   background-color: white;
   border-radius: 5px;
   padding: 10px;
@@ -523,16 +542,43 @@ button {
   text-align: right;
 }
 
-.skills-list {
+.skills-list, .education-list {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   flex: 1;
+}
+
+.skills-left, .education-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.skills-right, .education-right {
+  margin-left: 10px;
+}
+
+.skills-inner {
+  display: flex;
+  flex-wrap: wrap;
+  
+}
+
+.skill-rectangle {
+  background-color: #e0e0e0; 
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 5px;
+  min-height: 35px;
 }
 
 .skills-extra {
   font-style: italic;
   font-weight: 700;
   list-style: none;
+  margin-left: 5px;
+  margin-top: 10px;
 }
 
 .skills-footer, .education-footer {
@@ -541,6 +587,20 @@ button {
   justify-content: center;
   align-items: center;
   gap: 5px;
+}
+
+.education-name {
+  font-weight: 700;
+  font-style: italic;
+}
+
+.education-credential {
+  font-weight: normal;
+  font-style: normal;
+}
+
+.education-group {
+  margin-bottom: 20px;
 }
 
 /* Footer styles */
@@ -836,8 +896,8 @@ form {
 .education-course-block {
   display: flex;
   gap: 15px;
-  padding-left: 8px;
-  padding-top: 8px;
+  margin-left: 10px;
+  margin-top: 10px;
   align-items: baseline;
   width: 100%;
 }
@@ -857,15 +917,6 @@ form {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.education-course-block {
-  display: flex;
-  gap: 15px;
-  padding-left: 8px;
-  padding-top: 8px;
-  align-items: baseline;
-  width: 100%;
 }
 
 .education-course-details {

@@ -5,7 +5,8 @@ import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { TbTools } from "react-icons/tb";
 import { GrGroup } from "react-icons/gr";
 
-const MAX_SKILLS = 12;
+const MAX_SKILLS = 18;
+const MAX_EDUCATION = 3;
 
 const cardTypes = [
     'Profile',
