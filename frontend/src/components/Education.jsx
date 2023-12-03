@@ -5,28 +5,28 @@ import { formatMonthandYear } from "../utilities/dates";
 const Education = ({ education }) => {
 
     return (
-        <div className="education-row">
-            <div className="education-block">
-                <h3 className="education-institution">
+        <div className="page-row">
+            <div className="page-info-block">
+                <h3 className="page-info-heading">
                     {education.institution}
                     {education.location && `, ${education.location}`}</h3>
-                <div className="education-course">
+                <div className="page-info-detail">
                     
                     {education.details.length > 0 && (education.details.map((item) =>
-                        <div key={item.id} className="education-course-block">
+                        <div key={item.id} className="page-detail-block">
                             <PiArrowElbowDownRightFill className="icon-xlarge icon-margin-left" />
-                            <div className="education-course-details">
-                                <h3 className="education-course-name" >{item.description}</h3>
-                                <p className="education-course-dates">From: {formatMonthandYear(item.fromdate)}</p>
+                            <div className="page-info-details">
+                                <h3 className="page-info-description" >{item.description}</h3>
+                                <p className="page-info-dates">From: {formatMonthandYear(item.fromdate)}</p>
                                 {item.current ? <p>To: Current</p>
-                                              : <p className="education-course-dates">To: {formatMonthandYear(item.todate)}</p>}
+                                              : <p className="page-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                             </div>
                         </div>
                         )
                     )}
                 </div>
             </div>
-            <div className="education-add-course">
+            <div className="page-add-detail">
                 <img
                     className="plus-button plus-button-small"
                     src="./plus-icon-80x80.png"

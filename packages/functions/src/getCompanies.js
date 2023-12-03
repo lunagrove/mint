@@ -1,4 +1,4 @@
-import { getCompanies } from "@mint/core/database";
+import { getCompanies, getRoles } from "@mint/core/database";
 
 export async function main(event, context) {
 
@@ -27,8 +27,8 @@ export async function main(event, context) {
                 const details = [...roleDetails];
 
                 return {
-                    companyId: company.educationid,
-                    companyName: company.name, 
+                    companyId: company.companyid,
+                    companyName: company.companyname, 
                     description: company.description,
                     details,
                 };

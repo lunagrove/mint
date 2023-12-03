@@ -6,6 +6,7 @@ import { IoSchoolOutline } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import Education from "../components/Education";
 import IconButton from "../components/IconButton";
+import Institution from '../components/Institution';
 import { useData } from '../utilities/DataContext';
 
 function EducationPage() {
@@ -15,6 +16,21 @@ function EducationPage() {
 
     const [loadingEducation, setLoadingEducation] = useState(true);
     const [isSpinningEducation, setIsSpinningEducation] = useState(false);
+    const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+    const handleAddInstitution = () => {
+        setIsPanelOpen(!isPanelOpen);
+      };
+    
+    const handleSubmit = () => {
+    // Add logic to handle saving data
+        setIsPanelOpen(false); // Close the panel after saving
+    };
+
+    const handleClose = () => {
+    // Add logic to handle going back
+        setIsPanelOpen(false); // Close the panel
+    };
 
     const handleUpdateData = (newData) => {
         updateUserData((prevUserData) => {
@@ -60,7 +76,7 @@ function EducationPage() {
         setLoadingEducation(true);
         setIsSpinningEducation(true);
     };
-
+    
     return (
         <div className="page-content">
             <div className="page-heading">
@@ -86,6 +102,19 @@ function EducationPage() {
                     </div>
                     
                 </>
+            )}
+            <div className="page-add-main">
+                <h2>Add Institution</h2>
+                <img
+                    className="plus-button plus-button-medium"
+                    src="./plus-icon-80x80.png"
+                    alt="Plus icon"
+                    onClick={handleAddInstitution}
+                />
+            </div>
+            {isPanelOpen && (
+                <Institution onSubmit={handleSubmit}
+                             onClose={handleClose} />
             )}
             <IconButton iconType="back"
                         caption="Dashboard" />

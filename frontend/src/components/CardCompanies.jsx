@@ -25,12 +25,12 @@ const CardCompanies = () => {
                     <div className="education-list">
                         <div className="education-left">
                             <ul>
-                                {userData.companies.slice(0, MAX_COMPANIES).map((company, index) => (
-                                    <li key={index} className="education-name">
-                                        {company.name}
+                                {userData.companies.slice(0, MAX_COMPANIES).map((company) => (
+                                    <li key={company.companyId} className="education-name">
+                                        {company.companyName}
                                         <ul className="education-group">
-                                            {company.roles.map((role) => (
-                                                <li key={role.roleid} className="education-credential">
+                                            {company.details.map((role) => (
+                                                <li key={role.id} className="education-credential">
                                                     {role.description}
                                                 </li>
                                             ))}

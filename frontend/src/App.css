@@ -860,7 +860,6 @@ form {
   align-items: flex-end;   
   gap: 5px;
 }
-    
 
 .edit-skills-list.center-vertically, .edit-intro-list.center-vertically {
   display: flex;
@@ -962,9 +961,9 @@ form {
   justify-content: center;
 }
 
-/* Education page styles for mobile width, less than 1200px*/
+/* Page styles for mobile width, less than 1200px*/
 
-.education-row {
+.page-row {
   min-height: 110px;
   background-color: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
@@ -976,7 +975,7 @@ form {
   gap: 20px;
 }
 
-.education-course-block {
+.page-detail-block {
   display: flex;
   gap: 15px;
   margin-left: 10px;
@@ -985,48 +984,96 @@ form {
   width: 100%;
 }
 
-.education-block {
+.page-info-block {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.education-institution {
+.page-info-heading {
   font-style: italic;
   font-size: 22px;
 }
 
-.education-course {
+.page-info-detail {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.education-course-details {
+.page-info-details {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
 }
 
-.education-course-name {
+.page-info-description {
   width: 70%;
 }
 
-.education-course-dates {
+.page-info-dates {
   font-weight: normal;
   width: 70%;
 }
 
-.education-add-course {
+.page-add-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background-color: white;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+.page-add-detail {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.education-add-course h5 {
+.page-add-detail h5 {
   text-align: center;
+}
+
+.add-institution-panel {
+  background-color: white;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  height: 320px;
+  width: 600px;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.add-institution-container {
+  background-color: #95edad;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.add-institution-form {
+  background-color: #ebfef0;
+  padding: 20px;
+}
+
+.panel-footer {
+  background-color: #ebfef0;
+  min-height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
 }
 
 @media (min-width: 768px) {
@@ -1058,16 +1105,16 @@ form {
     grid-template-columns: repeat(3, 1fr);
   }
   
-  .education-course-details {
+  .page-info-details {
     display: flex;
     flex-direction: row;
   }
   
-  .education-course-name {
+  .page-info-description {
     width: 50%;
   }
   
-  .education-course-dates {
+  .page-info-dates {
     width: 20%;
   }
   

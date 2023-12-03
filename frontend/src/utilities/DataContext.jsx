@@ -8,7 +8,8 @@ export const DataProvider = ({ children }) => {
     intro: [],
     snippets: [],
     skills: [],
-    education: []
+    education: [],
+    companies: []
   }); 
 
   const updateUserData = (newData) => {
