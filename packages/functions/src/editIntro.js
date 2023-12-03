@@ -7,16 +7,18 @@ export async function main(event) {
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
     const introId = event.pathParameters.introId;
 
-    const { statement } = JSON.parse(event.body); 
+    const { description } = JSON.parse(event.body);
 
-    if (!userId || !introId) {
+    console.log('description', description);
+
+    if (!userId || !introId || !description) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing or invalid parameters' })
       };
     }
 
-    const introStatement = await editIntro(userId, introId, statement);
+    const introStatement = await editIntro(userId, introId, description);
 
     if (!introStatement) {
       return {
@@ -27,7 +29,7 @@ export async function main(event) {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({}),
+      body: JSON.stringify(introStatement),
     }
   } catch (error) {
     // Error handling logic

@@ -4,13 +4,16 @@ import EditSkillRow from './EditSkillRow';
 import { Auth, API } from "aws-amplify";
 import { BsSearch } from "react-icons/bs";
 import { stopWords } from "../utilities/constants";
+import { useData } from '../utilities/DataContext';
 
-const EditSkills = ( {skills, onAdd, onDelete} ) => {
+const EditSkills = ( {onAdd, onDelete} ) => {
 
-      const [currentSkills, setCurrentSkills] = useState(skills);
-      const [numSkills, setNumSkills] = useState(skills.length);
+      const { userData, updateUserData } = useData();
+
+      const [currentSkills, setCurrentSkills] = useState(userData.skills);
+      const [numSkills, setNumSkills] = useState(userData.skills.length);
       const [search, setSearch] = useState("");
-      const [filteredSkills, setFilteredSkills] = useState(skills);
+      const [filteredSkills, setFilteredSkills] = useState(userData.skills);
       const [editingSkillId, setEditingSkillId] = useState(null);
       const isAnySkillBeingEdited = editingSkillId !== null;
 
@@ -37,7 +40,6 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
       };
 
       const handleAddClick = async () => {
-            console.log('Add Skill button clicked!');
             if (search !== "") {
                   try {
                         setEditingSkillId(null);
@@ -57,6 +59,12 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                                     const updatedNumSkills = prevNumSkills + 1;
                                     return updatedNumSkills;
                               });
+                              updateUserData((prevUserData) => {
+                                    return {
+                                        ...prevUserData,
+                                        skills: [newSkill, ...prevUserData.skills]
+                                    };
+                              });       
                         }
                   }
                   catch (error) {
@@ -84,7 +92,13 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                         setNumSkills(prevNumSkills => {
                               const updatedNumSkills = prevNumSkills - 1;
                               return updatedNumSkills;
-                        }); 
+                        });
+                        updateUserData((prevUserData) => {
+                              return {
+                                ...prevUserData,
+                                skills: prevUserData.skills.filter(skill => skill.skillid !== skillId),
+                              };
+                        });  
                   }
             }
             catch (error) {
@@ -108,6 +122,14 @@ const EditSkills = ( {skills, onAdd, onDelete} ) => {
                                     skill.skillid === skillId ? { ...skill, description: description } : skill
                         ));
                   };
+                  updateUserData((prevUserData) => {
+                        return {
+                              ...prevUserData,
+                              skills: prevUserData.skills.map((skill) =>
+                              skill.skillid === skillId ? { ...skill, description: description } : skill
+                              ),
+                        };
+                  });
             } 
             catch (error) {
                   alert(error);

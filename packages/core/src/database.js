@@ -18,7 +18,7 @@ export async function getSnippets(userId) {
   const res = await getPool().query(`
   SELECT * FROM experience
   WHERE userid = $1
-  ORDER BY experienceId DESC LIMIT 3
+  ORDER BY experienceId DESC
   `, [userId]);
   return res.rows;
 }
@@ -153,5 +153,13 @@ export async function getCompanies(userId) {
   SELECT * FROM company
   WHERE userid = $1
   `, [userId]);
+  return res.rows;
+}
+
+export async function getRoles(userId, companyId) {
+  const res = await getPool().query(`
+  SELECT * FROM role
+  WHERE userid = $1 AND companyid = $2
+  `, [userId, companyId]);
   return res.rows;
 }

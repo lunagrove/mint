@@ -6,14 +6,16 @@ import { TbTools } from "react-icons/tb";
 import { GrGroup } from "react-icons/gr";
 
 const MAX_SKILLS = 18;
-const MAX_EDUCATION = 3;
+const MAX_EDUCATION = 2;
+const MAX_SNIPPETS = 3;
+const MAX_COMPANIES = 2;
 
 const cardTypes = [
     'Profile',
-    'Companies and Roles',
+    'Companies',
     'Education',
     'Side Projects',
-    'Hobbies and Clubs',
+    'Hobbies',
     'Skills'
   ]
 
@@ -81,4 +83,4 @@ const cardConfig = {
   5: { to: '', heading: 'Add skills' },
 };
 
-export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig }
+export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig, MAX_EDUCATION, MAX_SNIPPETS, MAX_COMPANIES }

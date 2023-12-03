@@ -5,58 +5,32 @@ import EditProfile from './EditProfile';
 import EditIntro from './EditIntro';
 import EditSkills from './EditSkills';
 import { IoMdClose } from "react-icons/io";
-import { Auth, API } from "aws-amplify";
+import { useData } from '../utilities/DataContext';
 
 const EditModal = ({
     onClose,
     onSubmit,
     cardNumber,
-    inputProfile,
-    skills,
     intro }) => {
 
-  const [profile, setProfile] = useState(inputProfile);
+  const { userData, updateUserData } = useData();
+
   const [skillCount, setSkillCount] = useState(0);
-  const [introStatements, setIntroStatements] = useState([]);
-  const [loadingStatements, setLoadingStatements] = intro ? useState(true) : useState(false);
   const [introCount, setIntroCount] = useState(0);
 
   const IconComponent = iconMap[cardNumber];
 
   useEffect(() => {
-    if (skills) {
-        setSkillCount(skills.length);
+    if (userData.skills) {
+        setSkillCount(userData.skills.length);
     }
-  }, [skills]);
+  }, [userData.skills]);
 
   useEffect(() => {
-    if (intro) {
-      fetchIntroStatements();
+    if (userData.intro) {
+        setIntroCount(userData.intro.length);
     }
-  }, [intro]);
-
-  useEffect(() => {
-    if (introStatements) {
-        setIntroCount(introStatements.length);
-    }
-  }, [introStatements]);
-
-  const fetchIntroStatements = async () => {
-    try {
-      const session = await Auth.currentSession();
-      const token = session.getAccessToken().getJwtToken();
-      const response = await API.get("api", "/intro", {
-        headers: {
-          Authorization: `Bearer ${token}`  
-        }
-      });
-      setIntroStatements(response.statements);
-      setIntroCount(response.statements.length);
-      setLoadingStatements(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }, [userData.intro]);
 
   const handleAdd = (numSkills) => {
     setSkillCount(numSkills);
@@ -75,11 +49,10 @@ const EditModal = ({
   };
 
   const handleClose = () => {
-    onClose();
+      onClose();
   };
 
   const handleSubmit = (updatedProfile) => {
-    setProfile(updatedProfile);
     onSubmit(updatedProfile);
   };
 
@@ -92,7 +65,7 @@ const EditModal = ({
                 intro ? (
                   <>
                     <h3>Manage {cardTypes[cardNumber]}: Introduction</h3>
-                    {!loadingStatements && <h3>&nbsp;({introCount})</h3>}
+                    <h3>&nbsp;({introCount})</h3>
                   </>
                 ) : (
                   <h3>Manage {cardTypes[cardNumber]}</h3>
@@ -109,22 +82,18 @@ const EditModal = ({
         </div>
         
         {cardNumber === 0 && !intro && (
-              <EditProfile profile={profile}
-                           onSubmit={handleSubmit}
+              <EditProfile onSubmit={handleSubmit}
                            onClose={handleClose} />
         )}
 
         {cardNumber === 0 && intro && (
-              <EditIntro statements={introStatements}
-                         loadingIntro={loadingStatements}
-                         onAdd={handleAddIntro}
+              <EditIntro onAdd={handleAddIntro}
                          onDelete={handleDeleteIntro}/>
         )}
         
         {cardNumber === 5 && (
             <div className="modal-content">
-                <EditSkills skills={skills}
-                            onAdd={handleAdd}
+                <EditSkills onAdd={handleAdd}
                             onDelete={handleDelete} />
             </div>
         )}

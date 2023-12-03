@@ -27,7 +27,7 @@ export async function main(event) {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({}),
+      body: JSON.stringify(skill),
     }
   } catch (error) {
     // Error handling logic

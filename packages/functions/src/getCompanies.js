@@ -12,31 +12,28 @@ export async function main(event, context) {
                 };
         }
         
-        const companies = await getCompanies(userId);
+        const allCompanies = await getCompanies(userId);
 
-/*        const education = await Promise.all(
-            institutions.map(async (institution) => {
-                const educationId = institution.educationid;
-                const credentials = await getCredentials(userId, educationId);
-                const courses = await getCourses(userId, educationId);
+        const companies = await Promise.all(
+            allCompanies.map(async (company) => {
+                const companyId = company.companyid;
+                const roles = await getRoles(userId, companyId);
 
-                const credentialDetails = credentials.map(
-                            ({ credentialid, description, fromdate, todate, current }) => ({
-                                 id: credentialid, description, fromdate, todate, current }));
-                const courseDetails = courses.map(
-                            ({ courseid, description, fromdate, todate, current }) => ({
-                                 id: courseid, description, fromdate, todate, current }));
+                const roleDetails = roles.map(
+                            ({ roleid, description, fromdate, todate, current }) => ({
+                                 id: roleid, description, fromdate, todate, current }));
+                
 
-                const details = [...credentialDetails, ...courseDetails];
+                const details = [...roleDetails];
 
                 return {
-                    educationId: institution.educationid,
-                    institution: institution.institution, 
-                    location: institution.location,
+                    companyId: company.educationid,
+                    companyName: company.name, 
+                    description: company.description,
                     details,
                 };
             })
-        );  */
+        );  
 
         return {
             statusCode: 200,

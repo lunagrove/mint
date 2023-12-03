@@ -1,4 +1,5 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import IconButton from "../components/IconButton";
 
 function ExperiencePage() {
 
@@ -10,6 +11,8 @@ function ExperiencePage() {
                 <img className="mint-leaf-medium" src="./Mint-leaf-transparent.png" alt="<Mint leaf>"/>
                 <h2>Manage Experience</h2>
             </div>
+            <IconButton iconType="back"
+                        caption="Dashboard" />
         </div>
   )};
   

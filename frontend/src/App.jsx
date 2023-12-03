@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import { menuItems } from "./utilities/constants";
 import RouteGuard from "./utilities/RouteGuard";
 import { getYear } from "./utilities/dates";
+import { DataProvider } from './utilities/DataContext';
 import CompaniesPage from './pages/CompaniesPage';
 import EducationPage from './pages/EducationPage';
 import ProjectsPage from './pages/ProjectsPage';
@@ -43,39 +44,43 @@ function App() {
   if (!user) {
     return (
       <BrowserRouter>
-        <Navbar />
-        <main>
-          <LoginPage />
-        </main>
+        <DataProvider>
+          <Navbar />
+          <main>
+            <LoginPage />
+          </main>
+        </DataProvider>
       </BrowserRouter>
     );
   }
 
   return (
     <BrowserRouter>
-      <Navbar></Navbar>
-      <main>
-        <div className="App">
-          <div className="container">
-            <div className="wrapper">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/login" element={<LoginPage />} />
-                {menuItems.map(({ route, element }, index) => (
-                    <Route
-                        key={index}
-                        path={route}
-                        element={<RouteGuard>{React.createElement(eval(element))}</RouteGuard>}
-                    />
-                ))}     
-              </Routes>
+      <DataProvider>
+        <Navbar></Navbar>
+        <main>
+          <div className="App">
+            <div className="container">
+              <div className="wrapper">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  {menuItems.map(({ route, element }, index) => (
+                      <Route
+                          key={index}
+                          path={route}
+                          element={<RouteGuard>{React.createElement(eval(element))}</RouteGuard>}
+                      />
+                  ))}     
+                </Routes>
+              </div>
             </div>
+            <footer>
+              <p className="footer-text">&copy; {getYear()} holmesgroup</p>
+            </footer>
           </div>
-          <footer>
-            <p className="footer-text">&copy; {getYear()} holmesgroup</p>
-          </footer>
-        </div>
-      </main>
+        </main>
+      </DataProvider>
     </BrowserRouter>
   );
 }  

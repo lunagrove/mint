@@ -1,21 +1,24 @@
 import React from 'react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BsPencil } from "react-icons/bs";
 import { cardTypes, MAX_SKILLS, cardConfig } from "../utilities/constants";
 import EditModal from './EditModal';
+import { useData } from '../utilities/DataContext';
 
-const CardSkills = ({ skills, refreshSkills }) => {
+const CardSkills = () => {
+
+    const { userData, updateUserData } = useData();
 
     const [isModalOpen, setModalOpen] = useState(false);
+    const [skillCount, setSkillCount] = useState(0);
     const cardNumber = cardTypes.indexOf('Skills');
 
     const handleEditClick = () => {
         setModalOpen(true);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (updatedData) => {
         setModalOpen(false);
-        refreshSkills();
     };
 
     const handleAddClick = () => {
@@ -23,17 +26,21 @@ const CardSkills = ({ skills, refreshSkills }) => {
         setModalOpen(true);
     };
 
-    const skillCount = skills.length;
+    useEffect(() => {
+        if (userData.skills) {
+            setSkillCount(userData.skills.length);
+        }
+      }, [userData.skills]);
 
     return (
         <>
-            {skills && skills.length > 0 ? (
+            {userData.skills && userData.skills.length > 0 ? (
                 <div className="skills-container">
                     <div className="skills-list">
                         <div className="skills-left">
 
                             <div className="skills-inner">
-                                {skills.slice(0, MAX_SKILLS).map((skill, index) => (
+                                {userData.skills.slice(0, MAX_SKILLS).map((skill, index) => (
                                     <div key={index} className="skill-rectangle">
                                         {skill.description}
                                     </div>
@@ -69,8 +76,7 @@ const CardSkills = ({ skills, refreshSkills }) => {
             )}
             {isModalOpen && (
                 <EditModal onClose={handleCloseModal}
-                           cardNumber={cardNumber}
-                           skills={skills} />
+                           cardNumber={cardNumber} />
             )}
         </>     
     );

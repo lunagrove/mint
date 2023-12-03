@@ -167,6 +167,10 @@ button {
   cursor: pointer; 
 }
 
+.refresh-icon:hover {
+  cursor: pointer; 
+}
+
 .close-icon {
   position: absolute;
   top: 3px;
@@ -358,6 +362,13 @@ button {
   min-height: 100px;
 }
 
+.snippet-heading {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
 .experience-container {
   border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
@@ -393,7 +404,7 @@ button {
   margin: auto;
 }
 
-.snippet-row, .intro-row {
+.snippet-row {
   min-height: 100px;
   flex: 1;
   background-color: white;
@@ -412,7 +423,6 @@ button {
   padding: 5px;
   display: flex;
   gap: 5px;
-  align-items: top;
 }
 
 .snippet-date, .intro-date {
@@ -427,6 +437,39 @@ button {
 .snippet-text, .intro-text {
   flex: 1;
   white-space: pre-wrap;
+}
+
+.edit-intro-row {
+  background-color: white;
+  list-style: none;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 5px 15px 5px 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  position: relative;
+  flex: 1;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.edit-intro-row.disabled {
+  opacity: 0.7;
+  background-color: #f0f0f0;
+}
+
+.edit-intro-row.disabled::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1;
 }
 
 /* Card styles */
@@ -461,6 +504,14 @@ button {
   align-items: center;
   width: 100%;
   border-bottom: 1px solid #ccc;
+  position: relative;
+}
+
+.card-heading-refresh {
+  position: absolute;
+  right: 5px;
+  top: 60%;
+  transform: translateY(-50%);
 }
 
 .card-content {
@@ -785,7 +836,31 @@ form {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
+
+.intro-input-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  width: 100%;
+  padding: 0 0 0 5px;
+
+  position: relative;
+}
+
+.intro-input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.edit-intro-icons {
+  display: flex;
+  align-items: flex-end;   
+  gap: 5px;
+}
+    
 
 .edit-skills-list.center-vertically, .edit-intro-list.center-vertically {
   display: flex;
@@ -805,8 +880,8 @@ form {
   height: 40px;
   display: flex;
   justify-content: space-between;
-  gap: 5px;
   align-items: center;
+  gap: 5px;
   padding: 5px 15px 5px 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -835,13 +910,18 @@ form {
   justify-content: space-between;
   align-items: center;  
   gap: 5px;
+  position: absolute;
+  right: 10px;
 }
 
 .skill-input {
   width: 90%;
-  height: 38px;
+  height: 37px;
   border: none;
   padding-right: 5px;
+  position: absolute;
+  top: 0;
+  left: 10px;
 }
 
 .skill-input:focus-visible {
@@ -852,6 +932,9 @@ form {
 
 .page-heading {
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
 }
 
 .page-content {

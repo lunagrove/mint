@@ -2,44 +2,44 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { BsPencil } from "react-icons/bs";
-import { cardTypes, cardConfig, MAX_EDUCATION } from "../utilities/constants";
+import { cardTypes, cardConfig, MAX_COMPANIES } from "../utilities/constants";
 import { useData } from '../utilities/DataContext';
 
-const CardEducation = () => {
+const CardCompanies = () => {
 
     const { userData, updateUserData } = useData();
 
-    const [educationCount, setEducationCount] = useState(0);
-    const cardNumber = cardTypes.indexOf('Education');
+    const [companiesCount, setCompaniesCount] = useState(0);
+    const cardNumber = cardTypes.indexOf('Companies');
     
     useEffect(() => {
-        if (userData.education) {
-            setEducationCount(userData.education.length);
+        if (userData.companies) {
+            setCompaniesCount(userData.companies.length);
         }
-      }, [userData.education]);
+      }, [userData.companies]);
 
     return (
         <>
-            {userData.education && userData.education.length > 0 ? (
+            {userData.companies && userData.companies.length > 0 ? (
                 <div className="education-container">
                     <div className="education-list">
                         <div className="education-left">
                             <ul>
-                                {userData.education.slice(0, MAX_EDUCATION).map((education, index) => (
+                                {userData.companies.slice(0, MAX_COMPANIES).map((company, index) => (
                                     <li key={index} className="education-name">
-                                        {education.institution}
+                                        {company.name}
                                         <ul className="education-group">
-                                            {education.details.map((course) => (
-                                                <li key={course.id} className="education-credential">
-                                                    {course.description}
+                                            {company.roles.map((role) => (
+                                                <li key={role.roleid} className="education-credential">
+                                                    {role.description}
                                                 </li>
                                             ))}
                                         </ul>
                                     </li>
                                 ))}
                             </ul>
-                            {educationCount > MAX_EDUCATION ? (
-                                <div className="skills-extra">and {educationCount - MAX_EDUCATION} more...</div>
+                            {companiesCount > MAX_COMPANIES ? (
+                                <div className="skills-extra">and {companiesCount - MAX_COMPANIES} more...</div>
                             ) : null} 
                         </div>
                         <div className="education-right">
@@ -76,4 +76,4 @@ const CardEducation = () => {
     );
 }
 
-export default CardEducation;
+export default CardCompanies;

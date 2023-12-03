@@ -1,19 +1,23 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import EditIntroRow from './EditIntroRow';
-import { FaSpinner } from "react-icons/fa";
 import { Auth, API } from "aws-amplify";
+import { useData } from '../utilities/DataContext';
 
-const EditIntro = ({ statements, loadingIntro, onAdd, onDelete }) => {
+const EditIntro = ({ onAdd, onDelete }) => {
 
-    const [currentStatements, setCurrentStatements] = useState(statements);
-    const [numStatements, setNumStatements] = useState(statements.length);
+    const { userData, updateUserData } = useData();
+
+    const [currentStatements, setCurrentStatements] = useState(userData.intro);
+    const [numStatements, setNumStatements] = useState(userData.intro.length);
     const [statement, setStatement] = useState("");
+    const [editingIntroId, setEditingIntroId] = useState(null);
+    const isAnyStatementBeingEdited = editingIntroId !== null;
 
     useEffect(() => {
-        setCurrentStatements(statements);
-        setNumStatements(statements.length);
-    }, [statements]);
+        setCurrentStatements(userData.intro);
+        setNumStatements(userData.intro.length);
+    }, [userData.intro]);
 
     const handleInputChange = (event) => {
         setStatement(event.target.value); 
@@ -21,7 +25,7 @@ const EditIntro = ({ statements, loadingIntro, onAdd, onDelete }) => {
 
     const handleAddClick = async () => {
         try {
-//            setEditingSkillId(null);
+            setEditingIntroId(null);
             const result = await API.post("api", "/intro", {
                     headers: {
                         Authorization: `Bearer ${(await Auth.currentSession())
@@ -38,6 +42,12 @@ const EditIntro = ({ statements, loadingIntro, onAdd, onDelete }) => {
                         const updatedNumStatements = prevNumStatements + 1;
                         return updatedNumStatements;
                     });
+                    updateUserData((prevUserData) => {
+                        return {
+                            ...prevUserData,
+                            intro: [newStatement, ...prevUserData.intro]
+                        };
+                  }); 
             }
         }
         catch (error) {
@@ -47,26 +57,63 @@ const EditIntro = ({ statements, loadingIntro, onAdd, onDelete }) => {
 
     const handleDelete = async (introId) => {
         try {
-              await API.del("api", `/intro/${introId}`, {
+            await API.del("api", `/intro/${introId}`, {
+            headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                .getAccessToken()
+                .getJwtToken()}`,
+            }
+            });
+            const indexToDelete = currentStatements.findIndex(statement => statement.introid === introId);
+            if (indexToDelete !== -1) {
+                setCurrentStatements(prevStatements => {
+                        const updatedStatements = [...prevStatements];
+                        updatedStatements.splice(indexToDelete, 1);
+                        return updatedStatements;
+                });
+                setNumStatements(prevNumStatements => {
+                        const updatedNumStatements = prevNumStatements - 1;
+                        return updatedNumStatements;
+                }); 
+                updateUserData((prevUserData) => {
+                    return {
+                        ...prevUserData,
+                        intro: prevUserData.intro.filter(statement => statement.introid !== introId),
+                    };
+                }); 
+            }
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
+    const handleEdit = async (introId, statement) => {
+        try {
+              const result = await API.put("api", `/intro/${introId}`, {
                 headers: {
                   Authorization: `Bearer ${(await Auth.currentSession())
                     .getAccessToken()
                     .getJwtToken()}`,
-                }
+                },
+                body: { description: statement },
               });
-              const indexToDelete = currentStatements.findIndex(statement => statement.introid === introId);
-              if (indexToDelete !== -1) {
-                    setCurrentStatements(prevStatements => {
-                          const updatedStatements = [...prevStatements];
-                          updatedStatements.splice(indexToDelete, 1);
-                          return updatedStatements;
-                    });
-                    setNumStatements(prevNumStatements => {
-                          const updatedNumStatements = prevNumStatements - 1;
-                          return updatedNumStatements;
-                    }); 
-              }
-        }
+              console.log('result: ', result);
+              if (result) {
+                    setCurrentStatements((prevStatements) =>
+                        prevStatements.map((prevStatement) =>
+                            prevStatement.introid === introId ? { ...prevStatement, snippet: statement } : prevStatement
+                    ));
+              };
+              updateUserData((prevUserData) => {
+                    return {
+                        ...prevUserData,
+                        intro: prevUserData.intro.map((prevStatement) =>
+                            prevStatement.introid === introId ? { ...prevStatement, snippet: statement } : prevStatement
+                        ),
+                    };
+              });
+        } 
         catch (error) {
               alert(error);
         }
@@ -89,7 +136,8 @@ const EditIntro = ({ statements, loadingIntro, onAdd, onDelete }) => {
                                       value={statement}
                                       rows="4"
                                       cols="50"
-                                      onChange={handleInputChange}>
+                                      onChange={handleInputChange}
+                                      disabled={isAnyStatementBeingEdited}>
                             </textarea>
                     </form>
                     {statement ? (
@@ -100,28 +148,27 @@ const EditIntro = ({ statements, loadingIntro, onAdd, onDelete }) => {
                             onClick={handleAddClick}
                         />
                     ) : (
-                            <img
-                                className="plus-button add-intro-button disabled"
-                                src="./plus-icon-80x80.png"
-                                alt="Plus icon"
-                            />
+                        <img
+                            className="plus-button add-intro-button disabled"
+                            src="./plus-icon-80x80.png"
+                            alt="Plus icon"
+                        />
                     )}  
                 </div>
                     <ul className={`edit-intro-list ${!currentStatements || currentStatements.length === 0 ? 'center-vertically' : ''}`}>
-                        {loadingIntro ? (
-                            <FaSpinner className="spin icon-large" />
-                        ) : (
-                            currentStatements && currentStatements.length > 0 ? (
-                                currentStatements.map((item) =>
-                                    <EditIntroRow key={item.introid}
-                                                  statement={item}
-                                                  onDelete={handleDelete} />
-                                )
-                            ) : ( 
-                                <li className="center-vertically">
-                                    <h2>You have no introductory statements saved. Try adding an introductory statement!</h2>
-                                </li>      
+                        {currentStatements && currentStatements.length > 0 ? (
+                            currentStatements.map((item) =>
+                                <EditIntroRow key={item.introid}
+                                              statement={item}
+                                              onDelete={handleDelete}
+                                              onEdit={handleEdit}
+                                              editingIntroId={editingIntroId}
+                                              setEditingIntroId={setEditingIntroId} />
                             )
+                        ) : ( 
+                            <li className="center-vertically">
+                                <h2>You have no introductory statements saved. Try adding an introductory statement!</h2>
+                            </li>      
                         )}
                     </ul>
             </div>

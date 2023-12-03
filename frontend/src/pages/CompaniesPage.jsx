@@ -1,38 +1,64 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Auth, API } from "aws-amplify";
 import { BsBriefcase } from "react-icons/bs";
+import { LuRefreshCw } from "react-icons/lu";
 import { FaSpinner } from "react-icons/fa";
-import { IoSchoolOutline } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import Companies from "../components/Companies";
+import IconButton from "../components/IconButton";
+import { useData } from '../utilities/DataContext';
 
 function CompaniesPage() {
 
     const {user} = useAuthenticator((context) => [context.user]);
+    const { userData, updateUserData } = useData();
 
-    const [companies, setCompanies] = useState([]);
     const [loadingCompanies, setLoadingCompanies] = useState(true);
+    const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
+
+    const handleUpdateData = (newData) => {
+        updateUserData((prevUserData) => {
+            return {
+            ...prevUserData,
+            companies: newData,
+            };
+        });
+    };
 
     useEffect(() => {
         if (user) {
           fetchCompanies();
         }
-      }, [user]);
+    }, [user]);
+
+    useEffect(() => {
+        if (isSpinningCompanies) {
+            fetchCompanies();
+        }
+    }, [isSpinningCompanies]);
 
     const fetchCompanies = async () => {
+        let response;
         try {
             const session = await Auth.currentSession();
             const token = session.getAccessToken().getJwtToken();
-            const response = await API.get("api", "/companies", {
+            response = await API.get("api", "/companies", {
                 headers: {
                 Authorization: `Bearer ${token}`  
                 }
             });
-            setCompanies(response.companies);
-            setLoadingCompanies(false);
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsSpinningCompanies(false);
+            setLoadingCompanies(false);
+            handleUpdateData(response.companies);
         }
+    };
+
+    const handleRefreshCompanies = () => {
+        setLoadingCompanies(true);
+        setIsSpinningCompanies(true);
     };
   
     return (
@@ -40,6 +66,8 @@ function CompaniesPage() {
             <div className="page-heading">
                 <BsBriefcase className="icon-xlarge icon-margin-right" />
                 <h2>Manage Companies and Roles</h2>
+                <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningCompanies ? 'spin' : ''}`}
+                             onClick={handleRefreshCompanies} />
             </div>
 
             {loadingCompanies ? (
@@ -47,15 +75,19 @@ function CompaniesPage() {
                     <FaSpinner className="spin icon-large" />
                 </div>
             ) : (
-                <div className="page-list">
-                    {companies && companies.length > 0 ? (companies.map((item) =>
-                        <Companies key={item.companyId}
-                                   company={item} />)
-                    ) : (
-                    <h2>You have no companies and roles saved. Try adding some companies and roles!</h2>
-                    )}
-                </div>
+                <>
+                    <div className="page-list">
+                        {userData.companies && userData.companies.length > 0 ? (userData.companies.map((item) =>
+                            <Companies key={item.companyId}
+                                       company={item} />)
+                        ) : (
+                        <h2>You have no companies and roles saved. Try adding some companies and roles!</h2>
+                        )}
+                    </div>
+                </>
             )}
+            <IconButton iconType="back"
+                        caption="Dashboard" />
         </div>
   )};
   

@@ -4,16 +4,20 @@ import { BsPencil } from "react-icons/bs";
 import EditModal from './EditModal';
 import { cardTypes, cardConfig } from "../utilities/constants";
 import { Auth, API } from "aws-amplify";
+import { useData } from '../utilities/DataContext';
 
-const CardProfile = ({ profile, refreshProfile }) => {
+const CardProfile = () => {
 
-    const firstName = profile.firstname ? profile.firstname : '';
-    const lastName = profile.lastname ? profile.lastname : ''; 
+    const { userData, updateUserData } = useData();
+
+    const firstName = userData.profile.firstname ? userData.profile.firstname : '';
+    const lastName = userData.profile.lastname ? userData.profile.lastname : ''; 
     const fullName = `${firstName} ${lastName}`;
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [isIntroOpen, setIntroOpen] = useState(false);
     const cardNumber = cardTypes.indexOf('Profile');
+    let updatedData;
 
     const handleEditClick = () => {
         setModalOpen(true);
@@ -26,7 +30,15 @@ const CardProfile = ({ profile, refreshProfile }) => {
     const handleCloseModal = () => {
         setModalOpen(false);
         setIntroOpen(false);
-        refreshProfile();
+        updateUserData((prevUserData) => {
+            return {
+                ...prevUserData,
+                profile: {
+                ...prevUserData.profile,
+                ...updatedData,
+                },
+            };
+        });
     };
 
     const handleSubmit = async (newProfile) => {
@@ -39,7 +51,7 @@ const CardProfile = ({ profile, refreshProfile }) => {
                 }, 
                 body: {newProfile}
             })
-            const profile = result;
+            updatedData = result;
             handleCloseModal();
         }
         catch (error) {
@@ -54,29 +66,29 @@ const CardProfile = ({ profile, refreshProfile }) => {
                     <div className="profile-first">
                         <div className="profile-info">
                             <h6>Name</h6>
-                            <p>{profile.firstname || profile.lastname ? fullName : '---'}</p>
+                            <p>{userData.profile.firstname || userData.profile.lastname ? fullName : '---'}</p>
                         </div>
                         <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>
                     </div>
                     <div className="profile-info">
                         <h6>Email</h6>
-                        <p>{profile.emailaddress ? profile.emailaddress : '---'}</p>
+                        <p>{userData.profile.emailaddress ? userData.profile.emailaddress : '---'}</p>
                     </div>
                     <div className="profile-info">
                         <h6>Phone</h6>
-                        <p>{profile.phonenumber ? profile.phonenumber : '---'}</p>
+                        <p>{userData.profile.phonenumber ? userData.profile.phonenumber : '---'}</p>
                     </div>
                     <div className="profile-info">
                         <h6>Location</h6>
-                        <p>{profile.location ? profile.location : '---'}</p>
+                        <p>{userData.profile.location ? userData.profile.location : '---'}</p>
                     </div>
                     <div className="profile-info">
                         <h6>LinkedIn</h6>
-                        <p>{profile.linkedin ? profile.linkedin : '---'}</p>
+                        <p>{userData.profile.linkedin ? userData.profile.linkedin : '---'}</p>
                     </div>
                     <div className="profile-info">
                         <h6>Website</h6>
-                        <p>{profile.website ? profile.website : '---'}</p>
+                        <p>{userData.profile.website ? userData.profile.website : '---'}</p>
                     </div>
                 </div>
                 <div className="profile-intro">
@@ -93,14 +105,12 @@ const CardProfile = ({ profile, refreshProfile }) => {
                 <EditModal onClose={handleCloseModal}
                            onSubmit={handleSubmit}
                            cardNumber={cardNumber}
-                           inputProfile={profile}
                            intro={false} />
             )}
             {isIntroOpen && (
                 <EditModal onClose={handleCloseModal}
                            onSubmit={handleSubmit}
                            cardNumber={cardNumber}
-                           inputProfile={profile}
                            intro={true} />
             )}
         </>        
