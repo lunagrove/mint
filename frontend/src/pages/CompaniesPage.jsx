@@ -6,6 +6,7 @@ import { FaSpinner } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Companies from "../components/Companies";
 import IconButton from "../components/IconButton";
+import Company from '../components/Company';
 import { useData } from '../utilities/DataContext';
 
 function CompaniesPage() {
@@ -15,6 +16,44 @@ function CompaniesPage() {
 
     const [loadingCompanies, setLoadingCompanies] = useState(true);
     const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
+    const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+    const handleAddCompany = () => {
+        setIsPanelOpen(true);
+      };
+    
+      const handleSubmit = async (companyName, description) => {
+        try {
+            const result = await API.post("api", "/company", {
+                headers: {
+                    Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: {
+                    companyName: companyName,
+                    description: description
+                }
+            });
+            if (result) {
+                const newCompany = result;
+                updateUserData((prevUserData) => {
+                    return {
+                        ...prevUserData,
+                        companies: [newCompany, ...prevUserData.companies]
+                    };
+                });       
+            }
+        }
+        catch (error) {
+                alert(error);
+        }
+        setIsPanelOpen(false);
+    };
+
+    const handleClose = () => {
+        setIsPanelOpen(false);
+    };
 
     const handleUpdateData = (newData) => {
         updateUserData((prevUserData) => {
@@ -86,6 +125,23 @@ function CompaniesPage() {
                     </div>
                 </>
             )}
+            <div className={`page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="page-add">
+                    <h2>Add Company</h2>
+                    {!isPanelOpen && (
+                        <img
+                        className="plus-button plus-button-medium"
+                        src="./plus-icon-80x80.png"
+                        alt="Plus icon"
+                        onClick={handleAddCompany}
+                        />
+                    )}
+                </div>
+                {isPanelOpen && (
+                    <Company onSubmit={handleSubmit}
+                             onClose={handleClose} />
+                )}
+            </div>
             <IconButton iconType="back"
                         caption="Dashboard" />
         </div>

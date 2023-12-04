@@ -1,22 +1,22 @@
 import React from 'react';
 import { useState } from "react";
 
-const Institution = ({ onSubmit, onClose }) => {
+const Company = ({ onSubmit, onClose }) => {
 
-    const [institution, setInstitution] = useState('');
-    const [location, setLocation] = useState('');
+    const [companyName, setCompanyName] = useState('');
+    const [description, setDescription] = useState('');
 
     const handleChange = (e, type) => {
         if (type === 1) {
-            setInstitution(e.target.value);    
+            setCompanyName(e.target.value);    
         }
         if (type === 2) {
-            setLocation(e.target.value);    
+            setDescription(e.target.value);    
         }    
     };
 
     const handleSubmit = () => {
-        onSubmit(institution, location);
+        onSubmit(companyName, description);
         handleClose();
     };
 
@@ -26,18 +26,18 @@ const Institution = ({ onSubmit, onClose }) => {
 
     return (
         <div className="panel-contents">
-            <form className="add-institution-form">
-                <h6 className="form-label">Institution name</h6>
+            <form className="add-company-form">
+                <h6 className="form-label">Company name</h6>
                 <input type="text"
-                        id="institution"
+                        id="companyname"
                         className="form-input"
-                        name="institution"
+                        name="companyname"
                         onChange={(e) => handleChange(e, 1)} />
-                <h6 className="form-label">Location</h6>
+                <h6 className="form-label">Description</h6>
                 <input type="text"
-                        id="location"
+                        id="description"
                         className="form-input"
-                        name="location"
+                        name="description"
                         autoComplete="off"
                         onChange={(e) => handleChange(e, 2)} />
             </form>
@@ -55,4 +55,4 @@ const Institution = ({ onSubmit, onClose }) => {
     );
 }
 
-export default Institution;
+export default Company;

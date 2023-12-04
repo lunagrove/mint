@@ -132,6 +132,35 @@ export async function getEducation(userId) {
   return res.rows;
 }
 
+export async function createEducation(userid, institution, location) {
+  const res = await getPool().query(`
+  INSERT INTO education (userId, institution, location)
+  VALUES ($1, $2, $3)
+  RETURNING *
+  `, [userid, institution, location])
+  return res.rows[0];
+}
+
+export async function editEducation(userid, educationid, institution, location) {
+  const res = await getPool().query(`
+  UPDATE education SET institution = $3, location = $4 
+  WHERE userId = $1
+  AND educationid = $2
+  RETURNING *
+  `, [userid, educationid, institution, location])
+  return res.rows[0]
+}
+
+export async function deleteEducation(userId, educationId) {
+  const res = await getPool().query(`
+  DELETE FROM education
+  WHERE userid = $1
+  AND educationid = $2
+  RETURNING *
+  `, [userId, educationId])
+  return res.rows[0]
+}
+
 export async function getCredentials(userId, educationId) {
   const res = await getPool().query(`
   SELECT * FROM credential
@@ -154,6 +183,35 @@ export async function getCompanies(userId) {
   WHERE userid = $1
   `, [userId]);
   return res.rows;
+}
+
+export async function createCompany(userid, companyName, description) {
+  const res = await getPool().query(`
+  INSERT INTO company (userId, companyname, description)
+  VALUES ($1, $2, $3)
+  RETURNING *
+  `, [userid, companyName, description])
+  return res.rows[0];
+}
+
+export async function editCompany(userid, companyid, companyName, description) {
+  const res = await getPool().query(`
+  UPDATE company SET companyname = $3, desscription = $4 
+  WHERE userId = $1
+  AND companyid = $2
+  RETURNING *
+  `, [userid, companyid, companyName, description])
+  return res.rows[0]
+}
+
+export async function deleteCompany(userId, companyId) {
+  const res = await getPool().query(`
+  DELETE FROM company
+  WHERE userid = $1
+  AND companyid = $2
+  RETURNING *
+  `, [userId, companyId])
+  return res.rows[0]
 }
 
 export async function getRoles(userId, companyId) {

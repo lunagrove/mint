@@ -19,17 +19,40 @@ function EducationPage() {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
     const handleAddInstitution = () => {
-        setIsPanelOpen(!isPanelOpen);
+        setIsPanelOpen(true);
       };
     
-    const handleSubmit = () => {
-    // Add logic to handle saving data
-        setIsPanelOpen(false); // Close the panel after saving
+    const handleSubmit = async (institution, location) => {
+        try {
+            const result = await API.post("api", "/education", {
+                headers: {
+                    Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: {
+                    institution: institution,
+                    location: location
+            }
+            });
+            if (result) {
+                const newEducation = result;
+                updateUserData((prevUserData) => {
+                    return {
+                        ...prevUserData,
+                        education: [newEducation, ...prevUserData.education]
+                    };
+                });      
+            }
+        }
+        catch (error) {
+                alert(error);
+        }
+        setIsPanelOpen(false);
     };
 
     const handleClose = () => {
-    // Add logic to handle going back
-        setIsPanelOpen(false); // Close the panel
+        setIsPanelOpen(false);
     };
 
     const handleUpdateData = (newData) => {
@@ -103,19 +126,25 @@ function EducationPage() {
                     
                 </>
             )}
-            <div className="page-add-main">
-                <h2>Add Institution</h2>
-                <img
-                    className="plus-button plus-button-medium"
-                    src="./plus-icon-80x80.png"
-                    alt="Plus icon"
-                    onClick={handleAddInstitution}
-                />
+            
+            <div className={`page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="page-add">
+                    <h2>Add Institution</h2>
+                    {!isPanelOpen && (
+                        <img
+                        className="plus-button plus-button-medium"
+                        src="./plus-icon-80x80.png"
+                        alt="Plus icon"
+                        onClick={handleAddInstitution}
+                        />
+                    )}
+                </div>
+                {isPanelOpen && (
+                    <Institution onSubmit={handleSubmit}
+                                onClose={handleClose} />
+                )}
             </div>
-            {isPanelOpen && (
-                <Institution onSubmit={handleSubmit}
-                             onClose={handleClose} />
-            )}
+            
             <IconButton iconType="back"
                         caption="Dashboard" />
         </div>

@@ -17,12 +17,11 @@ const CardSkills = () => {
         setModalOpen(true);
     };
 
-    const handleCloseModal = (updatedData) => {
+    const handleCloseModal = () => {
         setModalOpen(false);
     };
 
     const handleAddClick = () => {
-        console.log('Add Skills button clicked!');
         setModalOpen(true);
     };
 

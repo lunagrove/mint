@@ -32,13 +32,19 @@ export function API({ stack }) {
       "GET /education": "packages/functions/src/getEducation.main",
       "GET /companies": "packages/functions/src/getCompanies.main",
       "POST /user": "packages/functions/src/createUser.main",
-      "PUT /profile": "packages/functions/src/editProfile.main",
-      "POST /skill": "packages/functions/src/createSkill.main",
-      "PUT /skill/{skillId}": "packages/functions/src/editSkill.main",
-      "DELETE /skill/{skillId}": "packages/functions/src/deleteSkill.main",
       "POST /intro": "packages/functions/src/createIntro.main",
+      "POST /skill": "packages/functions/src/createSkill.main",
+      "POST /education": "packages/functions/src/createEducation.main",
+      "POST /company": "packages/functions/src/createCompany.main",
+      "PUT /profile": "packages/functions/src/editProfile.main",
       "PUT /intro/{introId}": "packages/functions/src/editIntro.main",
-      "DELETE /intro/{introId}": "packages/functions/src/deleteIntro.main"
+      "PUT /skill/{skillId}": "packages/functions/src/editSkill.main",
+      "PUT /education/{educationId}": "packages/functions/src/editEducation.main",
+      "PUT /company/{companyId}": "packages/functions/src/editCompany.main",
+      "DELETE /intro/{introId}": "packages/functions/src/deleteIntro.main",
+      "DELETE /skill/{skillId}": "packages/functions/src/deleteSkill.main",
+      "DELETE /education/{educationId}": "packages/functions/src/deleteEducation.main",
+      "DELETE /company/{companyId}": "packages/functions/src/deleteCompany.main"
     },
   });
 

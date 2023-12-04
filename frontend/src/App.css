@@ -145,6 +145,12 @@ button {
   cursor: pointer;
 }
 
+.plus-button.disabled {
+  opacity: 30%;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .mint-leaf-small {
   height: 30px;
   width: 30px;
@@ -261,6 +267,10 @@ button {
 
 .dropdown-content a:hover {
   background-color: #ddd;
+}
+
+.ellipsis-container:hover {
+  cursor: pointer;
 }
 
 .ellipsis-container:hover .dropdown-content {
@@ -937,7 +947,7 @@ form {
 }
 
 .page-content {
-  margin: 30px 60px 50px 60px;
+  margin: 30px 20px 50px 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -969,10 +979,10 @@ form {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   margin-top: 5px;
   margin-bottom: 10px;
-  padding: 20px;
+  padding: 20px 5px 20px 20px;
   display: flex;
   width: 100%;
-  gap: 20px;
+  gap: 10px;
 }
 
 .page-detail-block {
@@ -981,7 +991,18 @@ form {
   margin-left: 10px;
   margin-top: 10px;
   align-items: baseline;
-  width: 100%;
+}
+
+.page-add-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 130px;
+}
+
+.page-add-detail h5 {
+  text-align: center;
 }
 
 .page-info-block {
@@ -990,9 +1011,34 @@ form {
   width: 100%;
 }
 
+.page-info-institution, .page-info-company {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.page-edit-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;  
+  gap: 5px;
+}
+
+.page-row-edit-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;  
+  gap: 5px;
+}
+
 .page-info-heading {
   font-style: italic;
   font-size: 22px;
+}
+
+.page-info-header {
+  display: flex;
+  flex-direction: column;
 }
 
 .page-info-detail {
@@ -1005,6 +1051,7 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
@@ -1017,54 +1064,65 @@ form {
   width: 70%;
 }
 
-.page-add-main {
+.page-add {
+  height: 100px;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  background-color: white;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 30px;
-  margin-bottom: 20px;
 }
 
-.page-add-detail {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.page-add-detail h5 {
-  text-align: center;
-}
-
-.add-institution-panel {
-  background-color: white;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  height: 320px;
-  width: 600px;
-  padding: 10px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-}
-
-.add-institution-container {
-  background-color: #95edad;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 5px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
+.page-panel {
   width: 100%;
+  height: 120px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
 }
 
-.add-institution-form {
+.page-panel.open {
+  justify-content: flex-start;
+  height: 420px;
+  z-index: 1;
+  animation: slideDown 0.5s ease forwards;
+}
+
+.page-panel.hide {
+  justify-content: center;
+  height: 120px;
+  z-index: 1;
+  animation: slideUp 0.5s ease forwards;
+} 
+
+@keyframes slideDown {
+  from {
+    height: 120px;
+  }
+  to {
+    height: 420px;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: 420px;
+  }
+  to {
+    height: 120px;
+  }
+}
+
+.add-institution-form, .add-company-form {
   background-color: #ebfef0;
-  padding: 20px;
+  height: 200px;
+  width: 450px;
+  padding: 20px 20px 0 20px;
 }
 
 .panel-footer {
@@ -1098,6 +1156,14 @@ form {
     max-height: 480px;
     overflow-y: auto;
   }
+
+  .page-content {
+    margin: 30px 60px 50px 60px;
+  }
+
+  .add-institution-form, .add-company-form {
+    width: 600px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -1110,7 +1176,7 @@ form {
     flex-direction: row;
   }
   
-  .page-info-description {
+  .page-description {
     width: 50%;
   }
   
