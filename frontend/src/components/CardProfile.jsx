@@ -65,29 +65,29 @@ const CardProfile = () => {
                 <div className="profile-details">
                     <div className="profile-first">
                         <div className="profile-info">
-                            <h6>Name</h6>
+                            <h5>Name</h5>
                             <p>{userData.profile.firstname || userData.profile.lastname ? fullName : '---'}</p>
                         </div>
                         <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>
                     </div>
                     <div className="profile-info">
-                        <h6>Email</h6>
+                        <h5>Email</h5>
                         <p>{userData.profile.emailaddress ? userData.profile.emailaddress : '---'}</p>
                     </div>
                     <div className="profile-info">
-                        <h6>Phone</h6>
+                        <h5>Phone</h5>
                         <p>{userData.profile.phonenumber ? userData.profile.phonenumber : '---'}</p>
                     </div>
                     <div className="profile-info">
-                        <h6>Location</h6>
+                        <h5>Location</h5>
                         <p>{userData.profile.location ? userData.profile.location : '---'}</p>
                     </div>
                     <div className="profile-info">
-                        <h6>LinkedIn</h6>
+                        <h5>LinkedIn</h5>
                         <p>{userData.profile.linkedin ? userData.profile.linkedin : '---'}</p>
                     </div>
                     <div className="profile-info">
-                        <h6>Website</h6>
+                        <h5>Website</h5>
                         <p>{userData.profile.website ? userData.profile.website : '---'}</p>
                     </div>
                 </div>

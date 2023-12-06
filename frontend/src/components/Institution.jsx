@@ -27,13 +27,13 @@ const Institution = ({ onSubmit, onClose }) => {
     return (
         <div className="panel-contents">
             <form className="add-institution-form">
-                <h6 className="form-label">Institution name</h6>
+                <h5 className="form-label">Institution name</h5>
                 <input type="text"
                         id="institution"
                         className="form-input"
                         name="institution"
                         onChange={(e) => handleChange(e, 1)} />
-                <h6 className="form-label">Location</h6>
+                <h5 className="form-label">Location</h5>
                 <input type="text"
                         id="location"
                         className="form-input"

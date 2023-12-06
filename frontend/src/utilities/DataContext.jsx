@@ -9,7 +9,9 @@ export const DataProvider = ({ children }) => {
     snippets: [],
     skills: [],
     education: [],
-    companies: []
+    companies: [],
+    projects: [],
+    hobbies: []
   }); 
 
   const updateUserData = (newData) => {
@@ -17,11 +19,19 @@ export const DataProvider = ({ children }) => {
   };
 
   const calculateSortOrder = (items) => {
+    if (items.length === 0) {   /* companies or education with no details appear top of the list */
+      return Infinity;
+    }
     return items.reduce((acc, item) => {
       const allEntries = item.details || []; 
       const sortOrder = allEntries.reduce((entryAcc, entry) => {
+        let toDate;
+        if (entry.current) {
+          toDate = new Date().getTime();
+        } else {
+          toDate = new Date(entry.toDate).getTime();
+        }
         const fromDate = new Date(entry.fromDate).getTime();
-        const toDate = new Date(entry.toDate).getTime();
         return entryAcc + (fromDate + toDate);
       }, 0);
       return acc + sortOrder;

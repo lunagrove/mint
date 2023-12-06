@@ -221,3 +221,19 @@ export async function getRoles(userId, companyId) {
   `, [userId, companyId]);
   return res.rows;
 }
+
+export async function getHobbies(userId) {
+  const res = await getPool().query(`
+  SELECT * FROM hobby
+  WHERE userid = $1
+  `, [userId]);
+  return res.rows;
+}
+
+export async function getProjects(userId) {
+  const res = await getPool().query(`
+  SELECT * FROM project
+  WHERE userid = $1
+  `, [userId]);
+  return res.rows;
+}

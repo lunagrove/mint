@@ -129,7 +129,7 @@ const EditIntro = ({ onAdd, onDelete }) => {
             <div className="modal-content">
                 <div className="add-intro">
                     <form className="add-intro-form">
-                            <h6 className="form-label">Introductory statement</h6>
+                            <h5 className="form-label">Introductory statement</h5>
                             <textarea className="form-textarea"
                                       id="statement" 
                                       name="statement"

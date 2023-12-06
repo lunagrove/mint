@@ -145,7 +145,7 @@ const EditSkills = ( {onAdd, onDelete} ) => {
             <>
                   <div className="add-skill">
                         <form className="add-skill-form">
-                              <h6 className="form-label">Skill description</h6>
+                              <h5 className="form-label">Skill description</h5>
                               <input type="text"
                                      id="description"
                                      className="form-input"

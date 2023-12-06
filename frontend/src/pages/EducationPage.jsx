@@ -14,7 +14,7 @@ function EducationPage() {
     const {user} = useAuthenticator((context) => [context.user]);
     const { userData, updateUserData } = useData();
 
-    const [loadingEducation, setLoadingEducation] = useState(true);
+    const [loadingEducation, setLoadingEducation] = useState(false);
     const [isSpinningEducation, setIsSpinningEducation] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
@@ -63,12 +63,6 @@ function EducationPage() {
             };
         });
     };
-
-    useEffect(() => {
-        if (user) {
-          fetchEducation();
-        }
-    }, [user]);
 
     useEffect(() => {
         if (isSpinningEducation) {

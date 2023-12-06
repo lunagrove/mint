@@ -27,13 +27,13 @@ const Company = ({ onSubmit, onClose }) => {
     return (
         <div className="panel-contents">
             <form className="add-company-form">
-                <h6 className="form-label">Company name</h6>
+                <h5 className="form-label">Company name</h5>
                 <input type="text"
                         id="companyname"
                         className="form-input"
                         name="companyname"
                         onChange={(e) => handleChange(e, 1)} />
-                <h6 className="form-label">Description</h6>
+                <h5 className="form-label">Description</h5>
                 <input type="text"
                         id="description"
                         className="form-input"

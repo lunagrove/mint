@@ -31,6 +31,8 @@ export function API({ stack }) {
       "GET /intro": "packages/functions/src/getIntro.main",
       "GET /education": "packages/functions/src/getEducation.main",
       "GET /companies": "packages/functions/src/getCompanies.main",
+      "GET /hobbies": "packages/functions/src/getHobbies.main",
+      "GET /projects": "packages/functions/src/getProjects.main",
       "POST /user": "packages/functions/src/createUser.main",
       "POST /intro": "packages/functions/src/createIntro.main",
       "POST /skill": "packages/functions/src/createSkill.main",

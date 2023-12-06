@@ -27,28 +27,28 @@ const EditProfile = ( {onSubmit, onClose} ) => {
       return (
             <div className="modal-content">
                   <form>
-                        <h6 className="form-label">Email</h6>
+                        <h5 className="form-label">Email</h5>
                         <input type="email"
                               id="email"
                               className="form-input"
                               name="emailaddress"
                               value={editedProfile.emailaddress}
                               readOnly />
-                        <h6 className="form-label">First name</h6>
+                        <h5 className="form-label">First name</h5>
                         <input type="text"
                               id="firstname"
                               className="form-input"
                               name="firstname"
                               value={editedProfile.firstname ? editedProfile.firstname : ""}
                               onChange={handleChange} />
-                        <h6 className="form-label">Last name</h6>
+                        <h5 className="form-label">Last name</h5>
                         <input type="text"
                               id="lastname"
                               className="form-input"
                               name="lastname"
                               value={editedProfile.lastname ? editedProfile.lastname : ""}
                               onChange={handleChange} />
-                        <h6 className="form-label">Phone number</h6>
+                        <h5 className="form-label">Phone number</h5>
                         <input type="text"
                               id="phonenumber"
                               className="form-input"
@@ -56,7 +56,7 @@ const EditProfile = ( {onSubmit, onClose} ) => {
                               autoComplete="off"
                               value={editedProfile.phonenumber ? editedProfile.phonenumber : ""}
                               onChange={handleChange} />
-                        <h6 className="form-label">Location</h6>
+                        <h5 className="form-label">Location</h5>
                         <input type="text"
                               id="location"
                               className="form-input"
@@ -64,7 +64,7 @@ const EditProfile = ( {onSubmit, onClose} ) => {
                               autoComplete="off"
                               value={editedProfile.location ? editedProfile.location : ""}
                               onChange={handleChange} />
-                        <h6 className="form-label">LinkedIn</h6>
+                        <h5 className="form-label">LinkedIn</h5>
                         <input type="text"
                               id="linkedin"
                               className="form-input"
@@ -72,7 +72,7 @@ const EditProfile = ( {onSubmit, onClose} ) => {
                               autoComplete="off"
                               value={editedProfile.linkedin ? editedProfile.linkedin : ""}
                               onChange={handleChange} />
-                        <h6 className="form-label">Website</h6>
+                        <h5 className="form-label">Website</h5>
                         <input type="text"
                               id="website"
                               className="form-input"

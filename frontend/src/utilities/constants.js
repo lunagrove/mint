@@ -9,6 +9,8 @@ const MAX_SKILLS = 18;
 const MAX_EDUCATION = 2;
 const MAX_SNIPPETS = 3;
 const MAX_COMPANIES = 2;
+const MAX_HOBBIES = 2;
+const MAX_PROJECTS = 2;
 
 const cardTypes = [
     'Profile',
@@ -83,4 +85,4 @@ const cardConfig = {
   5: { to: '', heading: 'Add skills' },
 };
 
-export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig, MAX_EDUCATION, MAX_SNIPPETS, MAX_COMPANIES }
+export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig, MAX_EDUCATION, MAX_SNIPPETS, MAX_COMPANIES, MAX_HOBBIES, MAX_PROJECTS }

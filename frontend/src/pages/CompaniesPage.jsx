@@ -14,7 +14,7 @@ function CompaniesPage() {
     const {user} = useAuthenticator((context) => [context.user]);
     const { userData, updateUserData } = useData();
 
-    const [loadingCompanies, setLoadingCompanies] = useState(true);
+    const [loadingCompanies, setLoadingCompanies] = useState(false);
     const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
@@ -63,12 +63,6 @@ function CompaniesPage() {
             };
         });
     };
-
-    useEffect(() => {
-        if (user) {
-          fetchCompanies();
-        }
-    }, [user]);
 
     useEffect(() => {
         if (isSpinningCompanies) {

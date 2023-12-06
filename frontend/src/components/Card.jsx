@@ -4,6 +4,8 @@ import CardProfile from "./CardProfile";
 import CardSkills from "./CardSkills";
 import CardEducation from "./CardEducation";
 import CardCompanies from "./CardCompanies";
+import CardHobbies from "./CardHobbies";
+import CardProjects from "./CardProjects";
 import { FaSpinner } from "react-icons/fa";
 import { LuRefreshCw } from "react-icons/lu";
 import { iconMap, cardConfig } from "../utilities/constants";
@@ -21,7 +23,11 @@ const Card = ({
     loadingEducation,
     refreshEducation,
     loadingCompanies,
-    refreshCompanies
+    refreshCompanies,
+    loadingHobbies,
+    refreshHobbies,
+    loadingProjects,
+    refreshProjects
     }) => {
 
     const { userData, updateUserData } = useData();
@@ -29,11 +35,15 @@ const Card = ({
     const [skillCount, setSkillCount] = useState(0);
     const [educationCount, setEducationCount] = useState(0);
     const [companiesCount, setCompaniesCount] = useState(0);
+    const [hobbiesCount, setHobbiesCount] = useState(0);
+    const [projectsCount, setProjectsCount] = useState(0);
 
     const [isSpinningProfile, setIsSpinningProfile] = useState(false);
     const [isSpinningSkills, setIsSpinningSkills] = useState(false);
     const [isSpinningEducation, setIsSpinningEducation] = useState(false);
     const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
+    const [isSpinningHobbies, setIsSpinningHobbies] = useState(false);
+    const [isSpinningProjects, setIsSpinningProjects] = useState(false);
 
     const IconComponent = iconMap[cardNumber];
 
@@ -56,6 +66,18 @@ const Card = ({
     }, [userData.companies]);
 
     useEffect(() => {
+        if (userData.hobbies) {
+            setHobbiesCount(userData.hobbies.length);
+        }
+    }, [userData.hobbies]);
+
+    useEffect(() => {
+        if (userData.projects) {
+            setProjectsCount(userData.projects.length);
+        }
+    }, [userData.projects]);
+
+    useEffect(() => {
         setIsSpinningProfile(false);
     }, [userData.profile]);
 
@@ -70,6 +92,14 @@ const Card = ({
     useEffect(() => {
         setIsSpinningCompanies(false);
     }, [userData.companies]);
+
+    useEffect(() => {
+        setIsSpinningHobbies(false);
+    }, [userData.hobbies]);
+
+    useEffect(() => {
+        setIsSpinningProjects(false);
+    }, [userData.projects]);
 
     const handleRefreshProfile = () => {
         setIsSpinningProfile(true);
@@ -92,6 +122,16 @@ const Card = ({
         refreshSkills();
     };
 
+    const handleRefreshHobbies = () => {
+        setIsSpinningHobbies(true);
+        refreshHobbies();
+    };
+
+    const handleRefreshProjects = () => {
+        setIsSpinningProjects(true);
+        refreshProjects();
+    };
+
     return (
         <div className="card">
             <div className="card-heading">
@@ -102,6 +142,12 @@ const Card = ({
                 )}
                 {cardNumber === 2 && (
                     <h3>&nbsp;({educationCount})</h3>
+                )}
+                {cardNumber === 3 && (
+                    <h3>&nbsp;({projectsCount})</h3>
+                )}
+                {cardNumber === 4 && (
+                    <h3>&nbsp;({hobbiesCount})</h3>
                 )}
                 {cardNumber === 5 && (
                     <h3>&nbsp;({skillCount})</h3>
@@ -118,6 +164,14 @@ const Card = ({
                     {cardNumber === 2 &&
                         <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningEducation ? 'spin' : ''}`}
                                      onClick={handleRefreshEducation} />
+                    }
+                    {cardNumber === 3 &&
+                        <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningProjects ? 'spin' : ''}`}
+                                     onClick={handleRefreshProjects} />
+                    }
+                    {cardNumber === 4 &&
+                        <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningHobbies ? 'spin' : ''}`}
+                                     onClick={handleRefreshHobbies} />
                     }
                     {cardNumber === 5 &&
                         <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningSkills ? 'spin' : ''}`}
@@ -150,21 +204,20 @@ const Card = ({
                                 ) : (
                                     <CardEducation /> 
                                 )
-                            ) : (
-                                <>
-                                    <Link to={cardConfig[cardNumber]?.to}>
-                                        <img
-                                            className="plus-button"
-                                            src="./plus-icon-80x80.png"
-                                            alt="Plus icon"
-                                        />
-                                    </Link>
-                                    <h5>{cardConfig[cardNumber]?.heading}</h5>
-                                </>
-                            )
+                            ) : cardNumber === 3 ? (
+                                    loadingProjects ? (
+                                        <FaSpinner className="spin icon-large" />
+                                    ) : (
+                                        <CardProjects /> 
+                                    )
+                                ) : cardNumber === 4 &&
+                                        loadingHobbies ? (
+                                            <FaSpinner className="spin icon-large" />
+                                        ) : (
+                                            <CardHobbies /> 
+                                        )
                 }
             </div>
-            
         </div>
     );
 }

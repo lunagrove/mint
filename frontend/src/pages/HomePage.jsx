@@ -13,61 +13,30 @@ function HomePage() {
 
   const { userData, updateUserData } = useData();
 
-  const [loadingProfile, setLoadingProfile] = useState(true);
-  const [loadingIntro, setLoadingIntro] = useState(true);
-  const [loadingSnippets, setLoadingSnippets] = useState(true);
-  const [loadingSkills, setLoadingSkills] = useState(true);
-  const [loadingEducation, setLoadingEducation] = useState(true);
-  const [loadingCompanies, setLoadingCompanies] = useState(true);
+  const [loadingProfile, setLoadingProfile] = useState(!userData.profile.userid ? true : false);
+  const [loadingIntro, setLoadingIntro] = useState(!userData.profile.userid ? true : false);
+  const [loadingSnippets, setLoadingSnippets] = useState(!userData.profile.userid ? true : false);
+  const [loadingSkills, setLoadingSkills] = useState(!userData.profile.userid ? true : false);
+  const [loadingEducation, setLoadingEducation] = useState(!userData.profile.userid ? true : false);
+  const [loadingCompanies, setLoadingCompanies] = useState(!userData.profile.userid ? true : false);
+  const [loadingHobbies, setLoadingHobbies] = useState(!userData.profile.userid ? true : false);
+  const [loadingProjects, setLoadingProjects] = useState(!userData.profile.userid ? true : false);
   const [isSpinningProfile, setIsSpinningProfile] = useState(false);
   const [isSpinningIntro, setIsSpinningIntro] = useState(false);
   const [isSpinningSnippets, setIsSpinningSnippets] = useState(false);
   const [isSpinningSkills, setIsSpinningSkills] = useState(false);
   const [isSpinningEducation, setIsSpinningEducation] = useState(false);
   const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
+  const [isSpinningHobbies, setIsSpinningHobbies] = useState(false);
+  const [isSpinningProjects, setIsSpinningProjects] = useState(false);
 
   const {user} = useAuthenticator((context) => [context.user]);
 
   const handleUpdateData = (dataType, newData) => {
-    updateUserData((prevUserData) => {
-      switch (dataType) {
-        case 'profile':
-          return {
-            ...prevUserData,
-            profile: {
-              ...prevUserData.profile,
-              ...newData,
-            },
-          };
-        case 'intro':
-          return {
-            ...prevUserData,
-            intro: newData,
-          };
-        case 'snippets':
-          return {
-            ...prevUserData,
-            snippets: newData,
-          };
-        case 'skills':
-          return {
-            ...prevUserData,
-            skills: newData,
-          };
-        case 'education':
-          return {
-            ...prevUserData,
-            education: newData,
-          };
-        case 'companies':
-          return {
-            ...prevUserData,
-            companies: newData,
-          };
-        default:
-          return prevUserData;
-      }
-    });
+    updateUserData((prevUserData) => ({
+        ...prevUserData,
+        [dataType]: newData       
+    }));
   };
 
   useEffect(() => {
@@ -75,40 +44,17 @@ function HomePage() {
   }, [userData]);
 
   useEffect(() => {
-    if (user) {
-      fetchProfile();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      fetchIntro();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      fetchSnippets();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      fetchSkills();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      fetchEducation();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      fetchCompanies();
-    }
-  }, [user]);
+    if (user && !userData.profile.userid) {
+        fetchProfile();
+        fetchIntro();
+        fetchSnippets();
+        fetchSkills();
+        fetchEducation();
+        fetchCompanies();
+        fetchHobbies();
+        fetchProjects();
+    }  
+  }, []);
 
   useEffect(() => {
     if (isSpinningProfile) {
@@ -145,6 +91,18 @@ function HomePage() {
       fetchCompanies();
     }
   }, [isSpinningCompanies]);
+
+  useEffect(() => {
+    if (isSpinningHobbies) {
+      fetchHobbies();
+    }
+  }, [isSpinningHobbies]);
+
+  useEffect(() => {
+    if (isSpinningProjects) {
+      fetchProjects();
+    }
+  }, [isSpinningProjects]);
 
   const fetchProfile = async () => {
     let response;
@@ -271,6 +229,44 @@ function HomePage() {
     }
   };
 
+  const fetchHobbies = async () => {
+    let response;
+    try {
+      const session = await Auth.currentSession();
+      const token = session.getAccessToken().getJwtToken();
+      response = await API.get("api", "/hobbies", {
+        headers: {
+          Authorization: `Bearer ${token}`  
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSpinningHobbies(false);
+      setLoadingHobbies(false);
+      handleUpdateData('hobbies', response.hobbies);
+    }
+  };
+
+  const fetchProjects = async () => {
+    let response;
+    try {
+      const session = await Auth.currentSession();
+      const token = session.getAccessToken().getJwtToken();
+      response = await API.get("api", "/projects", {
+        headers: {
+          Authorization: `Bearer ${token}`  
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSpinningProjects(false);
+      setLoadingProjects(false);
+      handleUpdateData('projects', response.projects);
+    }
+  };
+
   const handleRefreshProfile = () => {
     setLoadingProfile(true);
     setIsSpinningProfile(true);
@@ -299,6 +295,16 @@ function HomePage() {
   const handleRefreshCompanies = () => {
     setLoadingCompanies(true);
     setIsSpinningCompanies(true);
+  };
+
+  const handleRefreshHobbies = () => {
+    setLoadingHobbies(true);
+    setIsSpinningHobbies(true);
+  };
+
+  const handleRefreshProjects = () => {
+    setLoadingProjects(true);
+    setIsSpinningProjects(true);
   };
 
   return (
@@ -342,7 +348,11 @@ function HomePage() {
                 loadingEducation={loadingEducation}
                 refreshEducation={handleRefreshEducation}
                 loadingCompanies={loadingCompanies}
-                refreshCompanies={handleRefreshCompanies} />
+                refreshCompanies={handleRefreshCompanies}
+                loadingHobbies={loadingHobbies}
+                refreshHobbies={handleRefreshHobbies}
+                loadingProjects={loadingProjects}
+                refreshProjects={handleRefreshProjects} />
         ))} 
       </div>
     </>      
