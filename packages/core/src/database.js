@@ -230,10 +230,28 @@ export async function getHobbies(userId) {
   return res.rows;
 }
 
+export async function createHobby(userid, description, snippet ) {
+  const res = await getPool().query(`
+  INSERT INTO hobby (userId, description, snippet)
+  VALUES ($1, $2, $3)
+  RETURNING *
+  `, [userid, description, snippet])
+  return res.rows[0];
+}
+
 export async function getProjects(userId) {
   const res = await getPool().query(`
   SELECT * FROM project
   WHERE userid = $1
   `, [userId]);
   return res.rows;
+}
+
+export async function createProject(userid, description, snippet ) {
+  const res = await getPool().query(`
+  INSERT INTO project (userId, description, snippet)
+  VALUES ($1, $2, $3)
+  RETURNING *
+  `, [userid, description, snippet])
+  return res.rows[0];
 }

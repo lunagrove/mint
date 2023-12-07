@@ -6,7 +6,7 @@ import { IoSchoolOutline } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import Education from "../components/Education";
 import IconButton from "../components/IconButton";
-import Institution from '../components/Institution';
+import AddEducation from '../components/AddEducation';
 import { useData } from '../utilities/DataContext';
 
 function EducationPage() {
@@ -134,8 +134,8 @@ function EducationPage() {
                     )}
                 </div>
                 {isPanelOpen && (
-                    <Institution onSubmit={handleSubmit}
-                                onClose={handleClose} />
+                    <AddEducation onSubmit={handleSubmit}
+                                  onClose={handleClose} />
                 )}
             </div>
             

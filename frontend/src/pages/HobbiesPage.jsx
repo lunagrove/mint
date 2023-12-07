@@ -4,6 +4,7 @@ import { FaSpinner } from "react-icons/fa";
 import { GrGroup } from "react-icons/gr";
 import IconButton from "../components/IconButton";
 import Hobby from "../components/Hobby";
+import AddHobby from '../components/AddHobby';
 import { LuRefreshCw } from "react-icons/lu";
 import { useState, useEffect } from "react";
 import { useData } from '../utilities/DataContext';
@@ -21,8 +22,33 @@ function HobbiesPage() {
         setIsPanelOpen(true);
     };
 
-    const handleSubmit = async (institution, location) => {
-
+    const handleSubmit = async (description, snippet) => {
+        try {
+            const result = await API.post("api", "/hobby", {
+                headers: {
+                    Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: {
+                    description: description,
+                    snippet: snippet
+            }
+            });
+            if (result) {
+                const newHobby = result;
+                updateUserData((prevUserData) => {
+                    return {
+                        ...prevUserData,
+                        hobbies: [newHobby, ...prevUserData.hobbies]
+                    };
+                });      
+            }
+        }
+        catch (error) {
+                alert(error);
+        }
+        setIsPanelOpen(false);
     };
 
     const handleClose = () => {
@@ -95,6 +121,23 @@ function HobbiesPage() {
                     
                 </>
             )}
+            <div className={`page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="page-add">
+                    <h2>Add Hobby or Club</h2>
+                    {!isPanelOpen && (
+                        <img
+                        className="plus-button plus-button-medium"
+                        src="./plus-icon-80x80.png"
+                        alt="Plus icon"
+                        onClick={handleAddHobby}
+                        />
+                    )}
+                </div>
+                {isPanelOpen && (
+                    <AddHobby onSubmit={handleSubmit}
+                              onClose={handleClose} />
+                )}
+            </div>
             <IconButton iconType="back"
                         caption="Dashboard" />
         </div>

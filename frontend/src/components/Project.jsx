@@ -36,11 +36,7 @@ const Project = ({ project }) => {
                 </div>
                 <div className="page-info-detail">
                     <div className="page-info-details">
-                        <h3 className="page-info-description project-snippet" >{project.snippet}</h3>
-                        <div className="page-row-edit-icons">
-                            <BsPencil className="icon-medium edit-icon" onClick={handleEditCourseClick}/>
-                            <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteCourseClick}/>
-                        </div>
+                        <h3 className="page-project-description project-snippet" >{project.snippet}</h3>
                     </div>
                 </div>
             </div>

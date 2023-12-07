@@ -1,8 +1,6 @@
 import React from 'react';
-import { PiArrowElbowDownRightFill } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
-import { formatMonthandYear } from "../utilities/dates";
 
 const Hobby = ({ hobby }) => {
 
@@ -36,11 +34,7 @@ const Hobby = ({ hobby }) => {
                 </div>
                 <div className="page-info-detail">
                     <div className="page-info-details">
-                        <h3 className="page-info-description hobby-snippet" >{hobby.snippet}</h3>
-                        <div className="page-row-edit-icons">
-                            <BsPencil className="icon-medium edit-icon" onClick={handleEditCourseClick}/>
-                            <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteCourseClick}/>
-                        </div>
+                        <h3 className="page-hobby-description hobby-snippet" >{hobby.snippet}</h3>
                     </div>
                         
                 </div>

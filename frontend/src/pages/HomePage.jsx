@@ -1,6 +1,6 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
-import Experience from "../components/Experience";
+import ExperienceBanner from "../components/ExperienceBanner";
 import Card from "../components/Card";
 import Snippet from "../components/Snippet";
 import { Auth, API } from "aws-amplify";
@@ -310,7 +310,7 @@ function HomePage() {
   return (
     <>
       <div className="snippet-container">
-        <Experience/>
+        <ExperienceBanner/>
         <div className="snippet-heading">
           <h3>Most Recent Snippets</h3>
           <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningSnippets ? 'spin' : ''}`}

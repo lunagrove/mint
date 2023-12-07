@@ -6,7 +6,7 @@ import { FaSpinner } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Companies from "../components/Companies";
 import IconButton from "../components/IconButton";
-import Company from '../components/Company';
+import AddCompany from '../components/AddCompany';
 import { useData } from '../utilities/DataContext';
 
 function CompaniesPage() {
@@ -132,8 +132,8 @@ function CompaniesPage() {
                     )}
                 </div>
                 {isPanelOpen && (
-                    <Company onSubmit={handleSubmit}
-                             onClose={handleClose} />
+                    <AddCompany onSubmit={handleSubmit}
+                                onClose={handleClose} />
                 )}
             </div>
             <IconButton iconType="back"

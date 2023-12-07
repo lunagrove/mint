@@ -1,22 +1,22 @@
 import React from 'react';
 import { useState } from "react";
 
-const Company = ({ onSubmit, onClose }) => {
+const AddProject = ({ onSubmit, onClose }) => {
 
-    const [companyName, setCompanyName] = useState('');
     const [description, setDescription] = useState('');
+    const [snippet, setSnippet] = useState('');
 
     const handleChange = (e, type) => {
         if (type === 1) {
-            setCompanyName(e.target.value);    
+            setDescription(e.target.value);    
         }
         if (type === 2) {
-            setDescription(e.target.value);    
+            setSnippet(e.target.value);    
         }    
     };
 
     const handleSubmit = () => {
-        onSubmit(companyName, description);
+        onSubmit(description, snippet);
         handleClose();
     };
 
@@ -26,20 +26,21 @@ const Company = ({ onSubmit, onClose }) => {
 
     return (
         <div className="panel-contents">
-            <form className="add-company-form">
-                <h5 className="form-label">Company name</h5>
+            <form className="add-project-form">
+                <h5 className="form-label">Project name</h5>
                 <input type="text"
                         id="companyname"
                         className="form-input"
                         name="companyname"
                         onChange={(e) => handleChange(e, 1)} />
                 <h5 className="form-label">Description</h5>
-                <input type="text"
-                        id="description"
-                        className="form-input"
-                        name="description"
-                        autoComplete="off"
-                        onChange={(e) => handleChange(e, 2)} />
+                <textarea className="form-textarea"
+                          id="snippet" 
+                          name="snippet"
+                          rows="4"
+                          cols="50"
+                          onChange={(e) => handleChange(e, 2)}>
+                </textarea>
             </form>
             <div className="panel-footer">
                 <button type="submit"
@@ -55,4 +56,4 @@ const Company = ({ onSubmit, onClose }) => {
     );
 }
 
-export default Company;
+export default AddProject;
