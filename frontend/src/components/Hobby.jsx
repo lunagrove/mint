@@ -2,22 +2,18 @@ import React from 'react';
 import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
 
-const Hobby = ({ hobby }) => {
+const Hobby = ({ hobby, onDelete, onAdd }) => {
 
     const handleDeleteClick = () => {
-    
+        onDelete(hobby.hobbyid);
     };
     
     const handleEditClick = () => {
         
     };
-    
-    const handleDeleteCourseClick = () => {
-        
-    };
-    
-    const handleEditCourseClick = () => {
-        
+
+    const handleAddClick = () => {
+        onAdd();
     };
 
     return (
@@ -44,6 +40,7 @@ const Hobby = ({ hobby }) => {
                     className="plus-button plus-button-small"
                     src="./plus-icon-80x80.png"
                     alt="Plus icon"
+                    onClick={handleAddClick}
                 />
                 <h5>Add hobby</h5>
             </div>

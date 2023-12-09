@@ -18,6 +18,13 @@ function ProjectsPage() {
     const [isSpinningProjects, setIsSpinningProjects] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
+    useEffect(() => {
+        if (user && userData.projects && userData.projects.length === 0) {
+            setLoadingProjects(true);
+            fetchProjects();
+        }  
+    }, []);
+
     const handleAddProject = () => {
         setIsPanelOpen(true);
     };

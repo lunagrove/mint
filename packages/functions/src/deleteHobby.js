@@ -1,32 +1,31 @@
-import { createHobby } from "@mint/core/database";
+import { deleteHobby } from "@mint/core/database";
 
 export async function main(event) {
   
   try {
 
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
-    
-    const body = JSON.parse(event.body); 
+    const hobbyId = event.pathParameters.hobbyId;
 
-    if (!userId || !body) {
+    if (!userId || !hobbyId) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing or invalid parameters' })
       };
     }
 
-    const hobby = await createHobby(userId, body.description, body.snippet);
+    const hobby = await deleteHobby(userId, hobbyId);
 
     if (!hobby) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to create hobby record' })
+        body: JSON.stringify({ error: 'Failed to delete hobby record' })
       };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ hobby: hobby}),
+      body: JSON.stringify({}),
     }
   } catch (error) {
     // Error handling logic

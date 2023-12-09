@@ -435,7 +435,7 @@ button {
   gap: 5px;
 }
 
-.snippet-date, .intro-date, .experience-date {
+.snippet-date, .intro-date {
   padding-left: 30px;
   margin-bottom: 10px;
   font-weight: normal;
@@ -679,13 +679,17 @@ button {
 }
 
 .hobby-snippet, .project-snippet, .experience-snippet {
-  list-style: none;
   font-weight: normal;
   font-style: normal;
 }
 
 .experience-snippet {
   width: 92%;
+}
+
+.experience-date {
+  margin: 10px 0;
+  font-weight: normal;
 }
 
 /* Footer styles */
@@ -1008,6 +1012,7 @@ form {
   margin-bottom: 10px;
   padding: 20px 5px 20px 20px;
   display: flex;
+  justify-content: space-between;
   width: 100%;
   gap: 10px;
 }
@@ -1032,12 +1037,6 @@ form {
   text-align: center;
 }
 
-.page-info-block {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
 .page-info-institution, .page-info-company {
   display: flex;
   justify-content: flex-start;
@@ -1059,7 +1058,8 @@ form {
 }
 
 .page-row-exp-icons {
-  margin-top: 4px;
+  margin-top: 6px;
+  align-items: flex-start;
 }
 
 .page-info-heading {
@@ -1086,11 +1086,18 @@ form {
   width: 100%;
 }
 
+.page-exp-block {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-start;
+}
+
 .page-exp-details {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
   width: 100%;
 }
 
@@ -1220,23 +1227,28 @@ form {
 
 .popup {
   position: absolute;
-  border: 1px solid #ccc;
-  background-color: #fff;
+  border: 2px solid #f5762a;
+  background-color: #fff; 
   padding: 10px;
   cursor: move;
   max-width: 400px;
+  z-index: 10;
 }
 
 .popup-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: #fcba92;
   padding: 5px;
 }
 
 .popup-content {
   padding: 10px;
+}
+
+.popup h3, .popup h2 {
+  color: #f5762a;
 }
 
 .tips-close:hover {
@@ -1277,6 +1289,10 @@ form {
   .add-institution-form, .add-company-form, .add-hobby-form, .add-project-form {
     width: 600px;
   }
+
+  .page-info-block {
+    width: 100%;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -1289,12 +1305,6 @@ form {
     flex-direction: row;
   }
 
-  .page-exp-details {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-  }
-  
   .page-description {
     width: 50%;
   }

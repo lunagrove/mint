@@ -1,22 +1,16 @@
 import React from 'react';
 import { useState } from "react";
 
-const AddProject = ({ onSubmit, onClose }) => {
+const AddSnippet = ({ onSubmit, onClose }) => {
 
-    const [description, setDescription] = useState('');
     const [snippet, setSnippet] = useState('');
 
-    const handleChange = (e, type) => {
-        if (type === 1) {
-            setDescription(e.target.value);    
-        }
-        if (type === 2) {
-            setSnippet(e.target.value);    
-        }    
+    const handleChange = (e) => {
+        setSnippet(e.target.value);    
     };
 
     const handleSubmit = () => {
-        onSubmit(description, snippet);
+        onSubmit(snippet);
         handleClose();
     };
 
@@ -26,20 +20,14 @@ const AddProject = ({ onSubmit, onClose }) => {
 
     return (
         <div className="panel-contents">
-            <form className="add-project-form">
-                <h5 className="form-label">Project name</h5>
-                <input type="text"
-                        id="projectname"
-                        className="form-input"
-                        name="projectname"
-                        onChange={(e) => handleChange(e, 1)} />
-                <h5 className="form-label">Description</h5>
+            <form className="add-hobby-form">
+                <h5 className="form-label">Snippet description</h5>
                 <textarea className="form-textarea"
                           id="snippet" 
                           name="snippet"
-                          rows="4"
+                          rows="6"
                           cols="50"
-                          onChange={(e) => handleChange(e, 2)}>
+                          onChange={(e) => handleChange(e)}>
                 </textarea>
             </form>
             <div className="panel-footer">
@@ -56,4 +44,4 @@ const AddProject = ({ onSubmit, onClose }) => {
     );
 }
 
-export default AddProject;
+export default AddSnippet;

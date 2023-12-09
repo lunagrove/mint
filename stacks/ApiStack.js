@@ -40,6 +40,7 @@ export function API({ stack }) {
       "POST /company": "packages/functions/src/createCompany.main",
       "POST /hobby": "packages/functions/src/createHobby.main",
       "POST /project": "packages/functions/src/createProject.main",
+      "POST /snippet": "packages/functions/src/createSnippet.main",
       "PUT /profile": "packages/functions/src/editProfile.main",
       "PUT /intro/{introId}": "packages/functions/src/editIntro.main",
       "PUT /skill/{skillId}": "packages/functions/src/editSkill.main",
@@ -48,7 +49,8 @@ export function API({ stack }) {
       "DELETE /intro/{introId}": "packages/functions/src/deleteIntro.main",
       "DELETE /skill/{skillId}": "packages/functions/src/deleteSkill.main",
       "DELETE /education/{educationId}": "packages/functions/src/deleteEducation.main",
-      "DELETE /company/{companyId}": "packages/functions/src/deleteCompany.main"
+      "DELETE /company/{companyId}": "packages/functions/src/deleteCompany.main",
+      "DELETE /hobby/{hobbyId}": "packages/functions/src/deleteHobby.main"
     },
   });
 

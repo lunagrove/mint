@@ -15,12 +15,12 @@ function HomePage() {
 
   const [loadingProfile, setLoadingProfile] = useState(!userData.profile.userid ? true : false);
   const [loadingIntro, setLoadingIntro] = useState(!userData.profile.userid ? true : false);
-  const [loadingSnippets, setLoadingSnippets] = useState(!userData.profile.userid ? true : false);
+  const [loadingSnippets, setLoadingSnippets] = useState(userData.snippets.length === 0 ? true : false);
   const [loadingSkills, setLoadingSkills] = useState(!userData.profile.userid ? true : false);
-  const [loadingEducation, setLoadingEducation] = useState(!userData.profile.userid ? true : false);
-  const [loadingCompanies, setLoadingCompanies] = useState(!userData.profile.userid ? true : false);
-  const [loadingHobbies, setLoadingHobbies] = useState(!userData.profile.userid ? true : false);
-  const [loadingProjects, setLoadingProjects] = useState(!userData.profile.userid ? true : false);
+  const [loadingEducation, setLoadingEducation] = useState(userData.education.length === 0 ? true : false);
+  const [loadingCompanies, setLoadingCompanies] = useState(userData.companies.length === 0 ? true : false);
+  const [loadingHobbies, setLoadingHobbies] = useState(userData.hobbies.length === 0 ? true : false);
+  const [loadingProjects, setLoadingProjects] = useState(userData.projects.length === 0 ? true : false);
   const [isSpinningProfile, setIsSpinningProfile] = useState(false);
   const [isSpinningIntro, setIsSpinningIntro] = useState(false);
   const [isSpinningSnippets, setIsSpinningSnippets] = useState(false);
@@ -47,12 +47,22 @@ function HomePage() {
     if (user && !userData.profile.userid) {
         fetchProfile();
         fetchIntro();
-        fetchSnippets();
+        if (userData.snippets && userData.snippets.length === 0) {
+          fetchSnippets();
+        }
         fetchSkills();
-        fetchEducation();
-        fetchCompanies();
-        fetchHobbies();
-        fetchProjects();
+        if (userData.education && userData.education.length === 0) {
+          fetchEducation();
+        }
+        if (userData.companies && userData.companies.length === 0) {
+          fetchCompanies();
+        }
+        if (userData.hobbies && userData.hobbies.length === 0) {
+          fetchHobbies();
+        }
+        if (userData.projects && userData.projects.length === 0) {
+          fetchProjects();
+        }
     }  
   }, []);
 

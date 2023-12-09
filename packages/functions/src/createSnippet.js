@@ -1,4 +1,4 @@
-import { createHobby } from "@mint/core/database";
+import { createSnippet } from "@mint/core/database";
 
 export async function main(event) {
   
@@ -15,18 +15,18 @@ export async function main(event) {
       };
     }
 
-    const hobby = await createHobby(userId, body.description, body.snippet);
+    const snippet = await createSnippet(userId, body.snippet);
 
-    if (!hobby) {
+    if (!snippet) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to create hobby record' })
+        body: JSON.stringify({ error: 'Failed to create snippet record' })
       };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ hobby: hobby}),
+      body: JSON.stringify({ snippet: snippet}),
     }
   } catch (error) {
     // Error handling logic

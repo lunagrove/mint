@@ -18,6 +18,13 @@ function CompaniesPage() {
     const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
+    useEffect(() => {
+        if (user && userData.companies && userData.companies.length === 0) {
+            setLoadingCompanies(true);
+            fetchCompanies();
+        }  
+    }, []);
+
     const handleAddCompany = () => {
         setIsPanelOpen(true);
       };

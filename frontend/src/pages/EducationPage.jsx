@@ -18,6 +18,13 @@ function EducationPage() {
     const [isSpinningEducation, setIsSpinningEducation] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
+    useEffect(() => {
+        if (user && userData.education && userData.education.length === 0) {
+            setLoadingEducation(true);
+            fetchEducation();
+        }  
+    }, []);
+
     const handleAddInstitution = () => {
         setIsPanelOpen(true);
       };

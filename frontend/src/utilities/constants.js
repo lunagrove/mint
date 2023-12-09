@@ -88,33 +88,11 @@ const cardConfig = {
 const tips = [
   {
     title: 'Tip 1',
-    content: `
-  ### Heading
-  To emphasize text, you can use **bold** or *italic* formatting.
-
-  - You can create lists
-  - Like this one
-  - And include multiple items
-      - Subitem 1
-      - Subitem 2
-  ---    
-  [Link to example](https://example.com)
-      `,
+    filename: 'Tip1.md',
   },
   {
     title: 'Tip 2',
-    content: `
-  ## Heading 1
-  ### Sub Heading
-  ---
-  1. Numbered lists like this one
-  2. Are also supported
-  3. And they can be nested within each other
-     1. Subitem 1
-     2. Subitem 2
-  ---
-  ![mint leaf](Mint-leaf-transparent-small.png)
-      `,
+    filename: 'Tip2.md',
     }
 ];
 

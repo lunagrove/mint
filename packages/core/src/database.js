@@ -18,9 +18,18 @@ export async function getSnippets(userId) {
   const res = await getPool().query(`
   SELECT * FROM experience
   WHERE userid = $1
-  ORDER BY experienceId DESC
+  ORDER BY createdon DESC
   `, [userId]);
   return res.rows;
+}
+
+export async function createSnippet(userid, snippet ) {
+  const res = await getPool().query(`
+  INSERT INTO experience (userId, snippet)
+  VALUES ($1, $2)
+  RETURNING *
+  `, [userid, snippet])
+  return res.rows[0];
 }
 
 export async function getProfile(userId) {
@@ -226,6 +235,7 @@ export async function getHobbies(userId) {
   const res = await getPool().query(`
   SELECT * FROM hobby
   WHERE userid = $1
+  ORDER BY createdon DESC
   `, [userId]);
   return res.rows;
 }
@@ -239,10 +249,21 @@ export async function createHobby(userid, description, snippet ) {
   return res.rows[0];
 }
 
+export async function deleteHobby(userId, hobbyId) {
+  const res = await getPool().query(`
+  DELETE FROM hobby
+  WHERE userid = $1
+  AND hobbyid = $2
+  RETURNING *
+  `, [userId, hobbyId])
+  return res.rows[0]
+}
+
 export async function getProjects(userId) {
   const res = await getPool().query(`
   SELECT * FROM project
   WHERE userid = $1
+  ORDER BY createdon DESC
   `, [userId]);
   return res.rows;
 }

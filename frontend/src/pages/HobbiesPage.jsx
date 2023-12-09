@@ -18,9 +18,38 @@ function HobbiesPage() {
     const [isSpinningHobbies, setIsSpinningHobbies] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
+    useEffect(() => {
+        if (user && userData.hobbies && userData.hobbies.length === 0) {
+            setLoadingHobbies(true);
+            fetchHobbies();
+        }  
+    }, []);
+
     const handleAddHobby = () => {
         setIsPanelOpen(true);
     };
+
+    const handleDelete = async (hobbyId) => {
+        try {
+            await API.del("api", `/hobby/${hobbyId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }
+            });
+              
+            updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    hobbies: prevUserData.hobbies.filter(hobby => hobby.hobbyid !== hobbyId),
+                };
+            });  
+        }
+        catch (error) {
+              alert(error);
+        }
+  };
 
     const handleSubmit = async (description, snippet) => {
         try {
@@ -113,7 +142,9 @@ function HobbiesPage() {
                     <div className="page-list">
                         {userData.hobbies && userData.hobbies.length > 0 ? (userData.hobbies.map((item) =>
                             <Hobby key={item.hobbyid}
-                                   hobby={item} />)
+                                   hobby={item}
+                                   onDelete={handleDelete}
+                                   onAdd={handleAddHobby} />)
                         ) : (
                         <h2>You have no hobbies or clubs saved. Try adding some hobbies or clubs!</h2>
                         )}
