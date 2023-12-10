@@ -8,6 +8,7 @@ import Education from "../components/Education";
 import IconButton from "../components/IconButton";
 import AddEducation from '../components/AddEducation';
 import { useData } from '../utilities/DataContext';
+import { fetchEducation } from "../utilities/fetchData";
 
 function EducationPage() {
 
@@ -17,13 +18,20 @@ function EducationPage() {
     const [loadingEducation, setLoadingEducation] = useState(false);
     const [isSpinningEducation, setIsSpinningEducation] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [educationCount, setEducationCount] = useState(0);
 
     useEffect(() => {
         if (user && userData.education && userData.education.length === 0) {
             setLoadingEducation(true);
-            fetchEducation();
+            fetchData("education");
         }  
     }, []);
+
+    useEffect(() => {
+        if (userData.education) {
+            setEducationCount(userData.education.length);
+        }
+    }, [userData.education]);
 
     const handleAddInstitution = () => {
         setIsPanelOpen(true);
@@ -44,7 +52,7 @@ function EducationPage() {
             });
             if (result) {
                 const newEducation = result;
-                updateUserData((prevUserData) => {
+                await updateUserData((prevUserData) => {
                     return {
                         ...prevUserData,
                         education: [newEducation, ...prevUserData.education]
@@ -73,26 +81,18 @@ function EducationPage() {
 
     useEffect(() => {
         if (isSpinningEducation) {
-            fetchEducation();
+            fetchData("education");
         }
     }, [isSpinningEducation]);
 
-    const fetchEducation = async () => {
-        let response;
-        try {
-          const session = await Auth.currentSession();
-          const token = session.getAccessToken().getJwtToken();
-          response = await API.get("api", "/education", {
-            headers: {
-              Authorization: `Bearer ${token}`  
+    const fetchData = async (dataType) => {
+        if (dataType === "education") {
+            const education = await fetchEducation();
+            if (education) {
+                setIsSpinningEducation(false);
+                setLoadingEducation(false);
+                handleUpdateData(education);
             }
-          });
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setIsSpinningEducation(false);
-          setLoadingEducation(false);
-          handleUpdateData(response.education);
         }
     };
 
@@ -105,9 +105,27 @@ function EducationPage() {
         <div className="page-content">
             <div className="page-heading">
                 <IoSchoolOutline className="icon-xlarge icon-margin-right" />
-                <h2>Manage Education</h2>
+                <h2>Manage Education ({educationCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningEducation ? 'spin' : ''}`}
                              onClick={handleRefreshEducation} />
+            </div>
+
+            <div className={`page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="page-add">
+                    <h2>Add Institution</h2>
+                    {!isPanelOpen && (
+                        <img
+                        className="plus-button plus-button-medium"
+                        src="./plus-icon-80x80.png"
+                        alt="Plus icon"
+                        onClick={handleAddInstitution}
+                        />
+                    )}
+                </div>
+                {isPanelOpen && (
+                    <AddEducation onSubmit={handleSubmit}
+                                  onClose={handleClose} />
+                )}
             </div>
 
             {loadingEducation ? (
@@ -127,24 +145,6 @@ function EducationPage() {
                     
                 </>
             )}
-            
-            <div className={`page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
-                <div className="page-add">
-                    <h2>Add Institution</h2>
-                    {!isPanelOpen && (
-                        <img
-                        className="plus-button plus-button-medium"
-                        src="./plus-icon-80x80.png"
-                        alt="Plus icon"
-                        onClick={handleAddInstitution}
-                        />
-                    )}
-                </div>
-                {isPanelOpen && (
-                    <AddEducation onSubmit={handleSubmit}
-                                  onClose={handleClose} />
-                )}
-            </div>
             
             <IconButton iconType="back"
                         caption="Dashboard" />

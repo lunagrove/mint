@@ -8,6 +8,7 @@ import AddProject from '../components/AddProject';
 import { LuRefreshCw } from "react-icons/lu";
 import { useState, useEffect } from "react";
 import { useData } from '../utilities/DataContext';
+import { fetchProjects } from "../utilities/fetchData";
 
 function ProjectsPage() {
 
@@ -17,16 +18,45 @@ function ProjectsPage() {
     const [loadingProjects, setLoadingProjects] = useState(false);
     const [isSpinningProjects, setIsSpinningProjects] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [projectsCount, setProjectsCount] = useState(0);
 
     useEffect(() => {
         if (user && userData.projects && userData.projects.length === 0) {
             setLoadingProjects(true);
-            fetchProjects();
+            fetchData("projects");
         }  
     }, []);
 
+    useEffect(() => {
+        if (userData.projects) {
+            setProjectsCount(userData.projects.length);
+        }
+    }, [userData.projects]);
+
     const handleAddProject = () => {
         setIsPanelOpen(true);
+    };
+
+    const handleDelete = async (projectId) => {
+        try {
+            await API.del("api", `/project/${projectId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }
+            });
+              
+            await updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    projects: prevUserData.projects.filter(project => project.projectid !== projectId),
+                };
+            });  
+        }
+        catch (error) {
+              alert(error);
+        }
     };
 
     const handleSubmit = async (description, snippet) => {
@@ -43,8 +73,8 @@ function ProjectsPage() {
             }
             });
             if (result) {
-                const newProject = result;
-                updateUserData((prevUserData) => {
+                const newProject = result.project;
+                await updateUserData((prevUserData) => {
                     return {
                         ...prevUserData,
                         projects: [newProject, ...prevUserData.projects]
@@ -73,26 +103,18 @@ function ProjectsPage() {
 
     useEffect(() => {
         if (isSpinningProjects) {
-            fetchProjects();
+            fetchData("projects");
         }
     }, [isSpinningProjects]);
 
-    const fetchProjects = async () => {
-        let response;
-        try {
-        const session = await Auth.currentSession();
-        const token = session.getAccessToken().getJwtToken();
-        response = await API.get("api", "/projects", {
-            headers: {
-            Authorization: `Bearer ${token}`  
+    const fetchData = async (dataType) => {
+        if (dataType === "projects") {
+            const projects = await fetchProjects();
+            if (projects) {
+                setIsSpinningProjects(false);
+                setLoadingProjects(false);
+                handleUpdateData(projects);
             }
-        });
-        } catch (error) {
-        console.log(error);
-        } finally {
-        setIsSpinningProjects(false);
-        setLoadingProjects(false);
-        handleUpdateData(response.projects);
         }
     };
 
@@ -105,27 +127,11 @@ function ProjectsPage() {
         <div className="page-content">
             <div className="page-heading">
                 <HiOutlineClipboardDocumentList className="icon-xlarge icon-margin-right" />
-                <h2>Manage Side Projects</h2>
+                <h2>Manage Side Projects ({projectsCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningProjects ? 'spin' : ''}`}
                              onClick={handleRefreshProjects} />
             </div>
-            {loadingProjects ? (
-                <div className="page-list page-list-loading">
-                    <FaSpinner className="spin icon-large" />
-                </div>
-            ) : (
-                <>
-                    <div className="page-list">
-                        {userData.projects && userData.projects.length > 0 ? (userData.projects.map((item) =>
-                            <Project key={item.projectid}
-                                     project={item} />)
-                        ) : (
-                        <h2>You have no projects saved. Try adding some projects!</h2>
-                        )}
-                    </div>
-                    
-                </>
-            )}
+
             <div className={`page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
                 <div className="page-add">
                     <h2>Add Side Project</h2>
@@ -143,6 +149,26 @@ function ProjectsPage() {
                                 onClose={handleClose} />
                 )}
             </div>
+
+            {loadingProjects ? (
+                <div className="page-list page-list-loading">
+                    <FaSpinner className="spin icon-large" />
+                </div>
+            ) : (
+                <>
+                    <div className="page-list">
+                        {userData.projects && userData.projects.length > 0 ? (userData.projects.map((item) =>
+                            <Project key={item.projectid}
+                                     project={item}
+                                     onDelete={handleDelete} />)
+                        ) : (
+                        <h2>You have no projects saved. Try adding some projects!</h2>
+                        )}
+                    </div>
+                    
+                </>
+            )}
+            
             <IconButton iconType="back"
                         caption="Dashboard" />
         </div>

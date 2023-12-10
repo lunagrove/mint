@@ -50,7 +50,9 @@ export function API({ stack }) {
       "DELETE /skill/{skillId}": "packages/functions/src/deleteSkill.main",
       "DELETE /education/{educationId}": "packages/functions/src/deleteEducation.main",
       "DELETE /company/{companyId}": "packages/functions/src/deleteCompany.main",
-      "DELETE /hobby/{hobbyId}": "packages/functions/src/deleteHobby.main"
+      "DELETE /hobby/{hobbyId}": "packages/functions/src/deleteHobby.main",
+      "DELETE /project/{projectId}": "packages/functions/src/deleteProject.main",
+      "DELETE /snippet/{snippetId}": "packages/functions/src/deleteSnippet.main"
     },
   });
 

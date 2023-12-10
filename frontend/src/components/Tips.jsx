@@ -88,8 +88,6 @@ const Tips = ({ tipIndex, onClose, position }) => {
     window.addEventListener('mouseup', handleMouseUp);
   };
 
-  console.log('popupSize', popupSize);
-
   return (
     <div className="popup" ref={popupRef} style={{ top: popupPosition.y, left: popupPosition.x }}>
       <div className="popup-header" onMouseDown={handleMouseDown}>

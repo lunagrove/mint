@@ -8,6 +8,7 @@ import AddHobby from '../components/AddHobby';
 import { LuRefreshCw } from "react-icons/lu";
 import { useState, useEffect } from "react";
 import { useData } from '../utilities/DataContext';
+import { fetchHobbies } from "../utilities/fetchData";
 
 function HobbiesPage() {
 
@@ -17,13 +18,20 @@ function HobbiesPage() {
     const [loadingHobbies, setLoadingHobbies] = useState(false);
     const [isSpinningHobbies, setIsSpinningHobbies] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [hobbiesCount, setHobbiesCount] = useState(0);
 
     useEffect(() => {
         if (user && userData.hobbies && userData.hobbies.length === 0) {
             setLoadingHobbies(true);
-            fetchHobbies();
+            fetchData("hobbies");
         }  
     }, []);
+
+    useEffect(() => {
+        if (userData.hobbies) {
+            setHobbiesCount(userData.hobbies.length);
+        }
+    }, [userData.hobbies]);
 
     const handleAddHobby = () => {
         setIsPanelOpen(true);
@@ -39,7 +47,7 @@ function HobbiesPage() {
                 }
             });
               
-            updateUserData((prevUserData) => {
+            await updateUserData((prevUserData) => {
                 return {
                     ...prevUserData,
                     hobbies: prevUserData.hobbies.filter(hobby => hobby.hobbyid !== hobbyId),
@@ -49,7 +57,7 @@ function HobbiesPage() {
         catch (error) {
               alert(error);
         }
-  };
+    };
 
     const handleSubmit = async (description, snippet) => {
         try {
@@ -65,8 +73,8 @@ function HobbiesPage() {
             }
             });
             if (result) {
-                const newHobby = result;
-                updateUserData((prevUserData) => {
+                const newHobby = result.hobby;
+                await updateUserData((prevUserData) => {
                     return {
                         ...prevUserData,
                         hobbies: [newHobby, ...prevUserData.hobbies]
@@ -95,26 +103,18 @@ function HobbiesPage() {
 
     useEffect(() => {
         if (isSpinningHobbies) {
-            fetchHobbies();
+            fetchData("hobbies");
         }
     }, [isSpinningHobbies]);
 
-    const fetchHobbies = async () => {
-        let response;
-        try {
-        const session = await Auth.currentSession();
-        const token = session.getAccessToken().getJwtToken();
-        response = await API.get("api", "/hobbies", {
-            headers: {
-            Authorization: `Bearer ${token}`  
+    const fetchData = async (dataType) => {
+        if (dataType === "hobbies") {
+            const hobbies = await fetchHobbies();
+            if (hobbies) {
+                setIsSpinningHobbies(false);
+                setLoadingHobbies(false);
+                handleUpdateData(hobbies);
             }
-        });
-        } catch (error) {
-        console.log(error);
-        } finally {
-        setIsSpinningHobbies(false);
-        setLoadingHobbies(false);
-        handleUpdateData(response.hobbies);
         }
     };
 
@@ -127,32 +127,12 @@ function HobbiesPage() {
         <div className="page-content">
             <div className="page-heading">
                 <GrGroup className="icon-xlarge icon-margin-right" />
-                <h2>Manage Hobbies and Clubs</h2>
+                <h2>Manage Hobbies and Clubs ({hobbiesCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningHobbies ? 'spin' : ''}`}
                              onClick={handleRefreshHobbies} />
             </div>
-            
-        
-            {loadingHobbies ? (
-                <div className="page-list page-list-loading">
-                    <FaSpinner className="spin icon-large" />
-                </div>
-            ) : (
-                <>
-                    <div className="page-list">
-                        {userData.hobbies && userData.hobbies.length > 0 ? (userData.hobbies.map((item) =>
-                            <Hobby key={item.hobbyid}
-                                   hobby={item}
-                                   onDelete={handleDelete}
-                                   onAdd={handleAddHobby} />)
-                        ) : (
-                        <h2>You have no hobbies or clubs saved. Try adding some hobbies or clubs!</h2>
-                        )}
-                    </div>
-                    
-                </>
-            )}
-            <div className={`page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
+
+            {<div className={`page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
                 <div className="page-add">
                     <h2>Add Hobby or Club</h2>
                     {!isPanelOpen && (
@@ -168,7 +148,27 @@ function HobbiesPage() {
                     <AddHobby onSubmit={handleSubmit}
                               onClose={handleClose} />
                 )}
-            </div>
+            </div>}
+        
+            {loadingHobbies ? (
+                <div className="page-list page-list-loading">
+                    <FaSpinner className="spin icon-large" />
+                </div>
+            ) : (
+                <>
+                    <div className="page-list">
+                        {userData.hobbies && userData.hobbies.length > 0 ? (userData.hobbies.map((item) =>
+                            <Hobby key={item.hobbyid}
+                                   hobby={item}
+                                   onDelete={handleDelete} />)
+                        ) : (
+                        <h2>You have no hobbies or clubs saved. Try adding some hobbies or clubs!</h2>
+                        )}
+                    </div>
+                    
+                </>
+            )}
+            
             <IconButton iconType="back"
                         caption="Dashboard" />
         </div>

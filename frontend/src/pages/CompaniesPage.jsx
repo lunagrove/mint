@@ -8,6 +8,7 @@ import Companies from "../components/Companies";
 import IconButton from "../components/IconButton";
 import AddCompany from '../components/AddCompany';
 import { useData } from '../utilities/DataContext';
+import { fetchCompanies } from "../utilities/fetchData";
 
 function CompaniesPage() {
 
@@ -17,13 +18,20 @@ function CompaniesPage() {
     const [loadingCompanies, setLoadingCompanies] = useState(false);
     const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [companiesCount, setCompaniesCount] = useState(0);
 
     useEffect(() => {
         if (user && userData.companies && userData.companies.length === 0) {
             setLoadingCompanies(true);
-            fetchCompanies();
+            fetchData("companies");
         }  
     }, []);
+
+    useEffect(() => {
+        if (userData.companies) {
+            setCompaniesCount(userData.companies.length);
+        }
+    }, [userData.companies]);
 
     const handleAddCompany = () => {
         setIsPanelOpen(true);
@@ -44,7 +52,7 @@ function CompaniesPage() {
             });
             if (result) {
                 const newCompany = result;
-                updateUserData((prevUserData) => {
+                await updateUserData((prevUserData) => {
                     return {
                         ...prevUserData,
                         companies: [newCompany, ...prevUserData.companies]
@@ -73,26 +81,18 @@ function CompaniesPage() {
 
     useEffect(() => {
         if (isSpinningCompanies) {
-            fetchCompanies();
+            fetchData("companies");
         }
     }, [isSpinningCompanies]);
 
-    const fetchCompanies = async () => {
-        let response;
-        try {
-            const session = await Auth.currentSession();
-            const token = session.getAccessToken().getJwtToken();
-            response = await API.get("api", "/companies", {
-                headers: {
-                Authorization: `Bearer ${token}`  
-                }
-            });
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setIsSpinningCompanies(false);
-            setLoadingCompanies(false);
-            handleUpdateData(response.companies);
+    const fetchData = async (dataType) => {
+        if (dataType === "companies") {
+            const companies = await fetchCompanies();
+            if (companies) {
+              setIsSpinningCompanies(false);
+              setLoadingCompanies(false);
+              handleUpdateData(companies);
+            }
         }
     };
 
@@ -105,9 +105,27 @@ function CompaniesPage() {
         <div className="page-content">
             <div className="page-heading">
                 <BsBriefcase className="icon-xlarge icon-margin-right" />
-                <h2>Manage Companies and Roles</h2>
+                <h2>Manage Companies and Roles ({companiesCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningCompanies ? 'spin' : ''}`}
                              onClick={handleRefreshCompanies} />
+            </div>
+
+            <div className={`page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="page-add">
+                    <h2>Add Company</h2>
+                    {!isPanelOpen && (
+                        <img
+                        className="plus-button plus-button-medium"
+                        src="./plus-icon-80x80.png"
+                        alt="Plus icon"
+                        onClick={handleAddCompany}
+                        />
+                    )}
+                </div>
+                {isPanelOpen && (
+                    <AddCompany onSubmit={handleSubmit}
+                                onClose={handleClose} />
+                )}
             </div>
 
             {loadingCompanies ? (
@@ -126,23 +144,7 @@ function CompaniesPage() {
                     </div>
                 </>
             )}
-            <div className={`page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
-                <div className="page-add">
-                    <h2>Add Company</h2>
-                    {!isPanelOpen && (
-                        <img
-                        className="plus-button plus-button-medium"
-                        src="./plus-icon-80x80.png"
-                        alt="Plus icon"
-                        onClick={handleAddCompany}
-                        />
-                    )}
-                </div>
-                {isPanelOpen && (
-                    <AddCompany onSubmit={handleSubmit}
-                                onClose={handleClose} />
-                )}
-            </div>
+            
             <IconButton iconType="back"
                         caption="Dashboard" />
         </div>

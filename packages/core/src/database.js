@@ -14,24 +14,6 @@ function getPool() {
   return pool;
 }
 
-export async function getSnippets(userId) {
-  const res = await getPool().query(`
-  SELECT * FROM experience
-  WHERE userid = $1
-  ORDER BY createdon DESC
-  `, [userId]);
-  return res.rows;
-}
-
-export async function createSnippet(userid, snippet ) {
-  const res = await getPool().query(`
-  INSERT INTO experience (userId, snippet)
-  VALUES ($1, $2)
-  RETURNING *
-  `, [userid, snippet])
-  return res.rows[0];
-}
-
 export async function getProfile(userId) {
   const res = await getPool().query(`
   SELECT * FROM users
@@ -275,4 +257,42 @@ export async function createProject(userid, description, snippet ) {
   RETURNING *
   `, [userid, description, snippet])
   return res.rows[0];
+}
+
+export async function deleteProject(userId, projectId) {
+  const res = await getPool().query(`
+  DELETE FROM project
+  WHERE userid = $1
+  AND projectid = $2
+  RETURNING *
+  `, [userId, projectId])
+  return res.rows[0]
+}
+
+export async function getSnippets(userId) {
+  const res = await getPool().query(`
+  SELECT * FROM experience
+  WHERE userid = $1
+  ORDER BY createdon DESC
+  `, [userId]);
+  return res.rows;
+}
+
+export async function createSnippet(userid, snippet ) {
+  const res = await getPool().query(`
+  INSERT INTO experience (userId, snippet)
+  VALUES ($1, $2)
+  RETURNING *
+  `, [userid, snippet])
+  return res.rows[0];
+}
+
+export async function deleteSnippet(userId, snippetId) {
+  const res = await getPool().query(`
+  DELETE FROM experience
+  WHERE userid = $1
+  AND experienceid = $2
+  RETURNING *
+  `, [userId, snippetId])
+  return res.rows[0]
 }

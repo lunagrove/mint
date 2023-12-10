@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import ExperiencePage from '../pages/ExperiencePage';
 
-const ExperienceBanner = () => {
+const ExperienceBanner = ({ snippetCount }) => {
 
     return (
         <div className="experience-container">
             <div className="card-heading">
                 <img className="mint-leaf-medium" src="./Mint-leaf-transparent.png" alt="<Mint leaf>"/>
-                <h2>Experience</h2>
+                <h2>Experience ({snippetCount})</h2>
             </div>
             <div className="experience-add">
                 <Link to="/experience">

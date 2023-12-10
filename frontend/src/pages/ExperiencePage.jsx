@@ -5,10 +5,9 @@ import { LuRefreshCw } from "react-icons/lu";
 import { useState, useEffect } from "react";
 import IconButton from "../components/IconButton";
 import Experience from "../components/Experience";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import Tips from '../components/Tips';
 import AddSnippet from '../components/AddSnippet';
 import { useData } from '../utilities/DataContext';
+import { fetchSnippets, fetchSkills } from "../utilities/fetchData";
 
 function ExperiencePage() {
 
@@ -18,32 +17,48 @@ function ExperiencePage() {
     const [loadingSnippets, setLoadingSnippets] = useState(false);
     const [isSpinningSnippets, setIsSpinningSnippets] = useState(false);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
-
-    const [isTipsOpen, setIsTipsOpen] = useState(false);
-    const [selectedTipIndex, setSelectedTipIndex] = useState(0);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [snippetCount, setSnippetCount] = useState(0);
 
     useEffect(() => {
         if (user && userData.snippets && userData.snippets.length === 0) {
             setLoadingSnippets(true);
-            fetchSnippets();
+            fetchData("snippets");
+        }  
+        if (user && userData.skills && userData.skills.length === 0) {
+            fetchData("skills");
         }  
     }, []);
 
-    const openTips = (e, index) => {
-        const x = e.clientX + window.scrollX;
-        const y = e.clientY + window.scrollY;
-        setPosition({x, y});
-        setSelectedTipIndex(index);
-        setIsTipsOpen(true);
-    };
-    
-    const closeTips = () => {
-        setIsTipsOpen(false);
-    };
+    useEffect(() => {
+        if (userData.snippets) {
+            setSnippetCount(userData.snippets.length);
+        }
+    }, [userData.snippets]);
 
     const handleAddSnippet = () => {
         setIsPanelOpen(true);
+    };
+
+    const handleDelete = async (snippetId) => {
+        try {
+            await API.del("api", `/snippet/${snippetId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }
+            });
+              
+            await updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    snippets: prevUserData.snippets.filter(snippet => snippet.experienceid !== snippetId),
+                };
+            });  
+        }
+        catch (error) {
+              alert(error);
+        }
     };
 
     const handleSubmit = async (snippet) => {
@@ -59,8 +74,8 @@ function ExperiencePage() {
             }
             });
             if (result) {
-                const newSnippet = result;
-                updateUserData((prevUserData) => {
+                const newSnippet = result.snippet;
+                await updateUserData((prevUserData) => {
                     return {
                         ...prevUserData,
                         snippets: [newSnippet, ...prevUserData.snippets]
@@ -78,37 +93,33 @@ function ExperiencePage() {
         setIsPanelOpen(false);
     };
 
-    const handleUpdateData = (newData) => {
-        updateUserData((prevUserData) => {
-            return {
+    const handleUpdateData = (dataType, newData) => {
+        updateUserData((prevUserData) => ({
             ...prevUserData,
-            snippets: newData,
-            };
-        });
+            [dataType]: newData       
+        }));
     };
 
     useEffect(() => {
         if (isSpinningSnippets) {
-            fetchSnippets();
+            fetchData("snippets");
         }
     }, [isSpinningSnippets]);
 
-    const fetchSnippets = async () => {
-        let response;
-        try {
-          const session = await Auth.currentSession();
-          const token = session.getAccessToken().getJwtToken();
-          response = await API.get("api", "/snippets", {
-            headers: {
-              Authorization: `Bearer ${token}`  
-            }
-          });
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setIsSpinningSnippets(false);
-          setLoadingSnippets(false);
-          handleUpdateData(response.snippets);
+    const fetchData = async (dataType) => {
+        if (dataType === "snippets") {
+          const snippets = await fetchSnippets();
+          if (snippets) {
+            setIsSpinningSnippets(false);
+            setLoadingSnippets(false);
+            handleUpdateData('snippets', snippets);
+          }
+        }
+        if (dataType === "skills") {
+          const skills = await fetchSkills();
+          if (skills) {
+            handleUpdateData('skills', skills);
+          }
         }
     };
 
@@ -121,34 +132,9 @@ function ExperiencePage() {
         <div className="page-content">
             <div className="page-heading">
                 <img className="mint-leaf-medium" src="./Mint-leaf-transparent.png" alt="<Mint leaf>"/>
-                <h2>Manage Experience</h2>
+                <h2>Manage Experience ({snippetCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningSnippets ? 'spin' : ''}`}
                              onClick={handleRefreshSnippets} />
-            </div>
-            {loadingSnippets ? (
-                <div className="page-list page-list-loading">
-                    <FaSpinner className="spin icon-large" />
-                </div>
-            ) : (
-                <>
-                    <div className="page-list">
-                        {userData.snippets && userData.snippets.length > 0 ? (userData.snippets.map((item) =>
-                            <Experience key={item.experienceid}
-                                        snippet={item} />)
-                        ) : (
-                        <h2>You have no experience snippets saved. Try adding some snippets!</h2>
-                        )}
-                    </div>
-                </>
-            )}
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <IoMdInformationCircleOutline className="icon-large tips-icon"
-                                              onClick={(e) => openTips(e, 0)} />
-                <IoMdInformationCircleOutline className="icon-large tips-icon"
-                                              onClick={(e) => openTips(e, 1)} />
-                {isTipsOpen && <Tips tipIndex={selectedTipIndex}
-                                     onClose={closeTips}
-                                     position={position} />}
             </div>
 
             <div className={`page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
@@ -168,6 +154,24 @@ function ExperiencePage() {
                                 onClose={handleClose} />
                 )}
             </div>
+
+            {loadingSnippets ? (
+                <div className="page-list page-list-loading">
+                    <FaSpinner className="spin icon-large" />
+                </div>
+            ) : (
+                <>
+                    <div className="page-list">
+                        {userData.snippets && userData.snippets.length > 0 ? (userData.snippets.map((item) =>
+                            <Experience key={item.experienceid}
+                                        snippet={item}
+                                        onDelete={handleDelete} />)
+                        ) : (
+                        <h2>You have no experience snippets saved. Try adding some snippets!</h2>
+                        )}
+                    </div>
+                </>
+            )}
 
             <IconButton iconType="back"
                         caption="Dashboard" />

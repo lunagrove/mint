@@ -1,29 +1,19 @@
 import React from 'react';
-import { PiArrowElbowDownRightFill } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
-import { formatMonthandYear } from "../utilities/dates";
 
-const Project = ({ project }) => {
+const Project = ({ project, onDelete }) => {
 
     const handleDeleteClick = () => {
-    
+        onDelete(project.projectid);
     };
     
     const handleEditClick = () => {
         
     };
-    
-    const handleDeleteCourseClick = () => {
-        
-    };
-    
-    const handleEditCourseClick = () => {
-        
-    };
 
     return (
-        <div className="page-row">
+        <div className="page-row page-project-row">
             <div className="page-info-block">
                 <div className="page-info-institution">
                     <h3 className="page-info-heading">
@@ -39,14 +29,6 @@ const Project = ({ project }) => {
                         <h3 className="page-project-description project-snippet" >{project.snippet}</h3>
                     </div>
                 </div>
-            </div>
-            <div className="page-add-detail">
-                <img
-                    className="plus-button plus-button-small"
-                    src="./plus-icon-80x80.png"
-                    alt="Plus icon"
-                />
-                <h5>Add project</h5>
             </div>
         </div>
     );

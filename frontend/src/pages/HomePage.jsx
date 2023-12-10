@@ -8,6 +8,8 @@ import { cardTypes, MAX_SNIPPETS } from "../utilities/constants";
 import { FaSpinner } from "react-icons/fa";
 import { LuRefreshCw } from "react-icons/lu";
 import { useData } from '../utilities/DataContext';
+import { fetchIntro, fetchSnippets, fetchSkills, fetchEducation, fetchCompanies,
+         fetchHobbies, fetchProjects } from "../utilities/fetchData";
 
 function HomePage() {
 
@@ -15,12 +17,12 @@ function HomePage() {
 
   const [loadingProfile, setLoadingProfile] = useState(!userData.profile.userid ? true : false);
   const [loadingIntro, setLoadingIntro] = useState(!userData.profile.userid ? true : false);
-  const [loadingSnippets, setLoadingSnippets] = useState(userData.snippets.length === 0 ? true : false);
+  const [loadingSnippets, setLoadingSnippets] = useState(!userData.profile.userid && userData.snippets.length === 0 ? true : false);
   const [loadingSkills, setLoadingSkills] = useState(!userData.profile.userid ? true : false);
-  const [loadingEducation, setLoadingEducation] = useState(userData.education.length === 0 ? true : false);
-  const [loadingCompanies, setLoadingCompanies] = useState(userData.companies.length === 0 ? true : false);
-  const [loadingHobbies, setLoadingHobbies] = useState(userData.hobbies.length === 0 ? true : false);
-  const [loadingProjects, setLoadingProjects] = useState(userData.projects.length === 0 ? true : false);
+  const [loadingEducation, setLoadingEducation] = useState(!userData.profile.userid && userData.education.length === 0 ? true : false);
+  const [loadingCompanies, setLoadingCompanies] = useState(!userData.profile.userid && userData.companies.length === 0 ? true : false);
+  const [loadingHobbies, setLoadingHobbies] = useState(!userData.profile.userid && userData.hobbies.length === 0 ? true : false);
+  const [loadingProjects, setLoadingProjects] = useState(!userData.profile.userid && userData.projects.length === 0 ? true : false);
   const [isSpinningProfile, setIsSpinningProfile] = useState(false);
   const [isSpinningIntro, setIsSpinningIntro] = useState(false);
   const [isSpinningSnippets, setIsSpinningSnippets] = useState(false);
@@ -29,6 +31,7 @@ function HomePage() {
   const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
   const [isSpinningHobbies, setIsSpinningHobbies] = useState(false);
   const [isSpinningProjects, setIsSpinningProjects] = useState(false);
+  const [snippetCount, setSnippetCount] = useState(0);
 
   const {user} = useAuthenticator((context) => [context.user]);
 
@@ -39,32 +42,38 @@ function HomePage() {
     }));
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log('userData after update: ', userData);
-  }, [userData]);
+  }, [userData]); */
 
   useEffect(() => {
     if (user && !userData.profile.userid) {
         fetchProfile();
         fetchIntro();
         if (userData.snippets && userData.snippets.length === 0) {
-          fetchSnippets();
+          fetchData("snippets");
         }
-        fetchSkills();
+        fetchData("skills");
         if (userData.education && userData.education.length === 0) {
-          fetchEducation();
+          fetchData("education");
         }
         if (userData.companies && userData.companies.length === 0) {
-          fetchCompanies();
+          fetchData("companies");
         }
         if (userData.hobbies && userData.hobbies.length === 0) {
-          fetchHobbies();
+          fetchData("hobbies");
         }
         if (userData.projects && userData.projects.length === 0) {
-          fetchProjects();
+          fetchData("projects");
         }
     }  
   }, []);
+
+  useEffect(() => {
+    if (userData.snippets) {
+        setSnippetCount(userData.snippets.length);
+    }
+}, [userData.snippets]);
 
   useEffect(() => {
     if (isSpinningProfile) {
@@ -74,43 +83,43 @@ function HomePage() {
 
   useEffect(() => {
     if (isSpinningIntro) {
-      fetchIntro();
+      fetchData("intro");
     }
   }, [isSpinningIntro]);
 
   useEffect(() => {
     if (isSpinningSnippets) {
-      fetchSnippets();
+      fetchData("snippets");
     }
   }, [isSpinningSnippets]);
 
   useEffect(() => {
     if (isSpinningSkills) {
-      fetchSkills();
+      fetchData("skills");
     }
   }, [isSpinningSkills]);
 
   useEffect(() => {
     if (isSpinningEducation) {
-      fetchEducation();
+      fetchData("education");
     }
   }, [isSpinningEducation]);
 
   useEffect(() => {
     if (isSpinningCompanies) {
-      fetchCompanies();
+      fetchData("companies");
     }
   }, [isSpinningCompanies]);
 
   useEffect(() => {
     if (isSpinningHobbies) {
-      fetchHobbies();
+      fetchData("hobbies");
     }
   }, [isSpinningHobbies]);
 
   useEffect(() => {
     if (isSpinningProjects) {
-      fetchProjects();
+      fetchData("projects");
     }
   }, [isSpinningProjects]);
 
@@ -144,136 +153,62 @@ function HomePage() {
     }
   };
 
-  const fetchIntro = async () => {
-    let response;
-    try {
-      const session = await Auth.currentSession();
-      const token = session.getAccessToken().getJwtToken();
-      response = await API.get("api", "/intro", {
-        headers: {
-          Authorization: `Bearer ${token}`  
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSpinningIntro(false);
-      setLoadingIntro(false);
-      handleUpdateData('intro', response.statements);
+  const fetchData = async (dataType) => {
+    if (dataType === "intro") {
+      const statements = await fetchEducation();
+      if (statements) {
+        setIsSpinningIntro(false);
+        setLoadingIntro(false);
+        handleUpdateData('intro', statements);
+      }
     }
-  };
-
-  const fetchSnippets = async () => {
-    let response;
-    try {
-      const session = await Auth.currentSession();
-      const token = session.getAccessToken().getJwtToken();
-      response = await API.get("api", "/snippets", {
-        headers: {
-          Authorization: `Bearer ${token}`  
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSpinningSnippets(false);
-      setLoadingSnippets(false);
-      handleUpdateData('snippets', response.snippets);
+    if (dataType === "snippets") {
+      const snippets = await fetchSnippets();
+      if (snippets) {
+        setIsSpinningSnippets(false);
+        setLoadingSnippets(false);
+        handleUpdateData('snippets', snippets);
+      }
     }
-  };
-
-  const fetchSkills = async () => {
-    let response;
-    try {
-      const session = await Auth.currentSession();
-      const token = session.getAccessToken().getJwtToken();
-      response = await API.get("api", "/skills", {
-        headers: {
-          Authorization: `Bearer ${token}`  
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSpinningSkills(false);
-      setLoadingSkills(false);
-      handleUpdateData('skills', response.skills);
+    if (dataType === "skills") {
+      const skills = await fetchSkills();
+      if (skills) {
+        setIsSpinningSkills(false);
+        setLoadingSkills(false);
+        handleUpdateData('skills', skills);
+      }
     }
-  };
-
-  const fetchEducation = async () => {
-    let response;
-    try {
-      const session = await Auth.currentSession();
-      const token = session.getAccessToken().getJwtToken();
-      response = await API.get("api", "/education", {
-        headers: {
-          Authorization: `Bearer ${token}`  
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSpinningEducation(false);
-      setLoadingEducation(false);
-      handleUpdateData('education', response.education);
+    if (dataType === "education") {
+      const education = await fetchEducation();
+      if (education) {
+        setIsSpinningEducation(false);
+        setLoadingEducation(false);
+        handleUpdateData('education', education);
+      }
     }
-  };
-
-  const fetchCompanies = async () => {
-    let response;
-    try {
-      const session = await Auth.currentSession();
-      const token = session.getAccessToken().getJwtToken();
-      response = await API.get("api", "/companies", {
-        headers: {
-          Authorization: `Bearer ${token}`  
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSpinningCompanies(false);
-      setLoadingCompanies(false);
-      handleUpdateData('companies', response.companies);
+    if (dataType === "companies") {
+      const companies = await fetchCompanies();
+      if (companies) {
+        setIsSpinningCompanies(false);
+        setLoadingCompanies(false);
+        handleUpdateData('companies', companies);
+      }
     }
-  };
-
-  const fetchHobbies = async () => {
-    let response;
-    try {
-      const session = await Auth.currentSession();
-      const token = session.getAccessToken().getJwtToken();
-      response = await API.get("api", "/hobbies", {
-        headers: {
-          Authorization: `Bearer ${token}`  
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSpinningHobbies(false);
-      setLoadingHobbies(false);
-      handleUpdateData('hobbies', response.hobbies);
+    if (dataType === "hobbies") {
+      const hobbies = await fetchHobbies();
+      if (hobbies) {
+        setIsSpinningHobbies(false);
+        setLoadingHobbies(false);
+        handleUpdateData('hobbies', hobbies);
+      }
     }
-  };
-
-  const fetchProjects = async () => {
-    let response;
-    try {
-      const session = await Auth.currentSession();
-      const token = session.getAccessToken().getJwtToken();
-      response = await API.get("api", "/projects", {
-        headers: {
-          Authorization: `Bearer ${token}`  
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSpinningProjects(false);
-      setLoadingProjects(false);
-      handleUpdateData('projects', response.projects);
+    if (dataType === "projects") {
+      const projects = await fetchProjects();
+      if (projects) {
+        setIsSpinningProjects(false);
+        setLoadingProjects(false);
+        handleUpdateData('projects', projects);
+      }
     }
   };
 
@@ -320,7 +255,7 @@ function HomePage() {
   return (
     <>
       <div className="snippet-container">
-        <ExperienceBanner/>
+        <ExperienceBanner snippetCount={snippetCount}/>
         <div className="snippet-heading">
           <h3>Most Recent Snippets</h3>
           <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningSnippets ? 'spin' : ''}`}
