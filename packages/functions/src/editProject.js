@@ -1,33 +1,33 @@
-import { editIntro } from "@mint/core/database";
+import { editProject } from "@mint/core/database";
 
 export async function main(event) {
   
   try {
 
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
-    const introId = event.pathParameters.introId;
+    const projectId = event.pathParameters.projectId;
 
-    const { description } = JSON.parse(event.body);
+    const body = JSON.parse(event.body); 
 
-    if (!userId || !introId || !description) {
+    if (!userId || !projectId) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing or invalid parameters' })
       };
     }
 
-    const introStatement = await editIntro(userId, introId, description);
+    const project = await editProject(userId, projectId, body.description, body.snippet);
 
-    if (!introStatement) {
+    if (!project) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to update introductory statement record' })
+        body: JSON.stringify({ error: 'Failed to update project record' })
       };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify(introStatement),
+      body: JSON.stringify(project),
     }
   } catch (error) {
     // Error handling logic

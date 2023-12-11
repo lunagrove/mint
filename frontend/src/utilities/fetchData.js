@@ -1,5 +1,32 @@
 import { Auth, API } from "aws-amplify";
 
+const fetchProfile = async () => {
+  let response;
+  try {
+    const session = await Auth.currentSession();
+    const token = session.getAccessToken().getJwtToken();
+    response = await API.get("api", "/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    if (!response.profile) {       
+      const res = await API.post("api", "/user", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: {
+          userId: user.attributes.sub,
+          email: user.attributes.email
+          }
+        });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return response ? response.profile : null;
+};
+
 const fetchIntro = async () => {
   let response;
   try {
@@ -112,4 +139,4 @@ const fetchProjects = async () => {
   return response ? response.projects : null;
 };
   
-export { fetchIntro, fetchSnippets, fetchSkills, fetchEducation, fetchCompanies, fetchHobbies, fetchProjects };
+export { fetchProfile, fetchIntro, fetchSnippets, fetchSkills, fetchEducation, fetchCompanies, fetchHobbies, fetchProjects };

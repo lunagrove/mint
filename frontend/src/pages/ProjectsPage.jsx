@@ -59,6 +59,31 @@ function ProjectsPage() {
         }
     };
 
+    const handleEdit = async (projectId, description, snippet) => {
+        try {
+            await API.put("api", `/project/${projectId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: { description: description,
+                        snippet: snippet }
+            });
+            await updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    projects: prevUserData.projects.map((project) =>
+                        project.projectid === projectId ? { ...project, description: description, snippet: snippet } : project
+                    ),
+                };
+            });
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
     const handleSubmit = async (description, snippet) => {
         try {
             const result = await API.post("api", "/project", {
@@ -160,7 +185,8 @@ function ProjectsPage() {
                         {userData.projects && userData.projects.length > 0 ? (userData.projects.map((item) =>
                             <Project key={item.projectid}
                                      project={item}
-                                     onDelete={handleDelete} />)
+                                     onDelete={handleDelete}
+                                     onEdit={handleEdit} />)
                         ) : (
                         <h2>You have no projects saved. Try adding some projects!</h2>
                         )}

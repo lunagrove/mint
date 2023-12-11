@@ -22,7 +22,6 @@ const EditIntroRow = ({ statement, onDelete, onEdit, editingIntroId, setEditingI
     };
 
     const handleSaveClick = async () => {
-        console.log('new statement value: ', editedDescription);
         await onEdit(statement.introid, editedDescription);
         setIsEditing(false);
         setEditingIntroId(null);

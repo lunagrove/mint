@@ -1,33 +1,33 @@
-import { editIntro } from "@mint/core/database";
+import { editHobby } from "@mint/core/database";
 
 export async function main(event) {
   
   try {
 
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
-    const introId = event.pathParameters.introId;
+    const hobbyId = event.pathParameters.hobbyId;
 
-    const { description } = JSON.parse(event.body);
+    const body = JSON.parse(event.body); 
 
-    if (!userId || !introId || !description) {
+    if (!userId || !hobbyId) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing or invalid parameters' })
       };
     }
 
-    const introStatement = await editIntro(userId, introId, description);
+    const hobby = await editHobby(userId, hobbyId, body.description, body.snippet);
 
-    if (!introStatement) {
+    if (!hobby) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to update introductory statement record' })
+        body: JSON.stringify({ error: 'Failed to update hobby record' })
       };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify(introStatement),
+      body: JSON.stringify(hobby),
     }
   } catch (error) {
     // Error handling logic

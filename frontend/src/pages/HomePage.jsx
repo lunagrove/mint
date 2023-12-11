@@ -8,7 +8,7 @@ import { cardTypes, MAX_SNIPPETS } from "../utilities/constants";
 import { FaSpinner } from "react-icons/fa";
 import { LuRefreshCw } from "react-icons/lu";
 import { useData } from '../utilities/DataContext';
-import { fetchIntro, fetchSnippets, fetchSkills, fetchEducation, fetchCompanies,
+import { fetchProfile, fetchIntro, fetchSnippets, fetchSkills, fetchEducation, fetchCompanies,
          fetchHobbies, fetchProjects } from "../utilities/fetchData";
 
 function HomePage() {
@@ -48,8 +48,8 @@ function HomePage() {
 
   useEffect(() => {
     if (user && !userData.profile.userid) {
-        fetchProfile();
-        fetchIntro();
+        fetchData("profile");
+        fetchData("intro");
         if (userData.snippets && userData.snippets.length === 0) {
           fetchData("snippets");
         }
@@ -73,11 +73,11 @@ function HomePage() {
     if (userData.snippets) {
         setSnippetCount(userData.snippets.length);
     }
-}, [userData.snippets]);
+  }, [userData.snippets]);
 
   useEffect(() => {
     if (isSpinningProfile) {
-      fetchProfile();
+      fetchData("profile");
     }
   }, [isSpinningProfile]);
 
@@ -123,39 +123,17 @@ function HomePage() {
     }
   }, [isSpinningProjects]);
 
-  const fetchProfile = async () => {
-    let response;
-    try {
-      const session = await Auth.currentSession();
-      const token = session.getAccessToken().getJwtToken();
-      response = await API.get("api", "/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      if (!response.profile) {       
-        const res = await API.post("api", "/user", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          body: {
-            userId: user.attributes.sub,
-            email: user.attributes.email
-            }
-          });
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSpinningProfile(false);
-      setLoadingProfile(false);
-      handleUpdateData('profile', response.profile);
-    }
-  };
-
   const fetchData = async (dataType) => {
+    if (dataType === "profile") {
+      const profile = await fetchProfile();
+      if (profile) {
+        setIsSpinningProfile(false);
+        setLoadingProfile(false);
+        handleUpdateData('profile', profile);
+      }
+    }
     if (dataType === "intro") {
-      const statements = await fetchEducation();
+      const statements = await fetchIntro();
       if (statements) {
         setIsSpinningIntro(false);
         setLoadingIntro(false);

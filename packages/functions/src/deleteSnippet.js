@@ -19,7 +19,7 @@ export async function main(event) {
     if (!snippet) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to delete snippet record' })
+        body: JSON.stringify({ error: 'Failed to delete experience record' })
       };
     }
 

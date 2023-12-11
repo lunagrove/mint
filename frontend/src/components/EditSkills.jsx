@@ -122,7 +122,7 @@ const EditSkills = ( {onAdd, onDelete} ) => {
                                     skill.skillid === skillId ? { ...skill, description: description } : skill
                         ));
                   };
-                  updateUserData((prevUserData) => {
+                  await updateUserData((prevUserData) => {
                         return {
                               ...prevUserData,
                               skills: prevUserData.skills.map((skill) =>

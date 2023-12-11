@@ -37,7 +37,7 @@ const AddHobby = ({ onSubmit, onClose }) => {
                 <textarea className="form-textarea"
                           id="snippet" 
                           name="snippet"
-                          rows="4"
+                          rows="5"
                           cols="50"
                           onChange={(e) => handleChange(e, 2)}>
                 </textarea>

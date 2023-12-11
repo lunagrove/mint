@@ -187,7 +187,7 @@ export async function createCompany(userid, companyName, description) {
 
 export async function editCompany(userid, companyid, companyName, description) {
   const res = await getPool().query(`
-  UPDATE company SET companyname = $3, desscription = $4 
+  UPDATE company SET companyname = $3, description = $4 
   WHERE userId = $1
   AND companyid = $2
   RETURNING *
@@ -241,6 +241,16 @@ export async function deleteHobby(userId, hobbyId) {
   return res.rows[0]
 }
 
+export async function editHobby(userid, hobbyid, description, snippet) {
+  const res = await getPool().query(`
+  UPDATE hobby SET description = $3, snippet = $4 
+  WHERE userId = $1
+  AND hobbyid = $2
+  RETURNING *
+  `, [userid, hobbyid, description, snippet])
+  return res.rows[0]
+}
+
 export async function getProjects(userId) {
   const res = await getPool().query(`
   SELECT * FROM project
@@ -269,6 +279,16 @@ export async function deleteProject(userId, projectId) {
   return res.rows[0]
 }
 
+export async function editProject(userid, projectid, description, snippet) {
+  const res = await getPool().query(`
+  UPDATE project SET description = $3, snippet = $4 
+  WHERE userId = $1
+  AND projectid = $2
+  RETURNING *
+  `, [userid, projectid, description, snippet])
+  return res.rows[0]
+}
+
 export async function getSnippets(userId) {
   const res = await getPool().query(`
   SELECT * FROM experience
@@ -294,5 +314,15 @@ export async function deleteSnippet(userId, snippetId) {
   AND experienceid = $2
   RETURNING *
   `, [userId, snippetId])
+  return res.rows[0]
+}
+
+export async function editSnippet(userid, snippetid, snippet) {
+  const res = await getPool().query(`
+  UPDATE experience SET snippet = $3 
+  WHERE userId = $1
+  AND snippetid = $2
+  RETURNING *
+  `, [userid, snippetid, snippet])
   return res.rows[0]
 }

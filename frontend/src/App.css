@@ -1037,7 +1037,7 @@ form {
   text-align: center;
 }
 
-.page-info-institution, .page-info-company {
+.page-info-institution, .page-info-company, .page-info-project {
   display: flex;
   justify-content: flex-start;
   gap: 20px;
@@ -1060,6 +1060,27 @@ form {
 .page-row-exp-icons {
   margin-top: 6px;
   align-items: flex-start;
+}
+
+.page-edit-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-edit-project {
+  width: 450px;
+}
+
+page-edit-info-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-edit-contents {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-right: 10px;
 }
 
 .page-info-heading {
@@ -1204,13 +1225,19 @@ form {
   }
 }
 
+.panel-contents {
+  margin-bottom: 20px;
+}
+
 .panel-contents2 {
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .panel-row {
   background-color: #ebfef0;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   gap: 10px;
 }
@@ -1222,10 +1249,17 @@ form {
   padding: 20px 20px 0 20px;
 }
 
-.add-hobby-form, .add-project-form, .add-snippet-form {
+.add-hobby-form, .add-project-form {
   background-color: #ebfef0;
   height: 285px;
   width: 450px;
+  padding: 20px;
+}
+
+.add-snippet-form {
+  background-color: #ebfef0;
+  height: 285px;
+  width: 100%;
   padding: 20px 20px 0 20px;
 }
 
@@ -1247,7 +1281,7 @@ form {
 }
 
 .snippet-tagging {
-  width: 450px;
+  width: 100%;
   padding: 20px 20px 0 20px;
   border-radius: 5px;
   display: flex;
@@ -1343,7 +1377,6 @@ form {
   .page-info-block {
     width: 100%;
   }
-
 }
 
 @media (min-width: 1200px) {
@@ -1369,6 +1402,21 @@ form {
   .page-row-edit-icons {
     justify-content: space-between;
   }
-  
+
+  .panel-row {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .add-snippet-form {
+    width: 40%;
+  }
+
+  .snippet-tagging {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
