@@ -21,14 +21,14 @@ const CardProjects = () => {
     return (
         <>
             {userData.projects && userData.projects.length > 0 ? (
-                <div className="education-container">
-                    <div className="education-list">
-                        <div className="education-left">
+                <div className="project-container">
+                    <div className="project-list">
+                        <div className="project-left">
                             <ul>
                                 {userData.projects.slice(0, MAX_PROJECTS).map((project, index) => (
-                                    <li key={index} className="education-name">
+                                    <li key={index} className="project-name">
                                         {project.description}
-                                        <ul className="education-group">
+                                        <ul className="project-group">
                                             <li className="project-snippet">
                                                 {project.snippet}
                                             </li>
@@ -37,16 +37,16 @@ const CardProjects = () => {
                                 ))}
                             </ul>
                             {projectsCount > MAX_PROJECTS ? (
-                                <div className="skills-extra">and {projectsCount - MAX_PROJECTS} more...</div>
+                                <div className="projects-extra">and {projectsCount - MAX_PROJECTS} more...</div>
                             ) : null} 
                         </div>
-                        <div className="education-right">
+                        <div className="project-right">
                             <Link to={cardConfig[cardNumber]?.to}>
                                 <BsPencil className="icon-medium edit-icon"/>
                             </Link>
                         </div>     
                     </div>
-                    <div className="education-footer">
+                    <div className="project-footer">
                         <Link to={cardConfig[cardNumber]?.to}>
                             <img
                                 className="plus-button"

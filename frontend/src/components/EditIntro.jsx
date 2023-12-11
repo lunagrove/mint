@@ -126,7 +126,7 @@ const EditIntro = ({ onAdd, onDelete }) => {
 
     return (
         <>
-            <div className="modal-content">
+            <div className="intro-content">
                 <div className="add-intro">
                     <form className="add-intro-form">
                             <h5 className="form-label">Introductory statement</h5>

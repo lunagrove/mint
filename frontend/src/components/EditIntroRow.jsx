@@ -62,7 +62,7 @@ const EditIntroRow = ({ statement, onDelete, onEdit, editingIntroId, setEditingI
                     </div>
                     <div className="intro-container">
                         <h5 className="intro-date">Created on: {formatLongDate(statement.createdon, false)}</h5>
-                        <div className="edit-skill-icons">
+                        <div className="edit-intro-icons2">
                             <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>
                             <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteClick}/>
                         </div>

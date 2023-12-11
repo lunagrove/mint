@@ -21,14 +21,14 @@ const CardHobbies = () => {
     return (
         <>
             {userData.hobbies && userData.hobbies.length > 0 ? (
-                <div className="education-container">
-                    <div className="education-list">
-                        <div className="education-left">
+                <div className="hobby-container">
+                    <div className="hobby-list">
+                        <div className="hobby-left">
                             <ul>
                                 {userData.hobbies.slice(0, MAX_HOBBIES).map((hobby, index) => (
-                                    <li key={index} className="education-name">
+                                    <li key={index} className="hobby-name">
                                         {hobby.description}
-                                        <ul className="education-group">
+                                        <ul className="hobby-group">
                                             <li className="hobby-snippet">
                                                 {hobby.snippet}
                                             </li>
@@ -37,16 +37,16 @@ const CardHobbies = () => {
                                 ))}
                             </ul>
                             {hobbiesCount > MAX_HOBBIES ? (
-                                <div className="skills-extra">and {hobbiesCount - MAX_HOBBIES} more...</div>
+                                <div className="hobbies-extra">and {hobbiesCount - MAX_HOBBIES} more...</div>
                             ) : null} 
                         </div>
-                        <div className="education-right">
+                        <div className="hobby-right">
                             <Link to={cardConfig[cardNumber]?.to}>
                                 <BsPencil className="icon-medium edit-icon"/>
                             </Link>
                         </div>    
                     </div>
-                    <div className="education-footer">
+                    <div className="hobby-footer">
                         <Link to={cardConfig[cardNumber]?.to}>
                             <img
                                 className="plus-button"

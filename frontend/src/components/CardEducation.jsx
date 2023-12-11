@@ -39,7 +39,7 @@ const CardEducation = () => {
                                 ))}
                             </ul>
                             {educationCount > MAX_EDUCATION ? (
-                                <div className="skills-extra">and {educationCount - MAX_EDUCATION} more...</div>
+                                <div className="education-extra">and {educationCount - MAX_EDUCATION} more...</div>
                             ) : null} 
                         </div>
                         <div className="education-right">

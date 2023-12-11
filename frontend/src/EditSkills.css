@@ -1,0 +1,107 @@
+.add-skill {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+  
+.add-skill-button {
+    padding-top: 10px;
+    cursor: pointer;
+}
+  
+.add-skill-button.disabled {
+    opacity: 30%;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+  
+.add-skill-form {
+    width: 100%;
+    margin-bottom: 10px;
+}
+  
+.add-skill-form input[disabled] {
+    opacity: 0.8;
+    background-color: #ffffff;
+    cursor: not-allowed;
+}
+  
+.edit-skills-list {
+    list-style: none;
+    padding: 0;
+}
+  
+.edit-skills-list.center-vertically {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+  
+.edit-skills-list li.center-vertically {
+    list-style: none;
+    text-align: center;
+}
+  
+.edit-skill-row {
+    background-color: white;
+    list-style: none;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 15px 5px 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    position: relative;
+}
+  
+.edit-skill-row.disabled {
+    opacity: 0.7;
+    background-color: #f0f0f0;
+}
+  
+.edit-skill-row.disabled::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1;
+}
+  
+.edit-skill-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;  
+    gap: 5px;
+    position: absolute;
+    right: 10px;
+}
+  
+.skill-input {
+    width: 90%;
+    height: 37px;
+    border: none;
+    padding-right: 5px;
+    position: absolute;
+    top: 0;
+    left: 10px;
+}
+  
+.skill-input:focus-visible {
+    outline: none;
+}
+
+@media (min-width: 768px) {
+
+    .edit-skills-list {
+      max-height: 535px;
+      overflow-y: auto;
+    }
+}

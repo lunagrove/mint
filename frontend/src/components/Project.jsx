@@ -39,7 +39,7 @@ const Project = ({ project, onDelete, onEdit }) => {
     };
 
     return (
-        <div className="page-row page-project-row ">
+        <div className={`page-row page-project-row ${isEditing ? 'open' : 'hide'}`}>
             <div className="page-info-block">
                 <div className="page-info-project">
                     {isEditing ? (

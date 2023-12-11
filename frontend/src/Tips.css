@@ -1,0 +1,33 @@
+.popup {
+    position: absolute;
+    border: 2px solid #f5762a;
+    background-color: #fff; 
+    padding: 10px;
+    cursor: move;
+    max-width: 400px;
+    z-index: 10;
+}
+  
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fcba92;
+    padding: 5px;
+}
+  
+.popup-content {
+    padding: 10px;
+}
+  
+.popup h3, .popup h2 {
+    color: #f5762a;
+}
+  
+.tips-close:hover {
+    cursor: pointer;
+}
+  
+.tips-icon:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,135 @@
+.icon-small {
+    font-size: 15px;
+    color: #01210a;
+}
+  
+.icon-medium {
+    font-size: 20px;
+    color: #01210a;
+}
+  
+.icon-large {
+    font-size: 25px;
+    color: #01210a;
+}
+  
+.icon-xlarge {
+    font-size: 30px;
+    color: #01210a;
+    margin-top: 2px;
+}
+  
+.icon-small:active, .icon-medium:active, .icon-large:active {
+    transform: scale(0.9);
+}
+  
+.icon-margin-right {
+    margin-right: 10px;
+}
+  
+.icon-margin-left {
+    margin-left: 20px;
+}
+  
+.icon-margin-top {
+    margin-top: 33px;
+}
+  
+.icon-button {
+    color: #ebfef0;
+    margin-left: 8px;
+}
+  
+.link-text {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ebfef0;
+}
+  
+.plus-button {
+    width: 80px;
+    height: 80px;
+}
+  
+.plus-button:active {
+    transform: scale(0.9); 
+}
+  
+.plus-button-small {
+    width: 60px;
+    height: 60px;
+}
+  
+.plus-button-large {
+    width: 100px;
+    height: 100px;
+}
+  
+.plus-button-large:active {
+    transform: scale(0.9);
+}
+  
+.plus-button:hover {
+    cursor: pointer;
+}
+  
+.plus-button.disabled {
+    opacity: 30%;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+  
+.mint-leaf-small {
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
+  
+.mint-leaf-medium {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+}
+  
+.mint-leaf-large {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+}
+  
+.edit-icon:hover {
+    cursor: pointer; 
+}
+  
+.refresh-icon:hover {
+    cursor: pointer; 
+}
+  
+.close-icon {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+  
+.save-icon {
+    color: green;
+}
+  
+.save-icon:hover {
+    cursor: pointer;
+}
+  
+.cancel-icon {
+    color: red;
+}
+  
+.cancel-icon:hover {
+    cursor: pointer;
+}
+  
+.close-icon:hover {
+    cursor: pointer;
+    outline: 1px solid #ccc; 
+}

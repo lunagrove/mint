@@ -16,6 +16,24 @@ import ExperiencePage from './pages/ExperiencePage';
 import LoginPage from './pages/LoginPage';
 
 import './App.css';
+import './Amplify.css';
+import './Card.css';
+import './CardProfile.css';
+import './CardSkills.css';
+import './CardEducation.css';
+import './CardCompanies.css';
+import './CardProjects.css';
+import './CardHobbies.css';
+import './EditModal.css';
+import './Form.css';
+import './Tips.css';
+import './Icons.css';
+import './Navbar.css';
+import './Footer.css';
+import './EditIntro.css';
+import './EditSkills.css';
+import './HomePage.css';
+import './EducationPage.css';
 
 const amplifyConfig = {
   Auth: {

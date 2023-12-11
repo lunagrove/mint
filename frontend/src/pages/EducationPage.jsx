@@ -102,16 +102,16 @@ function EducationPage() {
     };
     
     return (
-        <div className="page-content">
-            <div className="page-heading">
+        <div className="education-page-content">
+            <div className="education-page-heading">
                 <IoSchoolOutline className="icon-xlarge icon-margin-right" />
                 <h2>Manage Education ({educationCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningEducation ? 'spin' : ''}`}
                              onClick={handleRefreshEducation} />
             </div>
 
-            <div className={`page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
-                <div className="page-add">
+            <div className={`education-page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="education-page-add">
                     <h2>Add Institution</h2>
                     {!isPanelOpen && (
                         <img
@@ -129,12 +129,12 @@ function EducationPage() {
             </div>
 
             {loadingEducation ? (
-                <div className="page-list page-list-loading">
+                <div className="education-page-list education-page-list-loading">
                     <FaSpinner className="spin icon-large" />
                 </div>
             ) : (
                 <>
-                    <div className="page-list">
+                    <div className="education-page-list">
                         {userData.education && userData.education.length > 0 ? (userData.education.map((item) =>
                             <Education key={item.educationId}
                                        education={item} />)

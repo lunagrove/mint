@@ -21,16 +21,16 @@ const CardCompanies = () => {
     return (
         <>
             {userData.companies && userData.companies.length > 0 ? (
-                <div className="education-container">
-                    <div className="education-list">
-                        <div className="education-left">
+                <div className="companies-container">
+                    <div className="companies-list">
+                        <div className="companies-left">
                             <ul>
                                 {userData.companies.slice(0, MAX_COMPANIES).map((company) => (
-                                    <li key={company.companyId} className="education-name">
+                                    <li key={company.companyId} className="company-name">
                                         {company.companyName}
-                                        <ul className="education-group">
+                                        <ul className="companies-group">
                                             {company.details.map((role) => (
-                                                <li key={role.id} className="education-credential">
+                                                <li key={role.id} className="company-role">
                                                     {role.description}
                                                 </li>
                                             ))}
@@ -39,16 +39,16 @@ const CardCompanies = () => {
                                 ))}
                             </ul>
                             {companiesCount > MAX_COMPANIES ? (
-                                <div className="skills-extra">and {companiesCount - MAX_COMPANIES} more...</div>
+                                <div className="companies-extra">and {companiesCount - MAX_COMPANIES} more...</div>
                             ) : null} 
                         </div>
-                        <div className="education-right">
+                        <div className="companies-right">
                             <Link to={cardConfig[cardNumber]?.to}>
                                 <BsPencil className="icon-medium edit-icon"/>
                             </Link>
                         </div>
                     </div>
-                    <div className="education-footer">
+                    <div className="companies-footer">
                         <Link to={cardConfig[cardNumber]?.to}>
                             <img
                                 className="plus-button"

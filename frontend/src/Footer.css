@@ -1,0 +1,14 @@
+footer {
+    margin-top: auto;
+    height: 154px;
+    width: 100%;
+    background-image: url('./assets/footer-image.png');
+    background-repeat: repeat-x;
+}
+  
+.footer-text {
+    margin-left: 20px;
+    padding-top: 128px;
+    font-size: 0.9em;
+    font-weight: 400;
+}
