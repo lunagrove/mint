@@ -39,37 +39,37 @@ const Project = ({ project, onDelete, onEdit }) => {
     };
 
     return (
-        <div className={`page-row page-project-row ${isEditing ? 'open' : 'hide'}`}>
-            <div className="page-info-block">
-                <div className="page-info-project">
+        <div className={`project-row ${isEditing ? 'open' : 'hide'}`}>
+            <div className="project-info-block">
+                <div className="project-info">
                     {isEditing ? (
-                        <div className="page-edit-block">
+                        <div className="project-edit-block">
                             <h5 className="form-label">Project name</h5>
                             <input
                                 type="text"
-                                className="page-edit-project form-input"
+                                className="edit-project form-input"
                                 value={editedDescription}
                                 onChange={handleDescriptionChange}
                             />
                         </div>
                     ) : (
                         <>
-                            <h3 className="page-info-heading">
+                            <h3 className="project-info-heading">
                                 {project.description}
                             </h3>
-                            <div className="page-edit-icons">
+                            <div className="project-edit-icons">
                                 <BsPencil className="icon-medium edit-icon" onClick={handleEditClick} />
                                 <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteClick} />
                             </div>
                         </>
                     )}
                 </div>
-                <div className="page-info-detail">
-                    <div className="page-edit-info-details">
+                <div className="project-info-detail">
+                    <div className="project-edit-info-details">
                         {isEditing ? (
                             <>
                                 <h5 className="form-label">Description</h5>
-                                <div className="page-edit-contents">
+                                <div className="project-edit-contents">
                                     <textarea className="form-textarea"
                                         id="snippet" 
                                         value={editedSnippet}
@@ -77,14 +77,14 @@ const Project = ({ project, onDelete, onEdit }) => {
                                         cols="120"
                                         onChange={handleSnippetChange}>
                                     </textarea>
-                                    <div className="page-edit-icons">
+                                    <div className="project-edit-icons">
                                         <FiCheckCircle className="icon-large save-icon" onClick={handleSaveClick} />
                                         <MdOutlineCancel className="icon-large cancel-icon" onClick={handleCancelClick} />
                                     </div>
                                 </div>
                             </>
                         ) : (
-                            <h3 className="page-project-description project-snippet" >{project.snippet}</h3>
+                            <h3 className="project-description project-snippet" >{project.snippet}</h3>
                         )}
                     </div>
                 </div>

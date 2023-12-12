@@ -15,14 +15,14 @@ const Experience = ({ snippet, onDelete }) => {
     };
 
     return (
-        <div className="page-row page-exp-row">
-            <div className="page-exp-block">
+        <div className="experience-row">
+            <div className="experience-block">
                 <VscDebugBreakpointLog className="icon-medium snippet-bullet"/>
-                <div className="page-exp-details">
+                <div className="experience-details">
                     <h3 className="experience-snippet" >{snippet.snippet}</h3>
                     <h5 className="experience-date">Created on: {formatLongDate(snippet.createdon, false)}</h5>
                 </div>
-                <div className="page-row-edit-icons page-row-exp-icons">
+                <div className="experience-icons">
                     <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>
                     <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteClick}/>
                 </div>

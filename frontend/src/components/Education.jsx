@@ -23,28 +23,28 @@ const Education = ({ education }) => {
     };
 
     return (
-        <div className="page-row">
-            <div className="page-info-block">
-                <div className="page-info-institution">
-                    <h3 className="page-info-heading">
+        <div className="education-row">
+            <div className="education-info-block">
+                <div className="education-institution">
+                    <h3 className="education-info-heading">
                         {education.institution}
                         {education.location && `, ${education.location}`}</h3>
-                    <div className="page-edit-icons">
+                    <div className="education-edit-icons">
                         <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>
                         <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteClick}/>
                     </div>
                 </div>
-                <div className="page-info-detail">
+                <div className="education-info-detail">
                     
                     {education.details.length > 0 && (education.details.map((item) =>
-                        <div key={item.id} className="page-detail-block">
+                        <div key={item.id} className="education-detail-block">
                             <PiArrowElbowDownRightFill className="icon-xlarge icon-margin-left" />
-                            <div className="page-info-details">
-                                <h3 className="page-info-description" >{item.description}</h3>
-                                <p className="page-info-dates">From: {formatMonthandYear(item.fromdate)}</p>
+                            <div className="education-info-details">
+                                <h3 className="education-info-description" >{item.description}</h3>
+                                <p className="education-info-dates">From: {formatMonthandYear(item.fromdate)}</p>
                                 {item.current ? <p>To: Current</p>
-                                              : <p className="page-info-dates">To: {formatMonthandYear(item.todate)}</p>}
-                                <div className="page-row-edit-icons">
+                                              : <p className="education-info-dates">To: {formatMonthandYear(item.todate)}</p>}
+                                <div className="education-row-edit-icons">
                                     <BsPencil className="icon-medium edit-icon" onClick={handleEditCourseClick}/>
                                     <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteCourseClick}/>
                                 </div>
@@ -54,7 +54,7 @@ const Education = ({ education }) => {
                     )}
                 </div>
             </div>
-            <div className="page-add-detail">
+            <div className="education-add-detail">
                 <img
                     className="plus-button plus-button-small"
                     src="./plus-icon-80x80.png"

@@ -1,0 +1,27 @@
+.hobby-panel-contents {
+    margin-bottom: 20px;
+}
+
+.add-hobby-form {
+    background-color: #ebfef0;
+    height: 285px;
+    width: 450px;
+    padding: 20px;
+}
+
+.hobby-panel-footer {
+    background-color: #ebfef0;
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+
+    .add-hobby-form {
+      width: 600px;
+    }
+  
+}

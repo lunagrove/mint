@@ -1,0 +1,84 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* General styles */
+
+html {
+  overflow-y:scroll;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #ebfef0;
+  font-family: 'Lato', sans-serif;
+  color: #01210a;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 30px;
+}
+
+li {
+  text-align: left;
+}
+
+button {
+  border-radius: 15px;
+  font-size: 1.2em;
+  font-weight: 400;
+  font-family: 'Lato', sans-serif;
+  height: 50px;
+  background-color: #01210a;
+  color: #ebfef0;
+}
+
+.button-icon {
+  width: 160px;
+  height: 45px;
+  color: #ebfef0;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* General page styles */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 246px);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}

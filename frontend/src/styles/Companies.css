@@ -1,0 +1,110 @@
+.company-row {
+    min-height: 110px;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 20px 5px 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+}
+
+.company-info-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.company-info-heading {
+    font-style: italic;
+    font-size: 22px;
+}
+
+.company-info-company {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.company-info-description {
+    width: 70%;
+}
+  
+.company-info-dates {
+    font-weight: normal;
+    width: 70%;
+}
+
+.company-edit-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;  
+    gap: 5px;
+}
+  
+.company-row-edit-icons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;  
+    gap: 5px;
+}
+
+
+.company-add-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 130px;
+}
+  
+.company-add-detail h5 {
+    text-align: center;
+}
+
+.company-info-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+  
+.company-info-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.company-detail-block {
+    display: flex;
+    gap: 15px;
+    margin-left: 10px;
+    margin-top: 10px;
+    align-items: baseline;
+}
+
+@media (min-width: 768px) {
+
+    .company-info-block {
+      width: 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    .company-row-edit-icons {
+      justify-content: space-between;
+    }
+    
+    .company-info-dates {
+        width: 25%;
+    }
+
+    .company-info-details {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

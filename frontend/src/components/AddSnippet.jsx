@@ -58,15 +58,15 @@ const AddSnippet = ({ onSubmit, onClose }) => {
     const isCharacterCountExceeded = characterCount > 300;
 
     return (
-        <div className="panel-contents2">
-            <div className="panel-row">
+        <div className="snippet-panel-contents">
+            <div className="snippet-panel-row">
                 <div className="snippet-tagging">
-                    <div className="add-snippet-heading">
+                    <div className="snippet-add-heading">
                         <h4 className="form-label">Where did you gain this experience?</h4>
                         <IoMdInformationCircleOutline className="icon-large tips-icon"
                                                     onClick={(e) => openTips(e, 0)} />
                     </div>
-                    <div className="add-snippet-tags"> 
+                    <div className="snippet-add-tags"> 
                         {/* {selectSkills && <Select closeMenuOnSelect={false}
                                                  components={animatedComponents}
                                                  isMulti
@@ -74,8 +74,8 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                                                  blurInputOnSelect={false} />} */}
                     </div>
                 </div>
-                <form className="add-snippet-form">
-                    <div className="add-snippet-heading">
+                <form className="snippet-add-form">
+                    <div className="snippet-add-heading">
                         <h4 className="form-label">Describe your experience</h4>
                         <IoMdInformationCircleOutline className="icon-large tips-icon"
                                                     onClick={(e) => openTips(e, 1)} />
@@ -94,12 +94,12 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                     <h4 className={`character-count ${isCharacterCountExceeded ? 'exceeded' : ''}`}>{characterCount} / 300</h4>
                 </form>
                 <div className="snippet-tagging">
-                    <div className="add-snippet-heading">
+                    <div className="snippet-add-heading">
                         <h4 className="form-label">Skills demonstrated</h4>
                         <IoMdInformationCircleOutline className="icon-large tips-icon"
                                                       onClick={(e) => openTips(e, 1)} />
                     </div>
-                    <div className="add-snippet-tags"> 
+                    <div className="snippet-add-tags"> 
                         {selectSkills && <Select closeMenuOnSelect={false}
                                                  components={animatedComponents}
                                                  isMulti
@@ -108,7 +108,7 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                     </div>
                 </div>
             </div>
-            <div className="panel-footer">
+            <div className="snippet-panel-footer">
                 <button type="submit"
                         className="formbutton focused"
                         id="submitBtn"

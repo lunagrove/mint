@@ -129,16 +129,16 @@ function ExperiencePage() {
     };
   
     return (
-        <div className="page-content">
-            <div className="page-heading">
+        <div className="experience-page-content">
+            <div className="experience-page-heading">
                 <img className="mint-leaf-medium" src="./Mint-leaf-transparent.png" alt="<Mint leaf>"/>
                 <h2>Manage Experience ({snippetCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningSnippets ? 'spin' : ''}`}
                              onClick={handleRefreshSnippets} />
             </div>
 
-            <div className={`page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
-                <div className="page-add">
+            <div className={`experience-page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="experience-page-add">
                     <h2>Add Snippet</h2>
                     {!isPanelOpen && (
                         <img
@@ -156,12 +156,12 @@ function ExperiencePage() {
             </div>
 
             {loadingSnippets ? (
-                <div className="page-list page-list-loading">
+                <div className="experience-page-list experience-page-list-loading">
                     <FaSpinner className="spin icon-large" />
                 </div>
             ) : (
                 <>
-                    <div className="page-list">
+                    <div className="experience-page-list">
                         {userData.snippets && userData.snippets.length > 0 ? (userData.snippets.map((item) =>
                             <Experience key={item.experienceid}
                                         snippet={item}

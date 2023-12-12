@@ -25,7 +25,7 @@ const AddProject = ({ onSubmit, onClose }) => {
     };
 
     return (
-        <div className="panel-contents">
+        <div className="project-panel-contents">
             <form className="add-project-form">
                 <h5 className="form-label">Project name</h5>
                 <input type="text"
@@ -42,7 +42,7 @@ const AddProject = ({ onSubmit, onClose }) => {
                           onChange={(e) => handleChange(e, 2)}>
                 </textarea>
             </form>
-            <div className="panel-footer">
+            <div className="project-panel-footer">
                 <button type="submit"
                         className="formbutton focused"
                         id="submitBtn"

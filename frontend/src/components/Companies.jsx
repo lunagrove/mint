@@ -23,29 +23,29 @@ const Companies = ({ company }) => {
     };
 
     return (
-        <div className="page-row">
-            <div className="page-info-block"> 
-                <div className="page-info-header">
-                    <div className="page-info-company">
-                        <h3 className="page-info-heading">
+        <div className="company-row">
+            <div className="company-info-block"> 
+                <div className="company-info-header">
+                    <div className="company-info-company">
+                        <h3 className="company-info-heading">
                             {company.companyName}</h3>
-                        <div className="page-edit-icons">
+                        <div className="company-edit-icons">
                             <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>
                             <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteClick}/>
                         </div>
                     </div>
                     <h4>{company.description}</h4>
                 </div>
-                <div className="page-info-detail">
+                <div className="company-info-detail">
                     {company.details.length > 0 && (company.details.map((item) =>
-                        <div key={item.id} className="page-detail-block">
+                        <div key={item.id} className="education-detail-block">
                             <PiArrowElbowDownRightFill className="icon-xlarge icon-margin-left" />
-                            <div className="page-info-details">                           
-                                <h3 className="page-info-description" >{item.description}</h3>
-                                <p className="page-info-dates">From: {formatMonthandYear(item.fromdate)}</p>
+                            <div className="company-info-details">                           
+                                <h3 className="company-info-description" >{item.description}</h3>
+                                <p className="company-info-dates">From: {formatMonthandYear(item.fromdate)}</p>
                                 {item.current ? <p>To: Current</p>
-                                              : <p className="page-info-dates">To: {formatMonthandYear(item.todate)}</p>}
-                                <div className="page-row-edit-icons">
+                                              : <p className="company-info-dates">To: {formatMonthandYear(item.todate)}</p>}
+                                <div className="company-row-edit-icons">
                                     <BsPencil className="icon-medium edit-icon" onClick={handleEditRoleClick}/>
                                     <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteRoleClick}/>
                                 </div>
@@ -55,7 +55,7 @@ const Companies = ({ company }) => {
                     )}
                 </div>   
             </div>
-            <div className="page-add-detail">
+            <div className="company-add-detail">
                 <img
                     className="plus-button plus-button-small"
                     src="./plus-icon-80x80.png"

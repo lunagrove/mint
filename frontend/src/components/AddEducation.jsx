@@ -25,7 +25,7 @@ const AddEducation = ({ onSubmit, onClose }) => {
     };
 
     return (
-        <div className="panel-contents">
+        <div className="education-panel-contents">
             <form className="add-institution-form">
                 <h5 className="form-label">Institution name</h5>
                 <input type="text"
@@ -41,7 +41,7 @@ const AddEducation = ({ onSubmit, onClose }) => {
                         autoComplete="off"
                         onChange={(e) => handleChange(e, 2)} />
             </form>
-            <div className="panel-footer">
+            <div className="education-panel-footer">
                 <button type="submit"
                         className="formbutton focused"
                         id="submitBtn"

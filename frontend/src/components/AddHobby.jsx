@@ -25,7 +25,7 @@ const AddHobby = ({ onSubmit, onClose }) => {
     };
 
     return (
-        <div className="panel-contents">
+        <div className="hobby-panel-contents">
             <form className="add-hobby-form">
                 <h5 className="form-label">Hobby name</h5>
                 <input type="text"
@@ -42,7 +42,7 @@ const AddHobby = ({ onSubmit, onClose }) => {
                           onChange={(e) => handleChange(e, 2)}>
                 </textarea>
             </form>
-            <div className="panel-footer">
+            <div className="hobby-panel-footer">
                 <button type="submit"
                         className="formbutton focused"
                         id="submitBtn"

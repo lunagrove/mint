@@ -149,16 +149,16 @@ function ProjectsPage() {
     };
   
     return (
-        <div className="page-content">
-            <div className="page-heading">
+        <div className="projects-page-content">
+            <div className="projects-page-heading">
                 <HiOutlineClipboardDocumentList className="icon-xlarge icon-margin-right" />
                 <h2>Manage Side Projects ({projectsCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningProjects ? 'spin' : ''}`}
                              onClick={handleRefreshProjects} />
             </div>
 
-            <div className={`page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
-                <div className="page-add">
+            <div className={`projects-page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="projects-page-add">
                     <h2>Add Side Project</h2>
                     {!isPanelOpen && (
                         <img
@@ -176,12 +176,12 @@ function ProjectsPage() {
             </div>
 
             {loadingProjects ? (
-                <div className="page-list page-list-loading">
+                <div className="projects-page-list projects-page-list-loading">
                     <FaSpinner className="spin icon-large" />
                 </div>
             ) : (
                 <>
-                    <div className="page-list">
+                    <div className="projects-page-list">
                         {userData.projects && userData.projects.length > 0 ? (userData.projects.map((item) =>
                             <Project key={item.projectid}
                                      project={item}

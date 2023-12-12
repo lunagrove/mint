@@ -102,16 +102,16 @@ function CompaniesPage() {
     };
   
     return (
-        <div className="page-content">
-            <div className="page-heading">
+        <div className="companies-page-content">
+            <div className="companies-page-heading">
                 <BsBriefcase className="icon-xlarge icon-margin-right" />
                 <h2>Manage Companies and Roles ({companiesCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningCompanies ? 'spin' : ''}`}
                              onClick={handleRefreshCompanies} />
             </div>
 
-            <div className={`page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
-                <div className="page-add">
+            <div className={`companies-page-panel ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="companies-page-add">
                     <h2>Add Company</h2>
                     {!isPanelOpen && (
                         <img
@@ -129,12 +129,12 @@ function CompaniesPage() {
             </div>
 
             {loadingCompanies ? (
-                <div className="page-list page-list-loading">
+                <div className="companies-page-list companies-page-list-loading">
                     <FaSpinner className="spin icon-large" />
                 </div>
             ) : (
                 <>
-                    <div className="page-list">
+                    <div className="companies-page-list">
                         {userData.companies && userData.companies.length > 0 ? (userData.companies.map((item) =>
                             <Companies key={item.companyId}
                                        company={item} />)

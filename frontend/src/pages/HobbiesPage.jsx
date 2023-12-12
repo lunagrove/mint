@@ -124,16 +124,16 @@ function HobbiesPage() {
     };
   
     return (
-        <div className="page-content">
-            <div className="page-heading">
+        <div className="hobbies-page-content">
+            <div className="hobbies-page-heading">
                 <GrGroup className="icon-xlarge icon-margin-right" />
                 <h2>Manage Hobbies and Clubs ({hobbiesCount})</h2>
                 <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningHobbies ? 'spin' : ''}`}
                              onClick={handleRefreshHobbies} />
             </div>
 
-            {<div className={`page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
-                <div className="page-add">
+            {<div className={`hobbies-page-panel2 ${isPanelOpen ? 'open' : 'hide'}`}>
+                <div className="hobbies-page-add">
                     <h2>Add Hobby or Club</h2>
                     {!isPanelOpen && (
                         <img
@@ -151,12 +151,12 @@ function HobbiesPage() {
             </div>}
         
             {loadingHobbies ? (
-                <div className="page-list page-list-loading">
+                <div className="hobbies-page-list hobbies-page-list-loading">
                     <FaSpinner className="spin icon-large" />
                 </div>
             ) : (
                 <>
-                    <div className="page-list">
+                    <div className="hobbies-page-list">
                         {userData.hobbies && userData.hobbies.length > 0 ? (userData.hobbies.map((item) =>
                             <Hobby key={item.hobbyid}
                                    hobby={item}

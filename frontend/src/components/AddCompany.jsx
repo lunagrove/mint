@@ -25,7 +25,7 @@ const AddCompany = ({ onSubmit, onClose }) => {
     };
 
     return (
-        <div className="panel-contents">
+        <div className="company-panel-contents">
             <form className="add-company-form">
                 <h5 className="form-label">Company name</h5>
                 <input type="text"
@@ -41,7 +41,7 @@ const AddCompany = ({ onSubmit, onClose }) => {
                         autoComplete="off"
                         onChange={(e) => handleChange(e, 2)} />
             </form>
-            <div className="panel-footer">
+            <div className="company-panel-footer">
                 <button type="submit"
                         className="formbutton focused"
                         id="submitBtn"

@@ -1,0 +1,82 @@
+.snippet-panel-contents {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.snippet-panel-row {
+    background-color: #ebfef0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.snippet-add-form {
+    background-color: #ebfef0;
+    height: 285px;
+    width: 100%;
+    padding: 20px 20px 0 20px;
+}
+  
+.snippet-add-heading {
+    display: flex;
+    gap: 5px;
+}
+
+.snippet-tagging {
+    width: 100%;
+    padding: 20px 20px 0 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+  
+.snippet-add-tags {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #01210a;
+    padding: 10px;
+}
+
+.snippet-panel-footer {
+    background-color: #ebfef0;
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.character-count {
+    padding: 3px 0 0 3px;
+    font-weight: normal;
+    color: black;
+}
+  
+.character-count.exceeded {
+    padding: 3px 0 0 3px;
+    font-weight: normal;
+    color: red;
+}
+
+@media (min-width: 1200px) {
+    
+    .snippet-panel-row {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 10px;
+    }
+  
+    .snippet-add-form {
+      width: 40%;
+    }
+  
+    .snippet-tagging {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+    }
+}

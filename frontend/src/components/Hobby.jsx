@@ -13,20 +13,20 @@ const Hobby = ({ hobby, onDelete }) => {
     };
 
     return (
-        <div className="page-row page-hobby-row">
-            <div className="page-info-block">
-                <div className="page-info-institution">
-                    <h3 className="page-info-heading">
+        <div className="hobby-row">
+            <div className="hobby-info-block">
+                <div className="hobby-info">
+                    <h3 className="hobby-info-heading">
                         {hobby.description}
                     </h3>
-                    <div className="page-edit-icons">
+                    <div className="hobby-edit-icons">
                         <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>
                         <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteClick}/>
                     </div>
                 </div>
-                <div className="page-info-detail">
-                    <div className="page-info-details">
-                        <h3 className="page-hobby-description hobby-snippet" >{hobby.snippet}</h3>
+                <div className="hobby-info-detail">
+                    <div className="hobby-info-details">
+                        <h3 className="hobby-description hobby-snippet" >{hobby.snippet}</h3>
                     </div>
                         
                 </div>
