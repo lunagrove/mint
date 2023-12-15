@@ -83,4 +83,5 @@
 .snippet-text {
     flex: 1;
     white-space: pre-wrap;
+    font-weight: normal;
 }

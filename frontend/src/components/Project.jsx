@@ -74,7 +74,7 @@ const Project = ({ project, onDelete, onEdit }) => {
                                         id="snippet" 
                                         value={editedSnippet}
                                         rows="2"
-                                        cols="120"
+                                        cols="160"
                                         onChange={handleSnippetChange}>
                                     </textarea>
                                     <div className="project-edit-icons">
