@@ -4,7 +4,6 @@
 }
 
 .project-row {
-    min-height: 110px;
     background-color: white;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     margin-top: 5px;
@@ -13,18 +12,23 @@
     display: flex;
     width: 100%;
     gap: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
   
 .project-row.open {
     justify-content: flex-start;
-    height: 230px;
+    height: 240px;
     z-index: 1;
+    overflow: hidden;
     animation: slideDown3 0.5s ease forwards;
 }
   
 .project-row.hide {
     justify-content: center;
     min-height: 110px;
+    flex: 1;
     z-index: 1;
     animation: slideUp3 0.5s ease forwards;
 }
@@ -34,24 +38,17 @@
         height: 110px; 
     }
     to {
-        height: 230px; 
+        height: 240px; 
     }
 }
 
 @keyframes slideUp3 {
     from {
-        height: 230px; 
+        height: 240px; 
     }
     to {
         height: 110px; 
     }
-}
-
-.project-info-block {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 100%;
 }
 
 .project-description {

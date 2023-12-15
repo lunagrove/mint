@@ -4,29 +4,51 @@
 }
 
 .hobby-row {
-    min-height: 110px;
     background-color: white;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     margin-top: 5px;
     margin-bottom: 10px;
     padding: 20px 20px 20px 20px;
     display: flex;
-    justify-content: space-between;
     width: 100%;
     gap: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-.hobby-info {
-    display: flex;
+.hobby-row.open {
     justify-content: flex-start;
-    gap: 20px;
+    height: 240px;
+    z-index: 1;
+    overflow: hidden;
+    animation: slideDown4 0.5s ease forwards;
+}
+  
+.hobby-row.hide {
+    justify-content: center;
+    min-height: 110px;
+    flex: 1;
+    z-index: 1;
+    animation: slideUp4 0.5s ease forwards;
 }
 
-.hobby-edit-icons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;  
-    gap: 5px;
+@keyframes slideDown4 {
+    from {
+        height: 110px; 
+    }
+    to {
+        height: 240px; 
+    }
+}
+
+@keyframes slideUp4 {
+    from {
+        height: 240px; 
+    }
+    to {
+        height: 110px; 
+    }
 }
 
 .hobby-description {
@@ -38,34 +60,50 @@
     font-style: normal;
 }
 
+.hobby-edit-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;  
+    gap: 5px;
+}
+
+.hobby-edit-contents {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.hobby-info {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.hobby-edit-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-hobby {
+    width: 400px;
+}
+
 .hobby-info-detail {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding-bottom: 10px;
 }
   
-.hobby-info-details {
+.hobby-edit-info-details {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    width: 100%;
 }
-
 
 @media (min-width: 768px) {
   
-    .hobby-info-block {
-      width: 100%;
+    .edit-hobby {
+        width: 450px;
     }
-}
-
-@media (min-width: 1200px) {
-  
-    .hobby-info-details {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-
 }

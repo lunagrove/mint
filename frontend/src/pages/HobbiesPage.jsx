@@ -59,6 +59,31 @@ function HobbiesPage() {
         }
     };
 
+    const handleEdit = async (hobbyId, description, snippet) => {
+        try {
+            await API.put("api", `/hobby/${hobbyId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: { description: description,
+                        snippet: snippet }
+            });
+            await updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    hobbies: prevUserData.hobbies.map((hobby) =>
+                    hobby.hobbyid === hobbyId ? { ...hobby, description: description, snippet: snippet } : hobby
+                    ),
+                };
+            });
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
     const handleSubmit = async (description, snippet) => {
         try {
             const result = await API.post("api", "/hobby", {
@@ -160,7 +185,8 @@ function HobbiesPage() {
                         {userData.hobbies && userData.hobbies.length > 0 ? (userData.hobbies.map((item) =>
                             <Hobby key={item.hobbyid}
                                    hobby={item}
-                                   onDelete={handleDelete} />)
+                                   onDelete={handleDelete}
+                                   onEdit={handleEdit} />)
                         ) : (
                         <h2>You have no hobbies or clubs saved. Try adding some hobbies or clubs!</h2>
                         )}
