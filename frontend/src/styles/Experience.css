@@ -43,4 +43,9 @@
     gap: 5px;
     margin-top: 6px;
     align-items: flex-start;
-  }
+}
+
+.experience-skills {
+    display: flex;
+    flex-wrap: wrap;
+}
