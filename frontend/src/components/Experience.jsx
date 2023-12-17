@@ -11,20 +11,20 @@ const Experience = ({ snippet, onDelete }) => {
 
     useEffect(() => {
         let experienceTags = [];
-        if (snippet.roleIds) {
-            experienceTags.push(snippet.roleIds);
+        if (snippet.roles && snippet.roles.length > 0) {
+            experienceTags.push(snippet.roles);
         }
-        if (snippet.courseIds) {
-            experienceTags.push(snippet.courseIds);
+        if (snippet.courses && snippet.courses.length > 0) {
+            experienceTags.push(snippet.courses);
         }
-        if (snippet.credentialIds) {
-            experienceTags.push(snippet.credentialIds);
+        if (snippet.credentials && snippet.credentials.length > 0) {
+            experienceTags.push(snippet.credentials);
         }
-        if (snippet.hobbyIds) {
-            experienceTags.push(snippet.hobbyIds);
+        if (snippet.hobbies && snippet.hobbies.length > 0) {
+            experienceTags.push(snippet.hobbies);
         }
-        if (snippet.projectIds) {
-            experienceTags.push(snippet.projectIds);
+        if (snippet.projects && snippet.projects.length > 0) {
+            experienceTags.push(snippet.projects);
         }
         setTags(experienceTags);
     }, []);
@@ -43,21 +43,21 @@ const Experience = ({ snippet, onDelete }) => {
                 <VscDebugBreakpointLog className="icon-medium snippet-bullet"/>
                 <div className="experience-details">
                     <h3 className="experience-snippet" >{snippet.snippet}</h3>
-                    <h5 className="experience-date">Created on: {formatLongDate(snippet.createdon, false)}</h5>
                     <div className="experience-skills">
-                        {snippet.skillIds && snippet.skillIds.length > 0 && snippet.skillIds.map((skill, index) => (
-                            <div key={index} className="skill-rectangle">
+                        {snippet.skills && snippet.skills.length > 0 && snippet.skills.map((skill) => (
+                            <div key={skill.id} className="tag-rectangle">
                                 {skill.description}
                             </div>
                         ))}
                     </div>
                     <div className="experience-tags">
-                        {tags && tags.length > 0 && tags.map((tag, index) => (
-                            <div key={index} className="skill-rectangle">
-                                {tag}
+                        {tags && tags.length > 0 && tags.map((tag) => (
+                            <div key={tag.id} className="tag-rectangle2">
+                                {tag.description}
                             </div>
                         ))}
                     </div>
+                    <h5 className="experience-date">Created on: {formatLongDate(snippet.createdOn, false)}</h5>
                 </div>
                 <div className="experience-icons">
                     <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>

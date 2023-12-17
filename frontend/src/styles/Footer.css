@@ -2,7 +2,7 @@ footer {
     margin-top: auto;
     height: 154px;
     width: 100%;
-    background-image: url('./assets/footer-image.png');
+    background-image: url('../assets/footer-image.png');
     background-repeat: repeat-x;
 }
   

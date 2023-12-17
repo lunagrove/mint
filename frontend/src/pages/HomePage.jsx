@@ -42,9 +42,9 @@ function HomePage() {
     }));
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     console.log('userData after update: ', userData);
-  }, [userData]); */
+  }, [userData]);
 
   useEffect(() => {
     if (user && !userData.profile.userid) {
@@ -249,7 +249,7 @@ function HomePage() {
             <> 
               {userData.snippets && userData.snippets.length > 0 ? (
                 userData.snippets.slice(0, MAX_SNIPPETS).map((snippet) =>
-                  <Snippet key={snippet.experienceid}
+                  <Snippet key={snippet.experienceId}
                             snippet={snippet} />)
               ) : (
                 <h2>You have no snippets saved. Try adding some snippets!</h2>

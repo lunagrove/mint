@@ -56,7 +56,7 @@ const fetchSnippets = async () => {
   } catch (error) {
     console.log(error);
   }
-  return response ? response.snippets : null;
+  return response ? response.experience : null;
 };
 
 const fetchSkills = async () => {

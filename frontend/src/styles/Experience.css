@@ -33,7 +33,7 @@
 }
   
 .experience-date {
-    margin: 10px 0;
+    margin: 10px 0 0;
     font-weight: normal;
 }
 
@@ -48,4 +48,20 @@
 .experience-skills {
     display: flex;
     flex-wrap: wrap;
+}
+
+.tag-rectangle {
+    background-color: #e0e0e0; 
+    padding: 5px 10px;
+    margin: 5px 10px 5px 0;
+    border-radius: 5px;
+    min-height: 35px;
+}
+
+.tag-rectangle2 {
+    background-color: #fcba92; 
+    padding: 5px 10px;
+    margin: 5px 10px 5px 0;
+    border-radius: 5px;
+    min-height: 35px;
 }

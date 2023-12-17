@@ -24,6 +24,14 @@ export async function main(event) {
       };
     }
 
+    if (body.skills && body.skills.length > 0) {
+      
+    }
+
+    if (body.tags && body.tags.length > 0) {
+        
+    }
+
     return {
       statusCode: 200,
       body: JSON.stringify({ snippet: snippet}),

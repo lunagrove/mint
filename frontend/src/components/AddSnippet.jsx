@@ -10,7 +10,10 @@ const AddSnippet = ({ onSubmit, onClose }) => {
 
     const { userData, updateUserData } = useData();
 
-    const [selectSkills, setSelectSkills] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [selectedSkills, setSelectedSkills] = useState([]);
+    const [tags, setTags] = useState([]);
+    const [selectedTags, setSelectedTags] = useState([]);
 
     const [snippet, setSnippet] = useState('');
     const [isTipsOpen, setIsTipsOpen] = useState(false);
@@ -25,16 +28,61 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                 value: skill.skillid,
                 label: skill.description
             }));
-            setSelectSkills(formattedSkills);
+            setSkills(formattedSkills);
         }
     }, [userData.skills]);
+
+    useEffect(() => {
+        let experienceTags = [];
+        if (userData.companies.details && userData.companies.details.length > 0) {
+            userData.companies.details.forEach(company => {
+                if (company.details && company.details.length > 0) {
+                    company.details.forEach(role => {
+                        experienceTags.push({
+                            value: `${role.id}+role`,
+                            label: role.description
+                        });
+                    });
+                }
+            });
+        }
+        if (userData.education.details && userData.education.details.length > 0) {
+            userData.education.details.forEach(institution => {
+                if (institution.details && institution.details.length > 0) {
+                    institution.details.forEach(course => {
+                        experienceTags.push({
+                            value: `${course.id}+course`,
+                            label: course.description
+                        });
+                    });
+                }
+            });
+        }
+        if (userData.hobbies && userData.hobbies.length > 0) {
+            userData.hobbies.forEach(hobby => {
+                experienceTags.push({
+                    value: `${hobby.hobbyid}+hobby`,
+                    label: hobby.description
+                });
+            });
+        }
+        if (userData.projects && userData.projects.length > 0) {
+            userData.projects.forEach(project => {
+                experienceTags.push({
+                    value: `${project.projectid}+project`,
+                    label: project.description
+                });
+            });
+        }
+        setTags(experienceTags);
+    }, []);
 
     const handleChange = (e) => {
         setSnippet(e.target.value);    
     };
 
     const handleSubmit = () => {
-        onSubmit(snippet);
+        onSubmit(snippet, selectedSkills, selectedTags);
         handleClose();
     };
 
@@ -67,11 +115,15 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                                                     onClick={(e) => openTips(e, 0)} />
                     </div>
                     <div className="snippet-add-tags"> 
-                        {/* {selectSkills && <Select closeMenuOnSelect={false}
-                                                 components={animatedComponents}
-                                                 isMulti
-                                                 options={selectSkills}
-                                                 blurInputOnSelect={false} />} */}
+                        {tags && <Select closeMenuOnSelect={false}
+                                         components={animatedComponents}
+                                         isMulti={true}
+                                         options={tags}
+                                         blurInputOnSelect={false}
+                                         id="tags"
+                                         maxMenuHeight={160}
+                                         menuPlacement={"auto"}
+                                         onChange={setSelectedTags} />}
                     </div>
                 </div>
                 <form className="snippet-add-form">
@@ -100,11 +152,15 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                                                       onClick={(e) => openTips(e, 1)} />
                     </div>
                     <div className="snippet-add-tags"> 
-                        {selectSkills && <Select closeMenuOnSelect={false}
+                        {skills && <Select closeMenuOnSelect={false}
                                                  components={animatedComponents}
-                                                 isMulti
-                                                 options={selectSkills}
-                                                 blurInputOnSelect={false} />}
+                                                 isMulti={true}
+                                                 options={skills}
+                                                 blurInputOnSelect={false}
+                                                 id="skills"
+                                                 maxMenuHeight={160}
+                                                 menuPlacement={"auto"}
+                                                 onChange={setSelectedSkills} />}
                     </div>
                 </div>
             </div>

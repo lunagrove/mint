@@ -7,7 +7,8 @@ import IconButton from "../components/IconButton";
 import Experience from "../components/Experience";
 import AddSnippet from '../components/AddSnippet';
 import { useData } from '../utilities/DataContext';
-import { fetchSnippets, fetchSkills } from "../utilities/fetchData";
+import { fetchSnippets, fetchSkills, fetchEducation, fetchCompanies,
+         fetchHobbies, fetchProjects } from "../utilities/fetchData";
 
 function ExperiencePage() {
 
@@ -26,6 +27,18 @@ function ExperiencePage() {
         }  
         if (user && userData.skills && userData.skills.length === 0) {
             fetchData("skills");
+        }
+        if (user && userData.hobbies && userData.hobbies.length === 0) {
+            fetchData("hobbies");
+        }
+        if (user && userData.projects && userData.projects.length === 0) {
+            fetchData("projects");
+        }
+        if (user && userData.companies && userData.companies.length === 0) {
+            fetchData("companies");
+        }
+        if (user && userData.education && userData.education.length === 0) {
+            fetchData("education");
         }  
     }, []);
 
@@ -52,7 +65,7 @@ function ExperiencePage() {
             await updateUserData((prevUserData) => {
                 return {
                     ...prevUserData,
-                    snippets: prevUserData.snippets.filter(snippet => snippet.experienceid !== snippetId),
+                    snippets: prevUserData.snippets.filter(snippet => snippet.experienceId !== snippetId),
                 };
             });  
         }
@@ -61,7 +74,7 @@ function ExperiencePage() {
         }
     };
 
-    const handleSubmit = async (snippet) => {
+    const handleSubmit = async (snippet, skills, tags) => {
         try {
             const result = await API.post("api", "/snippet", {
                 headers: {
@@ -70,7 +83,9 @@ function ExperiencePage() {
                     .getJwtToken()}`,
                 },
                 body: {
-                    snippet: snippet
+                    snippet: snippet,
+                    skills: skills,
+                    tags: tags
             }
             });
             if (result) {
@@ -121,6 +136,30 @@ function ExperiencePage() {
             handleUpdateData('skills', skills);
           }
         }
+        if (dataType === "education") {
+            const education = await fetchEducation();
+            if (education) {
+              handleUpdateData('education', education);
+            }
+        }
+        if (dataType === "companies") {
+            const companies = await fetchCompanies();
+            if (companies) {
+              handleUpdateData('companies', companies);
+            }
+        }
+        if (dataType === "hobbies") {
+            const hobbies = await fetchHobbies();
+            if (hobbies) {
+              handleUpdateData('hobbies', hobbies);
+            }
+        }
+        if (dataType === "projects") {
+            const projects = await fetchProjects();
+            if (projects) {
+              handleUpdateData('projects', projects);
+            }
+        }
     };
 
     const handleRefreshSnippets = () => {
@@ -163,7 +202,7 @@ function ExperiencePage() {
                 <>
                     <div className="experience-page-list">
                         {userData.snippets && userData.snippets.length > 0 ? (userData.snippets.map((item) =>
-                            <Experience key={item.experienceid}
+                            <Experience key={item.experienceId}
                                         snippet={item}
                                         onDelete={handleDelete} />)
                         ) : (

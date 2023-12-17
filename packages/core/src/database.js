@@ -326,3 +326,63 @@ export async function editSnippet(userid, snippetid, snippet) {
   `, [userid, snippetid, snippet])
   return res.rows[0]
 }
+
+export async function getExperienceSkills(userId, experienceId) {
+  const res = await getPool().query(`
+  SELECT e.skillid, s.description FROM experienceskill e
+  JOIN skill s ON s.skillid = e.skillid
+  WHERE e.userid = $1
+  AND e.experienceid = $2
+  `, [userId, experienceId]);
+  return res.rows; 
+}
+
+export async function getExperienceRoles(userId, experienceId) {
+  const res = await getPool().query(`
+  SELECT e.roleid, r.description FROM experiencerole e
+  JOIN role r ON r.roleid = e.roleid
+  WHERE e.userid = $1
+  AND e.experienceid = $2
+  `, [userId, experienceId]);
+  return res.rows; 
+}
+
+export async function getExperienceHobbies(userId, experienceId) {
+  const res = await getPool().query(`
+  SELECT e.hobbyid, h.description FROM experiencehobby e
+  JOIN hobby h ON h.hobbyid = e.hobbyid
+  WHERE e.userid = $1
+  AND e.experienceid = $2
+  `, [userId, experienceId]);
+  return res.rows; 
+}
+
+export async function getExperienceProjects(userId, experienceId) {
+  const res = await getPool().query(`
+  SELECT e.projectid, p.description FROM experienceproject e
+  JOIN project p ON p.projectid = e.projectid
+  WHERE e.userid = $1
+  AND e.experienceid = $2
+  `, [userId, experienceId]);
+  return res.rows; 
+}
+
+export async function getExperienceCourses(userId, experienceId) {
+  const res = await getPool().query(`
+  SELECT e.courseid, c.description FROM experiencecourse e
+  JOIN course c ON c.courseid = e.courseid
+  WHERE e.userid = $1
+  AND e.experienceid = $2
+  `, [userId, experienceId]);
+  return res.rows; 
+}
+
+export async function getExperienceCredentials(userId, experienceId) {
+  const res = await getPool().query(`
+  SELECT e.credentialid, c.description FROM experiencecredential e
+  JOIN credential c ON c.credentialid = e.credentialid
+  WHERE e.userid = $1
+  AND e.experienceid = $2
+  `, [userId, experienceId]);
+  return res.rows; 
+}
