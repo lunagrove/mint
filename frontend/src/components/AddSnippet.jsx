@@ -34,48 +34,57 @@ const AddSnippet = ({ onSubmit, onClose }) => {
 
     useEffect(() => {
         let experienceTags = [];
-        if (userData.companies.details && userData.companies.details.length > 0) {
-            userData.companies.details.forEach(company => {
-                if (company.details && company.details.length > 0) {
-                    company.details.forEach(role => {
-                        experienceTags.push({
-                            value: `${role.id}+role`,
-                            label: role.description
-                        });
-                    });
-                }
-            });
+
+        const createCategoryOptions = (label, items) => ({
+            label,
+            options: items.map(item => ({ label: item.label }))
+        });
+
+        if (userData.companies && userData.companies.length > 0) {
+            const roles = userData.companies.flatMap(company =>
+                company.details.map(role => ({
+                    label: role.description,
+                    value: `${role.id}+role`,
+                    category: 'Roles'
+                }))
+            );
+            experienceTags.push(createCategoryOptions('Roles', roles));
         }
-        if (userData.education.details && userData.education.details.length > 0) {
-            userData.education.details.forEach(institution => {
-                if (institution.details && institution.details.length > 0) {
-                    institution.details.forEach(course => {
-                        experienceTags.push({
-                            value: `${course.id}+course`,
-                            label: course.description
-                        });
-                    });
-                }
-            });
+        if (userData.education && userData.education.length > 0) {
+            const courses = userData.education.flatMap(institution =>
+                institution.details.map(course => ({
+                    label: course.description,
+                    value: `${course.id}+course`,
+                    category: 'Courses and Credentials'
+                }))
+            );
+            experienceTags.push(createCategoryOptions('Courses and Credentials', courses));
         }
         if (userData.hobbies && userData.hobbies.length > 0) {
-            userData.hobbies.forEach(hobby => {
-                experienceTags.push({
-                    value: `${hobby.hobbyid}+hobby`,
-                    label: hobby.description
-                });
-            });
-        }
+            const hobbies = userData.hobbies.map(hobby => ({            
+                label: hobby.description,
+                value: `${hobby.hobbyid}+hobby`,
+                category: 'Hobbies'
+            }));
+            experienceTags.push(createCategoryOptions('Hobbies', hobbies));
+        }       
         if (userData.projects && userData.projects.length > 0) {
-            userData.projects.forEach(project => {
-                experienceTags.push({
-                    value: `${project.projectid}+project`,
-                    label: project.description
-                });
-            });
-        }
+            const projects = userData.projects.map(project => ({
+                label: project.description,
+                value: `${project.projectid}+project`,
+                category: 'Projects'
+            }));
+            experienceTags.push(createCategoryOptions('Projects', projects));
+        }       
         setTags(experienceTags);
     }, []);
+
+    const formatGroupLabel = (data) => (
+        <div style={{ color: '#000000', fontWeight: '900' , fontSize: '16px'}}>
+          <span>{data.label}</span>
+          <span>{` (${data.options.length})`}</span>
+        </div>
+    );
 
     const handleChange = (e) => {
         setSnippet(e.target.value);    
@@ -105,6 +114,8 @@ const AddSnippet = ({ onSubmit, onClose }) => {
     const characterCount = snippet.length;
     const isCharacterCountExceeded = characterCount > 300;
 
+    console.log('tags', tags);
+
     return (
         <div className="snippet-panel-contents">
             <div className="snippet-panel-row">
@@ -123,7 +134,8 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                                          id="tags"
                                          maxMenuHeight={160}
                                          menuPlacement={"auto"}
-                                         onChange={setSelectedTags} />}
+                                         onChange={setSelectedTags}
+                                         formatGroupLabel={formatGroupLabel} />}
                     </div>
                 </div>
                 <form className="snippet-add-form">

@@ -74,6 +74,31 @@ function ExperiencePage() {
         }
     };
 
+    const handleEdit = async (snippetId, snippet) => {
+        try {
+            await API.put("api", `/snippet/${snippetId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: { description: description,
+                        snippet: snippet }
+            });
+            await updateUserData((prevUserData) => {
+                return {
+                    /* ...prevUserData,
+                    projects: prevUserData.projects.map((project) =>
+                        project.projectid === projectId ? { ...project, description: description, snippet: snippet } : project
+                    ), */
+                };
+            });
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
     const handleSubmit = async (snippet, skills, tags) => {
         try {
             const result = await API.post("api", "/snippet", {
@@ -204,7 +229,8 @@ function ExperiencePage() {
                         {userData.snippets && userData.snippets.length > 0 ? (userData.snippets.map((item) =>
                             <Experience key={item.experienceId}
                                         snippet={item}
-                                        onDelete={handleDelete} />)
+                                        onDelete={handleDelete}
+                                        onEdit={handleEdit} />)
                         ) : (
                         <h2>You have no experience snippets saved. Try adding some snippets!</h2>
                         )}

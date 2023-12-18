@@ -22,20 +22,24 @@ export const DataProvider = ({ children }) => {
     if (items.length === 0) {   /* companies or education with no details appear top of the list */
       return Infinity;
     }
-    return items.reduce((acc, item) => {
-      const allEntries = item.details || []; 
-      const sortOrder = allEntries.reduce((entryAcc, entry) => {
+    const maxToDate = items.reduce((maxDate, item) => {
+      const allEntries = item.details || [];
+      const maxEntryToDate = allEntries.reduce((maxEntryToDate, entry) => {
         let toDate;
+
         if (entry.current) {
           toDate = new Date().getTime();
         } else {
           toDate = new Date(entry.toDate).getTime();
         }
-        const fromDate = new Date(entry.fromDate).getTime();
-        return entryAcc + (fromDate + toDate);
+
+        return Math.max(maxEntryToDate, toDate);
       }, 0);
-      return acc + sortOrder;
+
+      return Math.max(maxDate, maxEntryToDate);
     }, 0);
+
+    return maxToDate;
   };
 
   const sortedEducation = [...userData.education].sort((a, b) => {

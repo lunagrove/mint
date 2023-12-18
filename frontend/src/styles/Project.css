@@ -9,46 +9,54 @@
     margin-top: 5px;
     margin-bottom: 10px;
     padding: 20px 20px 20px 20px;
-    display: flex;
     width: 100%;
     gap: 10px;
     display: flex;
     flex-direction: column;
+    transition: margin 0.5s ease; 
+    position: relative;
+}
+
+.project-row.editing {
+    margin-bottom: 260px;
+}
+
+.project-edit-block {
+    position: absolute;
+    top: 100%;
+    left: 0;
     width: 100%;
-}
-  
-.project-row.open {
-    justify-content: flex-start;
     height: 240px;
-    z-index: 1;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
     overflow: hidden;
-    animation: slideDown3 0.5s ease forwards;
-}
-  
-.project-row.hide {
-    justify-content: center;
-    min-height: 110px;
-    flex: 1;
-    z-index: 1;
-    animation: slideUp3 0.5s ease forwards;
 }
 
-@keyframes slideDown3 {
-    from {
-        height: 110px; 
-    }
-    to {
-        height: 240px; 
-    }
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
-@keyframes slideUp3 {
-    from {
-        height: 240px; 
-    }
-    to {
-        height: 110px; 
-    }
+.overlay.show {
+    pointer-events: none;
+    z-index: 10;
+}
+
+.overlay.hide {
+    pointer-events: auto;
+}
+
+.project-edit-block.show {
+    height: 240px;
+}
+
+.project-edit-block.hide {
+    height: 0;
 }
 
 .project-description {
@@ -78,11 +86,6 @@
     display: flex;
     justify-content: flex-start;
     gap: 20px;
-}
-
-.project-edit-block {
-    display: flex;
-    flex-direction: column;
 }
 
 .edit-project {

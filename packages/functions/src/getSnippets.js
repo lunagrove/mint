@@ -30,8 +30,8 @@ export async function main(event, context) {
                             ({ skillid, description }) => ({
                                 id: skillid, description }));
                 const roles = expRoles.map(
-                            ({ roleid, description }) => ({
-                                id: roleid, description }));
+                            ({ roleid, description, companyid }) => ({
+                                id: roleid, description, companyid }));
                 const hobbies = expHobbies.map(
                             ({ hobbyid, description }) => ({
                                 id: hobbyid, description }));
@@ -39,11 +39,11 @@ export async function main(event, context) {
                             ({ projectid, description }) => ({
                                 id: projectid, description }));
                 const courses = expCourses.map(
-                            ({ courseid, description }) => ({
-                                id: courseid, description }));
+                            ({ courseid, description, educationid }) => ({
+                                id: courseid, description, educationid }));
                 const credentials = expCredentials.map(
-                            ({ credentialid, description }) => ({
-                                id: credentialid, description }));
+                            ({ credentialid, description, educationid }) => ({
+                                id: credentialid, description, educationid }));
 
                 return {
                     experienceId: experienceId,
