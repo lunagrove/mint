@@ -165,14 +165,14 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                     </div>
                     <div className="snippet-add-tags"> 
                         {skills && <Select closeMenuOnSelect={false}
-                                                 components={animatedComponents}
-                                                 isMulti={true}
-                                                 options={skills}
-                                                 blurInputOnSelect={false}
-                                                 id="skills"
-                                                 maxMenuHeight={160}
-                                                 menuPlacement={"auto"}
-                                                 onChange={setSelectedSkills} />}
+                                            components={animatedComponents}
+                                            isMulti={true}
+                                            options={skills}
+                                            blurInputOnSelect={false}
+                                            id="skills"
+                                            maxMenuHeight={160}
+                                            menuPlacement={"auto"}
+                                            onChange={setSelectedSkills} />}
                     </div>
                 </div>
             </div>

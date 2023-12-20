@@ -161,6 +161,17 @@ export async function getCredentials(userId, educationId) {
   return res.rows;
 }
 
+export async function deleteCredential(userId, educationId, credentialId) {
+  const res = await getPool().query(`
+  DELETE FROM credential
+  WHERE userid = $1
+  AND educationid = $2
+  AND credentialid = $3
+  RETURNING *
+  `, [userId, educationId, credentialId])
+  return res.rows[0]
+}
+
 export async function getCourses(userId, educationId) {
   const res = await getPool().query(`
   SELECT * FROM course
@@ -168,6 +179,17 @@ export async function getCourses(userId, educationId) {
   ORDER BY todate DESC
   `, [userId, educationId]);
   return res.rows;
+}
+
+export async function deleteCourse(userId, educationId, courseId) {
+  const res = await getPool().query(`
+  DELETE FROM course
+  WHERE userid = $1
+  AND educationid = $2
+  AND courseid = $3
+  RETURNING *
+  `, [userId, educationId, courseId])
+  return res.rows[0]
 }
 
 export async function getCompanies(userId) {
@@ -214,6 +236,17 @@ export async function getRoles(userId, companyId) {
   ORDER BY todate DESC
   `, [userId, companyId]);
   return res.rows;
+}
+
+export async function deleteRole(userId, companyId, roleId) {
+  const res = await getPool().query(`
+  DELETE FROM role
+  WHERE userid = $1
+  AND companyid = $2
+  AND roleid = $3
+  RETURNING *
+  `, [userId, companyId, roleId])
+  return res.rows[0]
 }
 
 export async function getHobbies(userId) {

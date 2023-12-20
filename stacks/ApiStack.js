@@ -55,7 +55,10 @@ export function API({ stack }) {
       "DELETE /company/{companyId}": "packages/functions/src/deleteCompany.main",
       "DELETE /hobby/{hobbyId}": "packages/functions/src/deleteHobby.main",
       "DELETE /project/{projectId}": "packages/functions/src/deleteProject.main",
-      "DELETE /snippet/{snippetId}": "packages/functions/src/deleteSnippet.main"
+      "DELETE /snippet/{snippetId}": "packages/functions/src/deleteSnippet.main",
+      "DELETE /role/{companyId}/{roleId}": "packages/functions/src/deleteRole.main",
+      "DELETE /credential/{educationId}/{credentialId}": "packages/functions/src/deleteCredential.main",
+      "DELETE /course/{educationId}/{courseId}": "packages/functions/src/deleteCourse.main"
     },
   });
 

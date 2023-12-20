@@ -1,25 +1,38 @@
 import React from 'react';
+import { useState } from "react";
 import { PiArrowElbowDownRightFill } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
 import { formatMonthandYear } from "../utilities/dates";
+import Dialog from './Dialog';
 
-const Companies = ({ company }) => {
+const Companies = ({ company, onDelete, onDeleteRole }) => {
+
+    const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const handleDeleteClick = () => {
-    
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        setDeleteDialogOpen(false);
+        onDelete(company.companyid);
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteDialogOpen(false);
     };
     
     const handleEditClick = () => {
         
     };
     
-    const handleDeleteRoleClick = () => {
-        
+    const handleDeleteRoleClick = (roleId) => {
+        onDeleteRole(company.companyid, roleId);    
     };
     
     const handleEditRoleClick = () => {
-        
+            
     };
 
     return (
@@ -47,7 +60,7 @@ const Companies = ({ company }) => {
                                               : <p className="company-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                                 <div className="company-row-edit-icons">
                                     <BsPencil className="icon-medium edit-icon" onClick={handleEditRoleClick}/>
-                                    <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteRoleClick}/>
+                                    <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteRoleClick(item.id)}/>
                                 </div>
                             </div>
                         </div>
@@ -63,6 +76,14 @@ const Companies = ({ company }) => {
                 />
                 <h5>Add role</h5>
             </div>
+            <Dialog
+                isOpen={isDeleteDialogOpen}
+                type="Warning"
+                heading="Confirm Delete"
+                text="Are you sure you want to delete this company? Deleting it will also delete any associated roles. If any experience snippets are tagged with these roles, those tags will be removed."
+                onCancel={handleCancelDelete}
+                onConfirm={handleConfirmDelete}
+            />
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { deleteCompany } from "@mint/core/database";
+import { deleteRole } from "@mint/core/database";
 
 export async function main(event) {
   
@@ -6,20 +6,21 @@ export async function main(event) {
 
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
     const companyId = event.pathParameters.companyId;
+    const roleId = event.pathParameters.roleId;
 
-    if (!userId || !companyId) {
+    if (!userId || !companyId || !roleId) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing or invalid parameters' })
       };
     }
 
-    const company = await deleteCompany(userId, companyId);
+    const role = await deleteRole(userId, companyId, roleId);
 
-    if (!company) {
+    if (!role) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to delete company record' })
+        body: JSON.stringify({ error: 'Failed to delete role record' })
       };
     }
 

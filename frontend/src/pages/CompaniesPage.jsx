@@ -66,6 +66,50 @@ function CompaniesPage() {
         setIsPanelOpen(false);
     };
 
+    const handleDelete = async (companyId) => {
+        try {
+            await API.del("api", `/company/${companyId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }
+            });
+              
+            await updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    companies: prevUserData.companies.filter(company => company.companyid !== companyId),
+                };
+            });  
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
+    const handleDeleteRole = async (companyId, roleId) => {
+//        try {
+//            await API.del("api", `/role/${companyId}/${roleId}`, {
+//                headers: {
+//                Authorization: `Bearer ${(await Auth.currentSession())
+//                    .getAccessToken()
+//                    .getJwtToken()}`,
+//                }
+//            });
+              
+//            await updateUserData((prevUserData) => {
+//                return {
+                    /* ...prevUserData,
+                    projects: prevUserData.projects.filter(project => project.projectid !== projectId), */
+//                };
+//            });  
+//        }
+//        catch (error) {
+//              alert(error);
+//        }
+    };
+
     const handleClose = () => {
         setIsPanelOpen(false);
     };
@@ -137,7 +181,9 @@ function CompaniesPage() {
                     <div className="companies-page-list">
                         {userData.companies && userData.companies.length > 0 ? (userData.companies.map((item) =>
                             <Companies key={item.companyId}
-                                       company={item} />)
+                                       company={item}
+                                       onDelete={handleDelete}
+                                       onDeleteRole={handleDeleteRole} />)
                         ) : (
                         <h2>You have no companies and roles saved. Try adding some companies and roles!</h2>
                         )}

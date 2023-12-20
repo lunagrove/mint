@@ -16,9 +16,6 @@ export async function main(event) {
 
     const education = await deleteEducation(userId, educationId);
 
-    /* Need to delete associated courses and credentials
-       Need to remove tags on experience snippets for any deleted courses and credentials */
-
     if (!education) {
       return {
         statusCode: 500,

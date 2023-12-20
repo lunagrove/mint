@@ -48,6 +48,7 @@ import './styles/AddCompany.css';
 import './styles/AddEducation.css';
 import './styles/Companies.css';
 import './styles/Education.css';
+import './styles/Dialog.css';
 
 const amplifyConfig = {
   Auth: {
