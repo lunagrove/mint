@@ -1,37 +1,65 @@
 .custom-dialog {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-  }
-  
-  .custom-dialog-content {
-    background: #ebfef0;
-    padding: 20px;
-    max-width: 480px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
-  
-  .custom-dialog h2 {
-    margin-bottom: 10px;
-  }
-  
-  .custom-dialog p {
-    margin-bottom: 20px;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
 
-  .custom-dialog-footer {
-    background-color: #ebfef0;
-    min-height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.custom-dialog-background {
+  background-color: #95edad;
+  padding: 5px;
+  border-radius: 5px;
+}
+  
+.custom-dialog-content {
+  background: #fff;
+  padding: 20px 20px 0 20px;
+  max-width: 480px;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.custom-dialog-body {
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+  
+.custom-dialog p {
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.custom-dialog-footer {
+  background-color: #ebfef0;
+  min-height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.warning-icon {
+  color: orange;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.error-icon {
+  color: red;
+  text-align: center;
+}
+
+.info-icon {
+  color: green;
+  text-align: center;
 }
   

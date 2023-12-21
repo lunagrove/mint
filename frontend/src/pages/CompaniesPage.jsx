@@ -89,25 +89,44 @@ function CompaniesPage() {
     };
 
     const handleDeleteRole = async (companyId, roleId) => {
-//        try {
-//            await API.del("api", `/role/${companyId}/${roleId}`, {
-//                headers: {
-//                Authorization: `Bearer ${(await Auth.currentSession())
-//                    .getAccessToken()
-//                    .getJwtToken()}`,
-//                }
-//            });
-              
-//            await updateUserData((prevUserData) => {
-//                return {
-                    /* ...prevUserData,
-                    projects: prevUserData.projects.filter(project => project.projectid !== projectId), */
-//                };
-//            });  
-//        }
-//        catch (error) {
-//              alert(error);
-//        }
+        try {
+            await API.del("api", `/role/${companyId}/${roleId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }
+            });
+            await updateUserData((prevUserData) => {
+                const companyIndex = prevUserData.companies.findIndex((company) => company.companyId === companyId);
+                if (companyIndex !== -1) {
+                    const roleIndex = prevUserData.companies[companyIndex].details.findIndex((role) => role.id === roleId);
+                    if (roleIndex !== -1) {
+                        const updatedDetails = [
+                            ...prevUserData.companies[companyIndex].details.slice(0, roleIndex),
+                            ...prevUserData.companies[companyIndex].details.slice(roleIndex + 1),
+                        ];
+                        const updatedCompanies = [
+                            ...prevUserData.companies.slice(0, companyIndex),
+                            {
+                                ...prevUserData.companies[companyIndex],
+                                details: updatedDetails,
+                            },
+                            ...prevUserData.companies.slice(companyIndex + 1),
+                        ];
+                        const updatedUserData = {
+                            ...prevUserData,
+                            companies: updatedCompanies,
+                        };
+                        return updatedUserData;
+                    }
+                }
+                return prevUserData;
+            });
+        }
+        catch (error) {
+              alert(error);
+        }
     };
 
     const handleClose = () => {

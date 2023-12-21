@@ -6,11 +6,13 @@ import { VscDebugBreakpointLog } from "react-icons/vsc";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
 import { formatLongDate } from "../utilities/dates";
+import Dialog from './Dialog';
 
 const Experience = ({ snippet, onDelete, onEdit }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedSnippet, setEditedSnippet] = useState(snippet.snippet);
+    const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const [tags, setTags] = useState([]);
 
@@ -35,7 +37,16 @@ const Experience = ({ snippet, onDelete, onEdit }) => {
     }, []);
 
     const handleDeleteClick = () => {
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        setDeleteDialogOpen(false);
         onDelete(snippet.experienceId);
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteDialogOpen(false);
     };
     
     const handleEditClick = () => {
@@ -101,6 +112,15 @@ const Experience = ({ snippet, onDelete, onEdit }) => {
                         </div>
                     </div>
                 </div>
+            )}
+            {isDeleteDialogOpen && (
+                <Dialog
+                    type="Warning"
+                    heading="Confirm Delete Snippet"
+                    text="Are you sure you want to delete this snippet?"
+                    onCancel={handleCancelDelete}
+                    onConfirm={handleConfirmDelete}
+                />
             )}
         </div>
     );

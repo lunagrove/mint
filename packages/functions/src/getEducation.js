@@ -22,10 +22,10 @@ export async function main(event, context) {
 
                 const credentialDetails = credentials.map(
                             ({ credentialid, description, fromdate, todate, current }) => ({
-                                 id: credentialid, description, fromdate, todate, current }));
+                                 id: credentialid, type: "credential", description, fromdate, todate, current }));
                 const courseDetails = courses.map(
                             ({ courseid, description, fromdate, todate, current }) => ({
-                                 id: courseid, description, fromdate, todate, current }));
+                                 id: courseid, type: "course", description, fromdate, todate, current }));
 
                 const details = [...credentialDetails, ...courseDetails];
 

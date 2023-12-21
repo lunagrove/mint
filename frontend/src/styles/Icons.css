@@ -18,6 +18,12 @@
     color: #01210a;
     margin-top: 2px;
 }
+
+.icon-huge {
+    font-size: 50px;
+    color: #01210a;
+    margin-top: 2px;
+}
   
 .icon-small:active, .icon-medium:active, .icon-large:active {
     transform: scale(0.9);

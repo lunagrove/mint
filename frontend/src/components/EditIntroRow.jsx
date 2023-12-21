@@ -6,14 +6,25 @@ import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
 import { formatLongDate } from "../utilities/dates";
+import Dialog from './Dialog';
 
 const EditIntroRow = ({ statement, onDelete, onEdit, editingIntroId, setEditingIntroId }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(statement.snippet);
+    const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const handleDeleteClick = () => {
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        setDeleteDialogOpen(false);
         onDelete(statement.introid);
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteDialogOpen(false);
     };
 
     const handleEditClick = () => {
@@ -70,7 +81,15 @@ const EditIntroRow = ({ statement, onDelete, onEdit, editingIntroId, setEditingI
                     
                 </>
             )}
-
+            {isDeleteDialogOpen && (
+                <Dialog
+                    type="Warning"
+                    heading="Confirm Delete Introductory Statement"
+                    text="Are you sure you want to delete this introductory statement? If any experience snippets are tagged with this introductory statement, those tags will be removed."
+                    onCancel={handleCancelDelete}
+                    onConfirm={handleConfirmDelete}
+                />
+            )}
         </li>
     );
 }

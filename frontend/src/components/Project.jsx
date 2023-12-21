@@ -4,15 +4,26 @@ import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
+import Dialog from './Dialog';
 
 const Project = ({ project, onDelete, onEdit }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(project.description);
     const [editedSnippet, setEditedSnippet] = useState(project.snippet);
+    const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const handleDeleteClick = () => {
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        setDeleteDialogOpen(false);
         onDelete(project.projectid);
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteDialogOpen(false);
     };
     
     const handleEditClick = () => {
@@ -79,6 +90,15 @@ const Project = ({ project, onDelete, onEdit }) => {
                         </div>
                     </div>
                 </div>
+            )}
+            {isDeleteDialogOpen && (
+                <Dialog
+                    type="Warning"
+                    heading="Confirm Delete Project"
+                    text="Are you sure you want to delete this project? If any experience snippets are tagged with this project, those tags will be removed."
+                    onCancel={handleCancelDelete}
+                    onConfirm={handleConfirmDelete}
+                />
             )}
         </div>
     );

@@ -1,21 +1,48 @@
 import React from 'react';
+import { useState } from "react";
 import { PiArrowElbowDownRightFill } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
 import { formatMonthandYear } from "../utilities/dates";
+import Dialog from './Dialog';
 
-const Education = ({ education }) => {
+const Education = ({ education, onDelete, onDeleteCourse }) => {
+
+    const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [isDeleteCourseDialogOpen, setDeleteCourseDialogOpen] = useState(false);
+    const [courseIdToDelete, setCourseIdToDelete] = useState(null);
+    const [courseType, setCourseType] = useState(null);
 
     const handleDeleteClick = () => {
-    
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        setDeleteDialogOpen(false);
+        onDelete(education.educationid);
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteDialogOpen(false);
     };
     
     const handleEditClick = () => {
         
     };
     
-    const handleDeleteCourseClick = () => {
-        
+    const handleDeleteCourseClick = (courseId, type) => {
+        setDeleteCourseDialogOpen(true);
+        setCourseIdToDelete(courseId);
+        setCourseType(type);
+    };
+
+    const handleConfirmDeleteCourse = (courseId, type) => {
+        setDeleteCourseDialogOpen(false);
+        onDeleteCourse(education.educationid, courseId, type); 
+    };
+
+    const handleCancelDeleteCourse = () => {
+        setDeleteCourseDialogOpen(false);
     };
     
     const handleEditCourseClick = () => {
@@ -46,7 +73,7 @@ const Education = ({ education }) => {
                                               : <p className="education-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                                 <div className="education-row-edit-icons">
                                     <BsPencil className="icon-medium edit-icon" onClick={handleEditCourseClick}/>
-                                    <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteCourseClick}/>
+                                    <IoTrashOutline className="icon-medium edit-icon" onClick={() => handleDeleteCourseClick(item.id, item.type)}/>
                                 </div>
                             </div>
                         </div>
@@ -62,6 +89,24 @@ const Education = ({ education }) => {
                 />
                 <h5>Add course or credential</h5>
             </div>
+            {isDeleteDialogOpen && (
+                <Dialog
+                    type="Warning"
+                    heading="Confirm Delete Institution"
+                    text="Are you sure you want to delete this institution? Deleting it will also delete any associated courses and credentials. If any experience snippets are tagged with these courses or credentials, those tags will be removed."
+                    onCancel={handleCancelDelete}
+                    onConfirm={handleConfirmDelete}
+                />
+            )}
+            {isDeleteCourseDialogOpen && (
+                <Dialog
+                    type="Warning"
+                    heading="Confirm Delete Course/Credential"
+                    text="Are you sure you want to delete this course/credential? If any experience snippets are tagged with this course/credential, those tags will be removed."
+                    onCancel={handleCancelDeleteCourse}
+                    onConfirm={() => handleConfirmDeleteCourse(courseIdToDelete, courseType)}
+                />
+            )}
         </div>
     );
 }

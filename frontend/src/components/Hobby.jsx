@@ -4,15 +4,26 @@ import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
+import Dialog from './Dialog';
 
 const Hobby = ({ hobby, onDelete, onEdit }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(hobby.description);
     const [editedSnippet, setEditedSnippet] = useState(hobby.snippet);
+    const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const handleDeleteClick = () => {
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        setDeleteDialogOpen(false);
         onDelete(hobby.hobbyid);
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteDialogOpen(false);
     };
     
     const handleEditClick = () => {
@@ -79,6 +90,15 @@ const Hobby = ({ hobby, onDelete, onEdit }) => {
                         </div>
                     </div>
                 </div>
+            )}
+            {isDeleteDialogOpen && (
+                <Dialog
+                    type="Warning"
+                    heading="Confirm Delete Hobby/Club"
+                    text="Are you sure you want to delete this hobby/club? If any experience snippets are tagged with this hobby/club, those tags will be removed."
+                    onCancel={handleCancelDelete}
+                    onConfirm={handleConfirmDelete}
+                />
             )}      
         </div>
     );

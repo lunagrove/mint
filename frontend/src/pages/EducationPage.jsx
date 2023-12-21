@@ -66,6 +66,80 @@ function EducationPage() {
         setIsPanelOpen(false);
     };
 
+    const handleDelete = async (educationId) => {
+        try {
+            await API.del("api", `/education/${educationId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }
+            });
+              
+            await updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    education: prevUserData.education.filter(education => education.educationid !== educationId),
+                };
+            });  
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
+    const handleDeleteCourse = async (educationId, courseId, type) => {
+        try {
+            if (type === 'course') {
+                await API.del("api", `/course/${educationId}/${courseId}`, {
+                    headers: {
+                    Authorization: `Bearer ${(await Auth.currentSession())
+                        .getAccessToken()
+                        .getJwtToken()}`,
+                    }
+                });
+            }
+            if (type === 'credential') {
+                await API.del("api", `/credential/${educationId}/${courseId}`, {
+                    headers: {
+                    Authorization: `Bearer ${(await Auth.currentSession())
+                        .getAccessToken()
+                        .getJwtToken()}`,
+                    }
+                });
+            }
+            await updateUserData((prevUserData) => {
+                const educationIndex = prevUserData.education.findIndex((education) => education.educationId === educationId);
+                if (educationIndex !== -1) {
+                    const courseIndex = prevUserData.education[educationIndex].details.findIndex((course) => course.id === courseId);
+                    if (courseIndex !== -1) {
+                        const updatedDetails = [
+                            ...prevUserData.education[educationIndex].details.slice(0, courseIndex),
+                            ...prevUserData.education[educationIndex].details.slice(courseIndex + 1),
+                        ];
+                        const updatedEducation = [
+                            ...prevUserData.education.slice(0, educationIndex),
+                            {
+                                ...prevUserData.education[educationIndex],
+                                details: updatedDetails,
+                            },
+                            ...prevUserData.education.slice(educationIndex + 1),
+                        ];
+                        const updatedUserData = {
+                            ...prevUserData,
+                            education: updatedEducation,
+                        };
+                        return updatedUserData;
+                    }
+                }
+                return prevUserData;
+            });
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
     const handleClose = () => {
         setIsPanelOpen(false);
     };
@@ -137,7 +211,9 @@ function EducationPage() {
                     <div className="education-page-list">
                         {userData.education && userData.education.length > 0 ? (userData.education.map((item) =>
                             <Education key={item.educationId}
-                                       education={item} />)
+                                       education={item}
+                                       onDelete={handleDelete}
+                                       onDeleteCourse={handleDeleteCourse} />)
                         ) : (
                         <h2>You have no educational institutions saved. Try adding some educational institutions!</h2>
                         )}

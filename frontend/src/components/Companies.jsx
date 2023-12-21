@@ -9,6 +9,8 @@ import Dialog from './Dialog';
 const Companies = ({ company, onDelete, onDeleteRole }) => {
 
     const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [isDeleteRoleDialogOpen, setDeleteRoleDialogOpen] = useState(false);
+    const [roleIdToDelete, setRoleIdToDelete] = useState(null);
 
     const handleDeleteClick = () => {
         setDeleteDialogOpen(true);
@@ -28,7 +30,17 @@ const Companies = ({ company, onDelete, onDeleteRole }) => {
     };
     
     const handleDeleteRoleClick = (roleId) => {
-        onDeleteRole(company.companyid, roleId);    
+        setDeleteRoleDialogOpen(true);
+        setRoleIdToDelete(roleId);       
+    };
+
+    const handleConfirmDeleteRole = (roleId) => {
+        setDeleteRoleDialogOpen(false);
+        onDeleteRole(company.companyid, roleId); 
+    };
+
+    const handleCancelDeleteRole = () => {
+        setDeleteRoleDialogOpen(false);
     };
     
     const handleEditRoleClick = () => {
@@ -60,7 +72,7 @@ const Companies = ({ company, onDelete, onDeleteRole }) => {
                                               : <p className="company-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                                 <div className="company-row-edit-icons">
                                     <BsPencil className="icon-medium edit-icon" onClick={handleEditRoleClick}/>
-                                    <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteRoleClick(item.id)}/>
+                                    <IoTrashOutline className="icon-medium edit-icon" onClick={() => handleDeleteRoleClick(item.id)}/>
                                 </div>
                             </div>
                         </div>
@@ -76,14 +88,24 @@ const Companies = ({ company, onDelete, onDeleteRole }) => {
                 />
                 <h5>Add role</h5>
             </div>
-            <Dialog
-                isOpen={isDeleteDialogOpen}
-                type="Warning"
-                heading="Confirm Delete"
-                text="Are you sure you want to delete this company? Deleting it will also delete any associated roles. If any experience snippets are tagged with these roles, those tags will be removed."
-                onCancel={handleCancelDelete}
-                onConfirm={handleConfirmDelete}
-            />
+            {isDeleteDialogOpen && (
+                <Dialog
+                    type="Warning"
+                    heading="Confirm Delete Company"
+                    text="Are you sure you want to delete this company? Deleting it will also delete any associated roles. If any experience snippets are tagged with these roles, those tags will be removed."
+                    onCancel={handleCancelDelete}
+                    onConfirm={handleConfirmDelete}
+                />
+            )}
+            {isDeleteRoleDialogOpen && (
+                <Dialog
+                    type="Warning"
+                    heading="Confirm Delete Role"
+                    text="Are you sure you want to delete this role? If any experience snippets are tagged with this role, those tags will be removed."
+                    onCancel={handleCancelDeleteRole}
+                    onConfirm={() => handleConfirmDeleteRole(roleIdToDelete)}
+                />
+            )}
         </div>
     );
 }
