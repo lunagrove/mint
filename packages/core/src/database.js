@@ -209,13 +209,13 @@ export async function createCompany(userid, companyName, description) {
   return res.rows[0];
 }
 
-export async function editCompany(userid, companyid, companyName, description) {
+export async function editCompany(userid, companyid, companyname, description) {
   const res = await getPool().query(`
   UPDATE company SET companyname = $3, description = $4 
   WHERE userId = $1
   AND companyid = $2
   RETURNING *
-  `, [userid, companyid, companyName, description])
+  `, [userid, companyid, companyname, description])
   return res.rows[0]
 }
 

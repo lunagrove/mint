@@ -3,11 +3,16 @@ import { useState } from "react";
 import { PiArrowElbowDownRightFill } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
+import { MdOutlineCancel } from "react-icons/md";
+import { FiCheckCircle } from "react-icons/fi";
 import { formatMonthandYear } from "../utilities/dates";
 import Dialog from './Dialog';
 
-const Education = ({ education, onDelete, onDeleteCourse }) => {
+const Education = ({ education, onDelete, onDeleteCourse, onEdit }) => {
 
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedInstitution, setEditedInstitution] = useState(education.institution);
+    const [editedLocation, setEditedLocation] = useState(education.location);
     const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [isDeleteCourseDialogOpen, setDeleteCourseDialogOpen] = useState(false);
     const [courseIdToDelete, setCourseIdToDelete] = useState(null);
@@ -27,7 +32,26 @@ const Education = ({ education, onDelete, onDeleteCourse }) => {
     };
     
     const handleEditClick = () => {
-        
+        setIsEditing(true);   
+    };
+
+    const handleSaveClick = () => {
+        onEdit(education.educationid, editedInstitution, editedLocation);
+        setIsEditing(false);
+    };
+
+    const handleCancelClick = () => {
+        setIsEditing(false);
+        setEditedInstitution(education.institution);
+        setEditedLocation(education.location);
+    };
+
+    const handleInstitutionChange = (e) => {
+        setEditedInstitution(e.target.value);
+    };
+
+    const handleLocationChange = (e) => {
+        setEditedLocation(e.target.value);
     };
     
     const handleDeleteCourseClick = (courseId, type) => {
@@ -50,7 +74,7 @@ const Education = ({ education, onDelete, onDeleteCourse }) => {
     };
 
     return (
-        <div className="education-row">
+        <div className={`education-row ${isEditing ? 'editing' : ''}`}>
             <div className="education-info-block">
                 <div className="education-institution">
                     <h3 className="education-info-heading">
@@ -61,8 +85,7 @@ const Education = ({ education, onDelete, onDeleteCourse }) => {
                         <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteClick}/>
                     </div>
                 </div>
-                <div className="education-info-detail">
-                    
+                <div className="education-info-detail">   
                     {education.details.length > 0 && (education.details.map((item) =>
                         <div key={item.id} className="education-detail-block">
                             <PiArrowElbowDownRightFill className="icon-xlarge icon-margin-left" />
@@ -81,6 +104,32 @@ const Education = ({ education, onDelete, onDeleteCourse }) => {
                     )}
                 </div>
             </div>
+            {isEditing && (
+                <div className={`overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
+            {isEditing && (
+                <div className={`education-edit-block ${isEditing ? 'show' : 'hide'}`}>
+                    <h5 className="form-label">Institution name</h5>
+                    <input
+                        type="text"
+                        className="edit-education-institution form-input"
+                        value={editedInstitution}
+                        onChange={handleInstitutionChange}
+                    />
+                    <h5 className="form-label">Location</h5>
+                    <div className="education-edit-contents">
+                        <input
+                            type="text"
+                            className="edit-education-location form-input"
+                            value={editedLocation}
+                            onChange={handleLocationChange}
+                        />
+                        <div className="education-edit-icons2">
+                            <FiCheckCircle className="icon-large save-icon" onClick={handleSaveClick} />
+                            <MdOutlineCancel className="icon-large cancel-icon" onClick={handleCancelClick} />
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="education-add-detail">
                 <img
                     className="plus-button plus-button-small"

@@ -1,15 +1,24 @@
 .education-row {
-    min-height: 110px;
     background-color: white;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     margin-top: 5px;
     margin-bottom: 10px;
     padding: 20px 5px 20px 20px;
-    display: flex;
-    justify-content: space-between;
     width: 100%;
     gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    transition: margin 0.5s ease; 
+    position: relative;   
 }
+
+.education-row.editing {
+    margin-bottom: 260px;
+}
+
+.education-info-block {
+    position: relative;
+  }
 
 .education-info-header {
     display: flex;
@@ -36,9 +45,21 @@
     width: 70%;
 }
 
+.education-edit-contents {
+    display: flex;
+    gap: 20px;
+}
+
 .education-edit-icons {
     display: flex;
     justify-content: space-between;
+    align-items: center;  
+    gap: 5px;
+}
+
+.education-edit-icons2 {
+    display: flex;
+    justify-content: flex-start;
     align-items: center;  
     gap: 5px;
 }
@@ -48,6 +69,53 @@
     justify-content: flex-start;
     align-items: center;  
     gap: 5px;
+}
+
+.education-edit-block {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 240px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.overlay.show {
+    pointer-events: none;
+    z-index: 10;
+}
+
+.overlay.hide {
+    pointer-events: auto;
+}
+
+.education-edit-block.show {
+    height: 240px;
+}
+
+.education-edit-block.hide {
+    height: 0;
+}
+
+.edit-education-institution {
+    width: 400px;
+}
+
+.edit-education-location {
+    width: 400px;
 }
 
 .education-add-detail {

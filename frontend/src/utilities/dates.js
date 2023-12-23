@@ -64,5 +64,18 @@ function formatMonthandYear(dateStr) {
   return `${month} ${year}`;
   
 }
+
+function getMonthName(dateStr) {
+  const date = new Date(dateStr);
   
-export { getYear, formatLongDate, formatMonthandYear };
+  // Array of month names
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  
+  // Get the month name and year
+  const month = months[date.getMonth()];
+  
+  // Construct the formatted date string
+  return `${month}`;
+}
+  
+export { getYear, formatLongDate, formatMonthandYear, getMonthName };

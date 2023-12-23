@@ -1,14 +1,23 @@
 .company-row {
-    min-height: 110px;
     background-color: white;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     margin-top: 5px;
     margin-bottom: 10px;
     padding: 20px 5px 20px 20px;
-    display: flex;
-    justify-content: space-between;
     width: 100%;
     gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    transition: margin 0.5s ease; 
+    position: relative;
+}
+
+.company-row.editing {
+    margin-bottom: 260px;
+}
+
+.company-info-block {
+    position: relative;
 }
 
 .company-info-header {
@@ -36,9 +45,21 @@
     width: 70%;
 }
 
+.company-edit-contents {
+    display: flex;
+    gap: 20px;
+}
+
 .company-edit-icons {
     display: flex;
     justify-content: space-between;
+    align-items: center;  
+    gap: 5px;
+}
+
+.company-edit-icons2 {
+    display: flex;
+    justify-content: flex-start;
     align-items: center;  
     gap: 5px;
 }
@@ -50,6 +71,52 @@
     gap: 5px;
 }
 
+.company-edit-block {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 240px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.overlay.show {
+    pointer-events: none;
+    z-index: 10;
+}
+
+.overlay.hide {
+    pointer-events: auto;
+}
+
+.company-edit-block.show {
+    height: 240px;
+}
+
+.company-edit-block.hide {
+    height: 0;
+}
+
+.edit-company-name {
+    width: 400px;
+}
+
+.edit-company-description {
+    width: 400px;
+}
 
 .company-add-detail {
     display: flex;
@@ -84,10 +151,69 @@
     align-items: baseline;
 }
 
+.role-edit-block {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 240px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.edit-role-description {
+    width: 400px;
+}
+
+.role-edit-contents {
+    display: flex;
+    gap: 30px;
+}
+
+.role-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.role-current {
+    margin-top: 13px;
+}
+
+.role-edit-icons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;  
+    gap: 5px;
+}
+
+.edit-month {
+    width: 120px;
+}
+
+.edit-year {
+    width: 80px;
+}
+
 @media (min-width: 768px) {
 
     .company-info-block {
       width: 100%;
+    }
+
+    .edit-company-name {
+        width: 450px;
+    }
+
+    .edit-company-description {
+        width: 700px;
+    }
+
+    .edit-role-description {
+        width: 700px;
     }
 }
 

@@ -7,7 +7,7 @@ export async function main(event) {
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
     const companyId = event.pathParameters.companyId;
 
-    const { body } = JSON.parse(event.body); 
+    const body = JSON.parse(event.body); 
 
     if (!userId || !companyId) {
       return {

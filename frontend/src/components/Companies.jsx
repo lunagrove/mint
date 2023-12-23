@@ -1,16 +1,29 @@
 import React from 'react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PiArrowElbowDownRightFill } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
-import { formatMonthandYear } from "../utilities/dates";
+import { MdOutlineCancel } from "react-icons/md";
+import { FiCheckCircle } from "react-icons/fi";
+import { formatMonthandYear, getMonthName } from "../utilities/dates";
 import Dialog from './Dialog';
 
-const Companies = ({ company, onDelete, onDeleteRole }) => {
+const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole }) => {
 
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedDescription, setEditedDescription] = useState(company.description);
+    const [editedName, setEditedName] = useState(company.companyName);
     const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [isDeleteRoleDialogOpen, setDeleteRoleDialogOpen] = useState(false);
     const [roleIdToDelete, setRoleIdToDelete] = useState(null);
+    const [isEditingRole, setIsEditingRole] = useState(false);
+    const [editedRoleDescription, setEditedRoleDescription] = useState('');
+    const [editedFromMonth, setEditedFromMonth] = useState('');
+    const [editedFromYear, setEditedFromYear] = useState('');
+    const [editedToMonth, setEditedToMonth] = useState('');
+    const [editedToYear, setEditedToYear] = useState('');
+    const [editedCurrent, setEditedCurrent] = useState(false);
+    const [roleToEdit, setRoleToEdit] = useState(null);
 
     const handleDeleteClick = () => {
         setDeleteDialogOpen(true);
@@ -18,7 +31,7 @@ const Companies = ({ company, onDelete, onDeleteRole }) => {
 
     const handleConfirmDelete = () => {
         setDeleteDialogOpen(false);
-        onDelete(company.companyid);
+        onDelete(company.companyId);
     };
 
     const handleCancelDelete = () => {
@@ -26,7 +39,26 @@ const Companies = ({ company, onDelete, onDeleteRole }) => {
     };
     
     const handleEditClick = () => {
-        
+        setIsEditing(true);
+    };
+
+    const handleSaveClick = () => {
+        onEdit(company.companyId, editedDescription, editedName);
+        setIsEditing(false);
+    };
+
+    const handleCancelClick = () => {
+        setIsEditing(false);
+        setEditedDescription(company.description);
+        setEditedName(company.companyName);
+    };
+
+    const handleDescriptionChange = (e) => {
+        setEditedDescription(e.target.value);
+    };
+
+    const handleNameChange = (e) => {
+        setEditedName(e.target.value);
     };
     
     const handleDeleteRoleClick = (roleId) => {
@@ -36,19 +68,67 @@ const Companies = ({ company, onDelete, onDeleteRole }) => {
 
     const handleConfirmDeleteRole = (roleId) => {
         setDeleteRoleDialogOpen(false);
-        onDeleteRole(company.companyid, roleId); 
+        onDeleteRole(company.companyId, roleId); 
     };
 
     const handleCancelDeleteRole = () => {
         setDeleteRoleDialogOpen(false);
     };
     
-    const handleEditRoleClick = () => {
-            
+    const handleEditRoleClick = (role) => {
+        setIsEditingRole(true);
+        setRoleToEdit(role);    
+    };
+
+    useEffect(() => {
+        if (roleToEdit) {
+            console.log('role to be edited: ', roleToEdit);
+            setEditedRoleDescription(roleToEdit.description);
+            setEditedFromMonth(getMonthName(roleToEdit.fromdate));
+            var roleFromDate = new Date(roleToEdit.fromdate);
+            setEditedFromYear(roleFromDate.getFullYear());
+            setEditedToMonth(getMonthName(roleToEdit.todate));
+            var roleToDate = new Date(roleToEdit.todate);
+            setEditedToYear(roleToDate.getFullYear());
+            setEditedCurrent(roleToEdit.current);
+        }
+    }, [roleToEdit]);
+
+    const handleRoleSaveClick = () => {
+        onEditRole(company.companyId, roleToEdit.id, editedRoleDescription, editedFromDate, editedToDate, editedCurrent);
+        setIsEditingRole(false);
+    };
+
+    const handleRoleCancelClick = () => {
+        setIsEditingRole(false);
+    };
+
+    const handleRoleDescriptionChange = (e) => {
+        setEditedRoleDescription(e.target.value);
+    };
+
+    const handleFromMonthChange = (e) => {
+        setEditedFromMonth(e.target.value);
+    };
+
+    const handleFromYearChange = (e) => {
+        setEditedFromYear(e.target.value);
+    };
+
+    const handleToMonthChange = (e) => {
+        setEditedToMonth(e.target.value);
+    };
+
+    const handleToYearChange = (e) => {
+        setEditedToYear(e.target.value);
+    };
+
+    const handleCurrentChange = (e) => {
+        setEditedCurrent(e.target.checked);
     };
 
     return (
-        <div className="company-row">
+        <div className={`company-row ${isEditing || isEditingRole ? 'editing' : ''}`}>
             <div className="company-info-block"> 
                 <div className="company-info-header">
                     <div className="company-info-company">
@@ -71,7 +151,7 @@ const Companies = ({ company, onDelete, onDeleteRole }) => {
                                 {item.current ? <p>To: Current</p>
                                               : <p className="company-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                                 <div className="company-row-edit-icons">
-                                    <BsPencil className="icon-medium edit-icon" onClick={handleEditRoleClick}/>
+                                <BsPencil className="icon-medium edit-icon" onClick={() => handleEditRoleClick(item)}/>
                                     <IoTrashOutline className="icon-medium edit-icon" onClick={() => handleDeleteRoleClick(item.id)}/>
                                 </div>
                             </div>
@@ -80,6 +160,95 @@ const Companies = ({ company, onDelete, onDeleteRole }) => {
                     )}
                 </div>   
             </div>
+            {isEditing && (
+                <div className={`overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
+            {isEditing && (
+                <div className={`company-edit-block ${isEditing ? 'show' : 'hide'}`}>
+                    <h5 className="form-label">Company name</h5>
+                    <input
+                        type="text"
+                        className="edit-company-name form-input"
+                        value={editedName}
+                        onChange={handleNameChange}
+                    />
+                    <h5 className="form-label">Description</h5>
+                    <div className="company-edit-contents">
+                        <input
+                            type="text"
+                            className="edit-company-description form-input"
+                            value={editedDescription}
+                            onChange={handleDescriptionChange}
+                        />
+                        <div className="company-edit-icons2">
+                            <FiCheckCircle className="icon-large save-icon" onClick={handleSaveClick} />
+                            <MdOutlineCancel className="icon-large cancel-icon" onClick={handleCancelClick} />
+                        </div>
+                    </div>
+                </div>
+            )}
+            {isEditingRole && (
+                <div className={`overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
+            {isEditingRole && (
+                <div className={`role-edit-block ${isEditingRole ? 'show' : 'hide'}`}>
+                    <h5 className="form-label">Description</h5>
+                    <input
+                        type="text"
+                        className="edit-role-description form-input"
+                        value={editedRoleDescription}
+                        onChange={handleRoleDescriptionChange}
+                    />
+                    <div className="role-edit-contents">
+                        <div className="role-col">
+                            <h5 className="form-label">From:</h5>
+                            <input
+                                type="text"
+                                className="edit-month form-input"
+                                value={editedFromMonth}
+                                onChange={handleFromMonthChange}
+                            />
+                        </div>
+                        <div className="role-col">
+                            <h5 className="form-label">&nbsp;</h5>
+                            <input
+                                type="text"
+                                className="edit-year form-input"
+                                value={editedFromYear}
+                                onChange={handleFromYearChange}
+                            />
+                        </div>
+                        <div className="role-col">
+                            <h5 className="form-label">To:</h5>
+                            <input
+                                type="text"
+                                className="edit-month form-input"
+                                value={editedToMonth}
+                                onChange={handleToMonthChange}
+                            />
+                        </div>
+                        <div className="role-col">
+                            <h5 className="form-label">&nbsp;</h5>
+                            <input
+                                type="text"
+                                className="edit-year form-input"
+                                value={editedToYear}
+                                onChange={handleToYearChange}
+                            />
+                        </div>
+                        <div className="role-col">
+                            <h5 className="form-label">or  Current?</h5>
+                            <input type="checkbox"
+                                className="role-current"
+                                checked={editedCurrent}
+                                onChange={handleCurrentChange}
+                            />
+                        </div>
+                        <div className="role-edit-icons">
+                            <FiCheckCircle className="icon-large save-icon" onClick={handleRoleSaveClick} />
+                            <MdOutlineCancel className="icon-large cancel-icon" onClick={handleRoleCancelClick} />
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="company-add-detail">
                 <img
                     className="plus-button plus-button-small"

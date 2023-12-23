@@ -36,6 +36,31 @@ function CompaniesPage() {
     const handleAddCompany = () => {
         setIsPanelOpen(true);
       };
+
+    const handleEdit = async (companyId, description, name) => {
+        try {
+            await API.put("api", `/company/${companyId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: { companyName: name,
+                        description: description }
+            });
+            await updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    companies: prevUserData.projects.map((company) =>
+                        company.companyId === companyId ? { ...company, companyName: name, description: description } : company
+                    ),
+                };
+            });
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
     
       const handleSubmit = async (companyName, description) => {
         try {
@@ -100,29 +125,80 @@ function CompaniesPage() {
             await updateUserData((prevUserData) => {
                 const companyIndex = prevUserData.companies.findIndex((company) => company.companyId === companyId);
                 if (companyIndex !== -1) {
-                    const roleIndex = prevUserData.companies[companyIndex].details.findIndex((role) => role.id === roleId);
-                    if (roleIndex !== -1) {
-                        const updatedDetails = [
-                            ...prevUserData.companies[companyIndex].details.slice(0, roleIndex),
-                            ...prevUserData.companies[companyIndex].details.slice(roleIndex + 1),
-                        ];
-                        const updatedCompanies = [
-                            ...prevUserData.companies.slice(0, companyIndex),
-                            {
-                                ...prevUserData.companies[companyIndex],
-                                details: updatedDetails,
-                            },
-                            ...prevUserData.companies.slice(companyIndex + 1),
-                        ];
-                        const updatedUserData = {
-                            ...prevUserData,
-                            companies: updatedCompanies,
-                        };
-                        return updatedUserData;
-                    }
+                    const updatedDetails = prevUserData.companies[companyIndex].details.filter((role) => role.id !== roleId);
+                    const updatedCompanies = [
+                        ...prevUserData.companies.slice(0, companyIndex),
+                        {
+                            ...prevUserData.companies[companyIndex],
+                            details: updatedDetails
+                        },
+                        ...prevUserData.companies.slice(companyIndex + 1)
+                    ];
+                    const updatedSnippets = prevUserData.snippets.map((snippet) => {
+                        if (snippet.companyId === companyId) {
+                            const updatedRoles = snippet.roles.filter((role) => role.id !== roleId);
+                            return {
+                                ...snippet,
+                                roles: updatedRoles,
+                            };
+                        }
+                        return snippet;
+                    });
+                    const updatedUserData = {
+                        ...prevUserData,
+                        companies: updatedCompanies,
+                        snippets: updatedSnippets,
+                    };
+                    return updatedUserData;
                 }
                 return prevUserData;
             });
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
+    const handleEditRole = async (companyId, roleId) => {
+        try {
+            await API.put("api", `/role/${companyId}/${roleId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }
+            });
+            /* await updateUserData((prevUserData) => {
+                const companyIndex = prevUserData.companies.findIndex((company) => company.companyId === companyId);
+                if (companyIndex !== -1) {
+                    const updatedDetails = prevUserData.companies[companyIndex].details.filter((role) => role.id !== roleId);
+                    const updatedCompanies = [
+                        ...prevUserData.companies.slice(0, companyIndex),
+                        {
+                            ...prevUserData.companies[companyIndex],
+                            details: updatedDetails
+                        },
+                        ...prevUserData.companies.slice(companyIndex + 1)
+                    ];
+                    const updatedSnippets = prevUserData.snippets.map((snippet) => {
+                        if (snippet.companyId === companyId) {
+                            const updatedRoles = snippet.roles.filter((role) => role.id !== roleId);
+                            return {
+                                ...snippet,
+                                roles: updatedRoles,
+                            };
+                        }
+                        return snippet;
+                    });
+                    const updatedUserData = {
+                        ...prevUserData,
+                        companies: updatedCompanies,
+                        snippets: updatedSnippets,
+                    };
+                    return updatedUserData;
+                }
+                return prevUserData;
+            }); */
         }
         catch (error) {
               alert(error);
@@ -202,7 +278,9 @@ function CompaniesPage() {
                             <Companies key={item.companyId}
                                        company={item}
                                        onDelete={handleDelete}
-                                       onDeleteRole={handleDeleteRole} />)
+                                       onDeleteRole={handleDeleteRole}
+                                       onEdit={handleEdit}
+                                       onEditRole={handleEditRole} />)
                         ) : (
                         <h2>You have no companies and roles saved. Try adding some companies and roles!</h2>
                         )}

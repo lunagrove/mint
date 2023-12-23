@@ -111,26 +111,40 @@ function EducationPage() {
             await updateUserData((prevUserData) => {
                 const educationIndex = prevUserData.education.findIndex((education) => education.educationId === educationId);
                 if (educationIndex !== -1) {
-                    const courseIndex = prevUserData.education[educationIndex].details.findIndex((course) => course.id === courseId);
-                    if (courseIndex !== -1) {
-                        const updatedDetails = [
-                            ...prevUserData.education[educationIndex].details.slice(0, courseIndex),
-                            ...prevUserData.education[educationIndex].details.slice(courseIndex + 1),
-                        ];
-                        const updatedEducation = [
-                            ...prevUserData.education.slice(0, educationIndex),
-                            {
-                                ...prevUserData.education[educationIndex],
-                                details: updatedDetails,
-                            },
-                            ...prevUserData.education.slice(educationIndex + 1),
-                        ];
-                        const updatedUserData = {
-                            ...prevUserData,
-                            education: updatedEducation,
-                        };
-                        return updatedUserData;
-                    }
+                    const updatedDetails = prevUserData.education[educationIndex].details.filter((course) => course.id !== courseId);
+                    const updatedEducation = [
+                        ...prevUserData.education.slice(0, educationIndex),
+                        {
+                            ...prevUserData.education[educationIndex],
+                            details: updatedDetails
+                        },
+                        ...prevUserData.education.slice(educationIndex + 1)
+                    ];
+                    const updatedSnippets = prevUserData.snippets.map((snippet) => {
+                        if (snippet.educationId === educationId) {
+                            if (type === 'course') {
+                                const updatedCourses = snippet.courses.filter((course) => course.id !== courseId);
+                                    return {
+                                        ...snippet,
+                                        courses: updatedCourses,
+                                    };
+                            }
+                            if (type === 'credential') {
+                                const updatedCredentials = snippet.credentials.filter((credential) => credential.id !== courseId);
+                                    return {
+                                        ...snippet,
+                                        credentials: updatedCredentials,
+                                    };
+                            }
+                        }
+                        return snippet;
+                    });
+                    const updatedUserData = {
+                        ...prevUserData,
+                        education: updatedEducation,
+                        snippets: updatedSnippets,
+                    };
+                    return updatedUserData;
                 }
                 return prevUserData;
             });

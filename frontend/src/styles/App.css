@@ -56,6 +56,14 @@ button {
   color: #ebfef0;
 }
 
+input[type="checkbox"] {
+  height: 23px;
+}
+
+input[type="checkbox"]:checked {
+  accent-color: #01210a;
+}
+
 .spin {
   animation: spin 1s linear infinite;
 }
