@@ -84,7 +84,7 @@
     z-index: 10;
 }
 
-.overlay {
+.company-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -93,12 +93,12 @@
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-.overlay.show {
+.company-overlay.show {
     pointer-events: none;
     z-index: 10;
 }
 
-.overlay.hide {
+.company-overlay.hide {
     pointer-events: auto;
 }
 
@@ -143,14 +143,6 @@
     width: 100%;
 }
 
-.company-detail-block {
-    display: flex;
-    gap: 15px;
-    margin-left: 10px;
-    margin-top: 10px;
-    align-items: baseline;
-}
-
 .role-edit-block {
     position: absolute;
     top: 100%;
@@ -188,10 +180,11 @@
     justify-content: flex-start;
     align-items: center;  
     gap: 5px;
+    margin-top: 10px;
 }
 
 .edit-month {
-    width: 120px;
+    width: 130px;
 }
 
 .edit-year {

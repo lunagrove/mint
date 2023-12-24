@@ -35,7 +35,32 @@ function EducationPage() {
 
     const handleAddInstitution = () => {
         setIsPanelOpen(true);
-      };
+    };
+
+    const handleEdit = async (educationId, institution, location) => {
+        try {
+            await API.put("api", `/education/${educationId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: { institution: institution,
+                        location: location }
+            });
+            await updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    education: prevUserData.education.map((education) =>
+                        education.educationId === educationId ? { ...education, institution: institution, location: location } : education
+                    ),
+                };
+            });
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
     
     const handleSubmit = async (institution, location) => {
         try {
@@ -154,6 +179,72 @@ function EducationPage() {
         }
     };
 
+    const handleEditCourse = async (educationId, courseId, type, description, fromDate, toDate, current) => {
+        try {
+            if (type === 'course') {
+                await API.put("api", `/course/${educationId}/${courseId}`, {
+                    headers: {
+                    Authorization: `Bearer ${(await Auth.currentSession())
+                        .getAccessToken()
+                        .getJwtToken()}`,
+                    },
+                    body: {
+                        description: description,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        current: current
+                    }
+                });
+            }
+            if (type === 'credential') {
+                await API.put("api", `/credential/${educationId}/${courseId}`, {
+                    headers: {
+                    Authorization: `Bearer ${(await Auth.currentSession())
+                        .getAccessToken()
+                        .getJwtToken()}`,
+                    },
+                    body: {
+                        description: description,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        current: current
+                    }
+                });
+            }
+            await updateUserData((prevUserData) => {
+                const educationIndex = prevUserData.education.findIndex((education) => education.educationId === educationId);
+                if (educationIndex !== -1) {
+                    const updatedDetails = prevUserData.education[educationIndex].details.map((course) => {
+                        if (course.id === courseId) {
+                            return {
+                                ...course,
+                                description, fromDate, toDate, current
+                            };
+                        }
+                        return course;
+                    });
+                    const updatedEducation = [
+                        ...prevUserData.education.slice(0, educationIndex),
+                        {
+                            ...prevUserData.education[educationIndex],
+                            details: updatedDetails,
+                        },
+                        ...prevUserData.education.slice(educationIndex + 1),
+                    ];
+                    const updatedUserData = {
+                        ...prevUserData,
+                        education: updatedEducation,
+                    };
+                    return updatedUserData;
+                }
+                return prevUserData;
+            }); 
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
     const handleClose = () => {
         setIsPanelOpen(false);
     };
@@ -227,7 +318,9 @@ function EducationPage() {
                             <Education key={item.educationId}
                                        education={item}
                                        onDelete={handleDelete}
-                                       onDeleteCourse={handleDeleteCourse} />)
+                                       onDeleteCourse={handleDeleteCourse}
+                                       onEdit={handleEdit}
+                                       onEditRole={handleEditCourse} />)
                         ) : (
                         <h2>You have no educational institutions saved. Try adding some educational institutions!</h2>
                         )}

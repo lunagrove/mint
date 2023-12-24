@@ -1,0 +1,29 @@
+.century-input {
+    width: 45px;
+    border-radius: 0;
+}
+
+.year-input {
+    width: 45px;
+    border-radius: 0;
+}
+
+.spin-control-up {
+    background-color: #ebfef0;
+    color: #01210a;
+    border-radius: 0 5px 5px 0;
+    border: 1px solid #76a584;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-right: 5px;
+    padding: 0 6px;
+}
+
+.spin-control-down {
+    background-color: #ebfef0;
+    color: #01210a;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #76a584;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-left: 5px;
+    padding: 0 6px;
+}

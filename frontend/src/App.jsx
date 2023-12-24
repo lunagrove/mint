@@ -49,6 +49,7 @@ import './styles/AddEducation.css';
 import './styles/Companies.css';
 import './styles/Education.css';
 import './styles/Dialog.css';
+import './styles/SelectYear.css';
 
 const amplifyConfig = {
   Auth: {

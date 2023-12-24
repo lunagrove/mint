@@ -6,7 +6,9 @@ import { BsPencil } from "react-icons/bs";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
 import { formatMonthandYear, getMonthName } from "../utilities/dates";
-import Dialog from './Dialog';
+import { monthNames } from "../utilities/constants";
+import Dialog from "./Dialog";
+import SelectYear from "./SelectYear";
 
 const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole }) => {
 
@@ -24,7 +26,7 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole }) => {
     const [editedToYear, setEditedToYear] = useState('');
     const [editedCurrent, setEditedCurrent] = useState(false);
     const [roleToEdit, setRoleToEdit] = useState(null);
-
+    
     const handleDeleteClick = () => {
         setDeleteDialogOpen(true);
     };
@@ -82,7 +84,6 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole }) => {
 
     useEffect(() => {
         if (roleToEdit) {
-            console.log('role to be edited: ', roleToEdit);
             setEditedRoleDescription(roleToEdit.description);
             setEditedFromMonth(getMonthName(roleToEdit.fromdate));
             var roleFromDate = new Date(roleToEdit.fromdate);
@@ -111,16 +112,16 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole }) => {
         setEditedFromMonth(e.target.value);
     };
 
-    const handleFromYearChange = (e) => {
-        setEditedFromYear(e.target.value);
+    const handleFromYearChange = (newValue) => {
+        setEditedFromYear(newValue);
     };
 
     const handleToMonthChange = (e) => {
         setEditedToMonth(e.target.value);
     };
 
-    const handleToYearChange = (e) => {
-        setEditedToYear(e.target.value);
+    const handleToYearChange = (newValue) => {
+        setEditedToYear(newValue);
     };
 
     const handleCurrentChange = (e) => {
@@ -151,7 +152,7 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole }) => {
                                 {item.current ? <p>To: Current</p>
                                               : <p className="company-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                                 <div className="company-row-edit-icons">
-                                <BsPencil className="icon-medium edit-icon" onClick={() => handleEditRoleClick(item)}/>
+                                    <BsPencil className="icon-medium edit-icon" onClick={() => handleEditRoleClick(item)}/>
                                     <IoTrashOutline className="icon-medium edit-icon" onClick={() => handleDeleteRoleClick(item.id)}/>
                                 </div>
                             </div>
@@ -161,7 +162,7 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole }) => {
                 </div>   
             </div>
             {isEditing && (
-                <div className={`overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
+                <div className={`company-overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
             {isEditing && (
                 <div className={`company-edit-block ${isEditing ? 'show' : 'hide'}`}>
                     <h5 className="form-label">Company name</h5>
@@ -180,14 +181,14 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole }) => {
                             onChange={handleDescriptionChange}
                         />
                         <div className="company-edit-icons2">
-                            <FiCheckCircle className="icon-large save-icon" onClick={handleSaveClick} />
-                            <MdOutlineCancel className="icon-large cancel-icon" onClick={handleCancelClick} />
+                            <FiCheckCircle className="icon-xlarge save-icon" onClick={handleSaveClick} />
+                            <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleCancelClick} />
                         </div>
                     </div>
                 </div>
             )}
             {isEditingRole && (
-                <div className={`overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
+                <div className={`company-overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
             {isEditingRole && (
                 <div className={`role-edit-block ${isEditingRole ? 'show' : 'hide'}`}>
                     <h5 className="form-label">Description</h5>
@@ -200,51 +201,49 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole }) => {
                     <div className="role-edit-contents">
                         <div className="role-col">
                             <h5 className="form-label">From:</h5>
-                            <input
-                                type="text"
-                                className="edit-month form-input"
-                                value={editedFromMonth}
-                                onChange={handleFromMonthChange}
-                            />
+                            <select className="form-select edit-month"
+                                    value={editedFromMonth}
+                                    onChange={handleFromMonthChange}>
+                                <option value="" disabled>Select a month</option>
+                                {monthNames.map((month, index) => (
+                                    <option key={index + 1} value={month}>{month}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="role-col">
                             <h5 className="form-label">&nbsp;</h5>
-                            <input
-                                type="text"
-                                className="edit-year form-input"
-                                value={editedFromYear}
-                                onChange={handleFromYearChange}
-                            />
+                            <SelectYear defaultValue={editedFromYear}
+                                        onChange={handleFromYearChange}>
+                            </SelectYear>
                         </div>
                         <div className="role-col">
                             <h5 className="form-label">To:</h5>
-                            <input
-                                type="text"
-                                className="edit-month form-input"
-                                value={editedToMonth}
-                                onChange={handleToMonthChange}
-                            />
+                            <select className="form-select edit-month"
+                                    value={editedToMonth}
+                                    onChange={handleToMonthChange}>
+                                <option value="" disabled>Select a month</option>
+                                {monthNames.map((month, index) => (
+                                    <option key={index + 1} value={month}>{month}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="role-col">
                             <h5 className="form-label">&nbsp;</h5>
-                            <input
-                                type="text"
-                                className="edit-year form-input"
-                                value={editedToYear}
-                                onChange={handleToYearChange}
-                            />
+                            <SelectYear defaultValue={editedToYear}
+                                        onChange={handleToYearChange}>
+                            </SelectYear>
                         </div>
                         <div className="role-col">
                             <h5 className="form-label">or  Current?</h5>
                             <input type="checkbox"
-                                className="role-current"
-                                checked={editedCurrent}
-                                onChange={handleCurrentChange}
+                                   className="role-current"
+                                   checked={editedCurrent}
+                                   onChange={handleCurrentChange}
                             />
                         </div>
                         <div className="role-edit-icons">
-                            <FiCheckCircle className="icon-large save-icon" onClick={handleRoleSaveClick} />
-                            <MdOutlineCancel className="icon-large cancel-icon" onClick={handleRoleCancelClick} />
+                            <FiCheckCircle className="icon-xlarge save-icon" onClick={handleRoleSaveClick} />
+                            <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleRoleCancelClick} />
                         </div>
                     </div>
                 </div>

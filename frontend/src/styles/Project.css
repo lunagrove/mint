@@ -33,7 +33,7 @@
     overflow: hidden;
 }
 
-.overlay {
+.project-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -42,12 +42,12 @@
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-.overlay.show {
+.project-overlay.show {
     pointer-events: none;
     z-index: 10;
 }
 
-.overlay.hide {
+.project-overlay.hide {
     pointer-events: auto;
 }
 

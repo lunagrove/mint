@@ -1,14 +1,16 @@
 import React from 'react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PiArrowElbowDownRightFill } from "react-icons/pi";
 import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
-import { formatMonthandYear } from "../utilities/dates";
+import { formatMonthandYear, getMonthName } from "../utilities/dates";
+import { monthNames } from "../utilities/constants";
 import Dialog from './Dialog';
+import SelectYear from "./SelectYear";
 
-const Education = ({ education, onDelete, onDeleteCourse, onEdit }) => {
+const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedInstitution, setEditedInstitution] = useState(education.institution);
@@ -17,6 +19,14 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit }) => {
     const [isDeleteCourseDialogOpen, setDeleteCourseDialogOpen] = useState(false);
     const [courseIdToDelete, setCourseIdToDelete] = useState(null);
     const [courseType, setCourseType] = useState(null);
+    const [isEditingCourse, setIsEditingCourse] = useState(false);
+    const [editedCourseDescription, setEditedCourseDescription] = useState('');
+    const [editedFromMonth, setEditedFromMonth] = useState('');
+    const [editedFromYear, setEditedFromYear] = useState('');
+    const [editedToMonth, setEditedToMonth] = useState('');
+    const [editedToYear, setEditedToYear] = useState('');
+    const [editedCurrent, setEditedCurrent] = useState(false);
+    const [courseToEdit, setCourseToEdit] = useState(null);
 
     const handleDeleteClick = () => {
         setDeleteDialogOpen(true);
@@ -69,12 +79,59 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit }) => {
         setDeleteCourseDialogOpen(false);
     };
     
-    const handleEditCourseClick = () => {
-        
+    const handleEditCourseClick = (course) => {
+        setIsEditingCourse(true);
+        setCourseToEdit(course);    
+    };
+
+    useEffect(() => {
+        if (courseToEdit) {
+            setEditedCourseDescription(courseToEdit.description);
+            setEditedFromMonth(getMonthName(courseToEdit.fromdate));
+            var courseFromDate = new Date(courseToEdit.fromdate);
+            setEditedFromYear(courseFromDate.getFullYear());
+            setEditedToMonth(getMonthName(courseToEdit.todate));
+            var courseToDate = new Date(courseToEdit.todate);
+            setEditedToYear(courseToDate.getFullYear());
+            setEditedCurrent(courseToEdit.current);
+        }
+    }, [courseToEdit]);
+
+    const handleCourseSaveClick = () => {
+        onEditCourse(education.educationId, courseToEdit.id, editedCourseDescription, editedFromDate, editedToDate, editedCurrent);
+        setIsEditingCourse(false);
+    };
+
+    const handleCourseCancelClick = () => {
+        setIsEditingCourse(false);
+    };
+
+    const handleCourseDescriptionChange = (e) => {
+        setEditedCourseDescription(e.target.value);
+    };
+
+    const handleFromMonthChange = (e) => {
+        setEditedFromMonth(e.target.value);
+    };
+
+    const handleFromYearChange = (newValue) => {
+        setEditedFromYear(newValue);
+    };
+
+    const handleToMonthChange = (e) => {
+        setEditedToMonth(e.target.value);
+    };
+
+    const handleToYearChange = (newValue) => {
+        setEditedToYear(newValue);
+    };
+
+    const handleCurrentChange = (e) => {
+        setEditedCurrent(e.target.checked);
     };
 
     return (
-        <div className={`education-row ${isEditing ? 'editing' : ''}`}>
+        <div className={`education-row ${isEditing || isEditingCourse ? 'editing' : ''}`}>
             <div className="education-info-block">
                 <div className="education-institution">
                     <h3 className="education-info-heading">
@@ -95,7 +152,7 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit }) => {
                                 {item.current ? <p>To: Current</p>
                                               : <p className="education-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                                 <div className="education-row-edit-icons">
-                                    <BsPencil className="icon-medium edit-icon" onClick={handleEditCourseClick}/>
+                                <BsPencil className="icon-medium edit-icon" onClick={() => handleEditCourseClick(item)}/>
                                     <IoTrashOutline className="icon-medium edit-icon" onClick={() => handleDeleteCourseClick(item.id, item.type)}/>
                                 </div>
                             </div>
@@ -105,7 +162,7 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit }) => {
                 </div>
             </div>
             {isEditing && (
-                <div className={`overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
+                <div className={`education-overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
             {isEditing && (
                 <div className={`education-edit-block ${isEditing ? 'show' : 'hide'}`}>
                     <h5 className="form-label">Institution name</h5>
@@ -124,8 +181,69 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit }) => {
                             onChange={handleLocationChange}
                         />
                         <div className="education-edit-icons2">
-                            <FiCheckCircle className="icon-large save-icon" onClick={handleSaveClick} />
-                            <MdOutlineCancel className="icon-large cancel-icon" onClick={handleCancelClick} />
+                            <FiCheckCircle className="icon-xlarge save-icon" onClick={handleSaveClick} />
+                            <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleCancelClick} />
+                        </div>
+                    </div>
+                </div>
+            )}
+            {isEditingCourse && (
+                <div className={`education-overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
+            {isEditingCourse && (
+                <div className={`course-edit-block ${isEditingCourse ? 'show' : 'hide'}`}>
+                    <h5 className="form-label">Description</h5>
+                    <input
+                        type="text"
+                        className="edit-course-description form-input"
+                        value={editedCourseDescription}
+                        onChange={handleCourseDescriptionChange}
+                    />
+                    <div className="course-edit-contents">
+                        <div className="course-col">
+                            <h5 className="form-label">From:</h5>
+                            <select className="form-select edit-month"
+                                    value={editedFromMonth}
+                                    onChange={handleFromMonthChange}>
+                                <option value="" disabled>Select a month</option>
+                                {monthNames.map((month, index) => (
+                                    <option key={index + 1} value={month}>{month}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="course-col">
+                            <h5 className="form-label">&nbsp;</h5>
+                            <SelectYear defaultValue={editedFromYear}
+                                        onChange={handleFromYearChange}>
+                            </SelectYear>
+                        </div>
+                        <div className="course-col">
+                            <h5 className="form-label">To:</h5>
+                            <select className="form-select edit-month"
+                                    value={editedToMonth}
+                                    onChange={handleToMonthChange}>
+                                <option value="" disabled>Select a month</option>
+                                {monthNames.map((month, index) => (
+                                    <option key={index + 1} value={month}>{month}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="course-col">
+                            <h5 className="form-label">&nbsp;</h5>
+                            <SelectYear defaultValue={editedToYear}
+                                        onChange={handleToYearChange}>
+                            </SelectYear>
+                        </div>
+                        <div className="course-col">
+                            <h5 className="form-label">or  Current?</h5>
+                            <input type="checkbox"
+                                   className="course-current"
+                                   checked={editedCurrent}
+                                   onChange={handleCurrentChange}
+                            />
+                        </div>
+                        <div className="course-edit-icons">
+                            <FiCheckCircle className="icon-xlarge save-icon" onClick={handleCourseSaveClick} />
+                            <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleCourseCancelClick} />
                         </div>
                     </div>
                 </div>

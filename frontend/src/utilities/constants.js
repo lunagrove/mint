@@ -96,4 +96,12 @@ const tips = [
     }
 ];
 
-export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig, MAX_EDUCATION, MAX_SNIPPETS, MAX_COMPANIES, MAX_HOBBIES, MAX_PROJECTS, tips }
+const monthNames = [
+  'January', 'February', 'March', 'April',
+  'May', 'June', 'July', 'August',
+  'September', 'October', 'November', 'December'
+];
+
+const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig, MAX_EDUCATION, MAX_SNIPPETS, MAX_COMPANIES, MAX_HOBBIES, MAX_PROJECTS, tips, monthNames, weekDays }

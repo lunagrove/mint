@@ -12,8 +12,14 @@ const AddSnippet = ({ onSubmit, onClose }) => {
 
     const [skills, setSkills] = useState([]);
     const [selectedSkills, setSelectedSkills] = useState([]);
-    const [tags, setTags] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [roles, setRoles] = useState([]);
+    const [selectedRole, setSelectedRole] = useState(null);
+    const [courses, setCourses] = useState([]);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [hobbies, setHobbies] = useState([]);
+    const [selectedHobby, setSelectedHobby] = useState(null);
+    const [projects, setProjects] = useState([]);
+    const [selectedProject, setSelectedProject] = useState(null);
 
     const [snippet, setSnippet] = useState('');
     const [isTipsOpen, setIsTipsOpen] = useState(false);
@@ -33,65 +39,50 @@ const AddSnippet = ({ onSubmit, onClose }) => {
     }, [userData.skills]);
 
     useEffect(() => {
-        let experienceTags = [];
-
-        const createCategoryOptions = (label, items) => ({
-            label,
-            options: items.map(item => ({ label: item.label }))
-        });
-
+        let tags = [];
         if (userData.companies && userData.companies.length > 0) {
-            const roles = userData.companies.flatMap(company =>
+            tags = userData.companies.flatMap(company =>
                 company.details.map(role => ({
                     label: role.description,
-                    value: `${role.id}+role`,
-                    category: 'Roles'
+                    value: role.id
                 }))
             );
-            experienceTags.push(createCategoryOptions('Roles', roles));
+            setRoles(tags);
         }
+        tags = [];
         if (userData.education && userData.education.length > 0) {
-            const courses = userData.education.flatMap(institution =>
+            tags = userData.education.flatMap(institution =>
                 institution.details.map(course => ({
                     label: course.description,
-                    value: `${course.id}+course`,
-                    category: 'Courses and Credentials'
+                    value: course.id
                 }))
             );
-            experienceTags.push(createCategoryOptions('Courses and Credentials', courses));
+            setCourses(tags);
         }
+        tags = [];
         if (userData.hobbies && userData.hobbies.length > 0) {
-            const hobbies = userData.hobbies.map(hobby => ({            
+            tags = userData.hobbies.map(hobby => ({            
                 label: hobby.description,
-                value: `${hobby.hobbyid}+hobby`,
-                category: 'Hobbies'
+                value: hobby.hobbyid
             }));
-            experienceTags.push(createCategoryOptions('Hobbies', hobbies));
-        }       
+            setHobbies(tags);
+        }  
+        tags = [];     
         if (userData.projects && userData.projects.length > 0) {
-            const projects = userData.projects.map(project => ({
+            tags = userData.projects.map(project => ({
                 label: project.description,
-                value: `${project.projectid}+project`,
-                category: 'Projects'
+                value: project.projectid
             }));
-            experienceTags.push(createCategoryOptions('Projects', projects));
+            setProjects(tags);
         }       
-        setTags(experienceTags);
     }, []);
-
-    const formatGroupLabel = (data) => (
-        <div style={{ color: '#000000', fontWeight: '900' , fontSize: '16px'}}>
-          <span>{data.label}</span>
-          <span>{` (${data.options.length})`}</span>
-        </div>
-    );
 
     const handleChange = (e) => {
         setSnippet(e.target.value);    
     };
 
     const handleSubmit = () => {
-        onSubmit(snippet, selectedSkills, selectedTags);
+        onSubmit(snippet, selectedSkills, selectedRole, selectedCourse, selectedHobby, selectedProject);
         handleClose();
     };
 
@@ -114,7 +105,16 @@ const AddSnippet = ({ onSubmit, onClose }) => {
     const characterCount = snippet.length;
     const isCharacterCountExceeded = characterCount > 300;
 
-    console.log('tags', tags);
+    function customTheme(theme) {
+        return {
+            ...theme,
+            colors: {
+                ...theme.colors,
+                primary25: "#e0e0e0",
+                primary: 'grey'
+            }
+        };
+    }
 
     return (
         <div className="snippet-panel-contents">
@@ -123,37 +123,59 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                     <div className="snippet-add-heading">
                         <h4 className="form-label">Where did you gain this experience?</h4>
                         <IoMdInformationCircleOutline className="icon-large tips-icon"
-                                                    onClick={(e) => openTips(e, 0)} />
+                                                      onClick={(e) => openTips(e, 0)} />
                     </div>
                     <div className="snippet-add-tags"> 
-                        {tags && <Select closeMenuOnSelect={false}
-                                         components={animatedComponents}
-                                         isMulti={true}
-                                         options={tags}
-                                         blurInputOnSelect={false}
-                                         id="tags"
-                                         maxMenuHeight={160}
-                                         menuPlacement={"auto"}
-                                         onChange={setSelectedTags}
-                                         formatGroupLabel={formatGroupLabel} />}
+                        {roles && <Select options={roles}
+                                          theme={customTheme}
+                                          components={animatedComponents}
+                                          maxMenuHeight={160}
+                                          placeholder="Select role..."
+                                          isClearable={true}
+                                          menuPlacement={"auto"}
+                                          onChange={setSelectedRole} />}
+                        {courses && <Select options={courses}
+                                            theme={customTheme}
+                                            components={animatedComponents}
+                                            maxMenuHeight={160}
+                                            placeholder="Select course or credential..."
+                                            isClearable={true}
+                                            menuPlacement={"auto"}
+                                            onChange={setSelectedCourse} />}
+                        {hobbies && <Select options={hobbies}
+                                            theme={customTheme}
+                                            components={animatedComponents}
+                                            maxMenuHeight={160}
+                                            placeholder="Select hobby..."
+                                            isClearable={true}
+                                            menuPlacement={"auto"}
+                                            onChange={setSelectedHobby} />}
+                        {projects && <Select options={projects}
+                                             theme={customTheme}
+                                             components={animatedComponents}
+                                             maxMenuHeight={160}
+                                             placeholder="Select project..."
+                                             isClearable={true}
+                                             menuPlacement={"auto"}
+                                             onChange={setSelectedProject} />}
                     </div>
                 </div>
                 <form className="snippet-add-form">
                     <div className="snippet-add-heading">
                         <h4 className="form-label">Describe your experience</h4>
                         <IoMdInformationCircleOutline className="icon-large tips-icon"
-                                                    onClick={(e) => openTips(e, 1)} />
+                                                      onClick={(e) => openTips(e, 1)} />
                     </div>
                     {isTipsOpen && <Tips tipIndex={selectedTipIndex}
-                                        onClose={closeTips}
-                                        position={position} />}
+                                         onClose={closeTips}
+                                         position={position} />}
 
                     <textarea className="form-textarea"
-                            id="snippet" 
-                            name="snippet"
-                            rows="8"
-                            cols="50"
-                            onChange={(e) => handleChange(e)}>
+                              id="snippet" 
+                              name="snippet"
+                              rows="8"
+                              cols="50"
+                              onChange={(e) => handleChange(e)}>
                     </textarea>
                     <h4 className={`character-count ${isCharacterCountExceeded ? 'exceeded' : ''}`}>{characterCount} / 300</h4>
                 </form>
@@ -163,16 +185,18 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                         <IoMdInformationCircleOutline className="icon-large tips-icon"
                                                       onClick={(e) => openTips(e, 1)} />
                     </div>
-                    <div className="snippet-add-tags"> 
+                    <div className="snippet-add-skills"> 
                         {skills && <Select closeMenuOnSelect={false}
-                                            components={animatedComponents}
-                                            isMulti={true}
-                                            options={skills}
-                                            blurInputOnSelect={false}
-                                            id="skills"
-                                            maxMenuHeight={160}
-                                            menuPlacement={"auto"}
-                                            onChange={setSelectedSkills} />}
+                                           theme={customTheme}
+                                           components={animatedComponents}
+                                           placeholder="Select skills..."
+                                           isMulti={true}
+                                           options={skills}
+                                           blurInputOnSelect={false}
+                                           id="skills"
+                                           maxMenuHeight={160}
+                                           menuPlacement={"auto"}
+                                           onChange={setSelectedSkills} />}
                     </div>
                 </div>
             </div>

@@ -65,7 +65,7 @@ const Project = ({ project, onDelete, onEdit }) => {
                     <h3 className="project-description project-snippet" >{project.snippet}</h3>   
                 </div>
             </div>
-            {isEditing && <div className={`overlay ${isEditing ? 'show' : 'hide'}`}></div>}
+            {isEditing && <div className={`project-overlay ${isEditing ? 'show' : 'hide'}`}></div>}
             {isEditing && (
                 <div className={`project-edit-block ${isEditing ? 'show' : 'hide'}`}>
                     <h5 className="form-label">Project name</h5>
@@ -85,8 +85,8 @@ const Project = ({ project, onDelete, onEdit }) => {
                             onChange={handleSnippetChange}>
                         </textarea>
                         <div className="project-edit-icons">
-                            <FiCheckCircle className="icon-large save-icon" onClick={handleSaveClick} />
-                            <MdOutlineCancel className="icon-large cancel-icon" onClick={handleCancelClick} />
+                            <FiCheckCircle className="icon-xlarge save-icon" onClick={handleSaveClick} />
+                            <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleCancelClick} />
                         </div>
                     </div>
                 </div>

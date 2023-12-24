@@ -29,7 +29,7 @@
     overflow: hidden;
 }
 
-.overlay {
+.experience-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -38,12 +38,12 @@
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-.overlay.show {
+.experience-overlay.show {
     pointer-events: none;
     z-index: 10;
 }
 
-.overlay.hide {
+.experience-overlay.hide {
     pointer-events: auto;
 }
 

@@ -65,7 +65,7 @@ const Hobby = ({ hobby, onDelete, onEdit }) => {
                     <h3 className="hobby-description hobby-snippet" >{hobby.snippet}</h3>  
                 </div>    
             </div>
-            {isEditing && <div className={`overlay ${isEditing ? 'show' : 'hide'}`}></div>}
+            {isEditing && <div className={`hobby-overlay ${isEditing ? 'show' : 'hide'}`}></div>}
             {isEditing && (
                 <div className={`hobby-edit-block ${isEditing ? 'show' : 'hide'}`}>
                     <h5 className="form-label">Hobby name</h5>
@@ -85,8 +85,8 @@ const Hobby = ({ hobby, onDelete, onEdit }) => {
                             onChange={handleSnippetChange}>
                         </textarea>
                         <div className="hobby-edit-icons">
-                            <FiCheckCircle className="icon-large save-icon" onClick={handleSaveClick} />
-                            <MdOutlineCancel className="icon-large cancel-icon" onClick={handleCancelClick} />
+                            <FiCheckCircle className="icon-xlarge save-icon" onClick={handleSaveClick} />
+                            <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleCancelClick} />
                         </div>
                     </div>
                 </div>

@@ -51,7 +51,7 @@ function CompaniesPage() {
             await updateUserData((prevUserData) => {
                 return {
                     ...prevUserData,
-                    companies: prevUserData.projects.map((company) =>
+                    companies: prevUserData.companies.map((company) =>
                         company.companyId === companyId ? { ...company, companyName: name, description: description } : company
                     ),
                 };
@@ -159,46 +159,49 @@ function CompaniesPage() {
         }
     };
 
-    const handleEditRole = async (companyId, roleId) => {
+    const handleEditRole = async (companyId, roleId, description, fromDate, toDate, current) => {
         try {
             await API.put("api", `/role/${companyId}/${roleId}`, {
                 headers: {
                 Authorization: `Bearer ${(await Auth.currentSession())
                     .getAccessToken()
                     .getJwtToken()}`,
+                },
+                body: {
+                    description: description,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    current: current
                 }
             });
-            /* await updateUserData((prevUserData) => {
+            await updateUserData((prevUserData) => {
                 const companyIndex = prevUserData.companies.findIndex((company) => company.companyId === companyId);
                 if (companyIndex !== -1) {
-                    const updatedDetails = prevUserData.companies[companyIndex].details.filter((role) => role.id !== roleId);
+                    const updatedDetails = prevUserData.companies[companyIndex].details.map((role) => {
+                        if (role.id === roleId) {
+                            return {
+                                ...role,
+                                description, fromDate, toDate, current
+                            };
+                        }
+                        return role;
+                    });
                     const updatedCompanies = [
                         ...prevUserData.companies.slice(0, companyIndex),
                         {
                             ...prevUserData.companies[companyIndex],
-                            details: updatedDetails
+                            details: updatedDetails,
                         },
-                        ...prevUserData.companies.slice(companyIndex + 1)
+                        ...prevUserData.companies.slice(companyIndex + 1),
                     ];
-                    const updatedSnippets = prevUserData.snippets.map((snippet) => {
-                        if (snippet.companyId === companyId) {
-                            const updatedRoles = snippet.roles.filter((role) => role.id !== roleId);
-                            return {
-                                ...snippet,
-                                roles: updatedRoles,
-                            };
-                        }
-                        return snippet;
-                    });
                     const updatedUserData = {
                         ...prevUserData,
                         companies: updatedCompanies,
-                        snippets: updatedSnippets,
                     };
                     return updatedUserData;
                 }
                 return prevUserData;
-            }); */
+            }); 
         }
         catch (error) {
               alert(error);

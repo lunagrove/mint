@@ -172,6 +172,17 @@ export async function deleteCredential(userId, educationId, credentialId) {
   return res.rows[0]
 }
 
+export async function editCredential(userId, educationId, credentialId, description, fromDate, toDate, current) {
+  const res = await getPool().query(`
+  UPDATE credential SET description = $4, fromdate = $5, todate = $6, current = $7
+  WHERE userid = $1
+  AND educationid = $2
+  AND credentialid = $3
+  RETURNING *
+  `, [userId, educationId, credentialId, description, fromDate, toDate, current])
+  return res.rows[0]
+}
+
 export async function getCourses(userId, educationId) {
   const res = await getPool().query(`
   SELECT * FROM course
@@ -189,6 +200,17 @@ export async function deleteCourse(userId, educationId, courseId) {
   AND courseid = $3
   RETURNING *
   `, [userId, educationId, courseId])
+  return res.rows[0]
+}
+
+export async function editCourse(userId, educationId, courseId, description, fromDate, toDate, current) {
+  const res = await getPool().query(`
+  UPDATE course SET description = $4, fromdate = $5, todate = $6, current = $7
+  WHERE userid = $1
+  AND educationid = $2
+  AND courseid = $3
+  RETURNING *
+  `, [userId, educationId, courseId, description, fromDate, toDate, current])
   return res.rows[0]
 }
 
@@ -246,6 +268,17 @@ export async function deleteRole(userId, companyId, roleId) {
   AND roleid = $3
   RETURNING *
   `, [userId, companyId, roleId])
+  return res.rows[0]
+}
+
+export async function editRole(userId, companyId, roleId, description, fromDate, toDate, current) {
+  const res = await getPool().query(`
+  UPDATE role SET description = $4, fromdate = $5, todate = $6, current = $7
+  WHERE userid = $1
+  AND companyid = $2
+  AND roleid = $3
+  RETURNING *
+  `, [userId, companyId, roleId, description, fromDate, toDate, current])
   return res.rows[0]
 }
 
@@ -334,7 +367,7 @@ export async function getSnippets(userId) {
   return res.rows;
 }
 
-export async function createSnippet(userid, snippet ) {
+export async function createSnippet(userid, snippet) {
   const res = await getPool().query(`
   INSERT INTO experience (userId, snippet)
   VALUES ($1, $2)

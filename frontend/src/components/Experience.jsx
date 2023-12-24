@@ -94,7 +94,7 @@ const Experience = ({ snippet, onDelete, onEdit }) => {
                     <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteClick}/>
                 </div>
             </div>
-            {isEditing && <div className={`overlay ${isEditing ? 'show' : 'hide'}`}></div>}
+            {isEditing && <div className={`experience-overlay ${isEditing ? 'show' : 'hide'}`}></div>}
             {isEditing && (
                 <div className={`experience-edit-block ${isEditing ? 'show' : 'hide'}`}>
                     <h5 className="form-label">Description</h5>

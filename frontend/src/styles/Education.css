@@ -84,7 +84,7 @@
     z-index: 10;
 }
 
-.overlay {
+.education-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -93,12 +93,12 @@
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-.overlay.show {
+.education-overlay.show {
     pointer-events: none;
     z-index: 10;
 }
 
-.overlay.hide {
+.education-overlay.hide {
     pointer-events: auto;
 }
 
@@ -143,19 +143,79 @@
     width: 100%;
 }
 
-@media (min-width: 768px) {
-
-    .education-info-block {
-      width: 100%;
-    }
-}
-
 .education-detail-block {
     display: flex;
     gap: 15px;
     margin-left: 10px;
     margin-top: 10px;
     align-items: baseline;
+}
+
+.course-edit-block {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 240px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.edit-course-description {
+    width: 400px;
+}
+
+.course-edit-contents {
+    display: flex;
+    gap: 30px;
+}
+
+.course-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.course-current {
+    margin-top: 13px;
+}
+
+.course-edit-icons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;  
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.edit-month {
+    width: 130px;
+}
+
+.edit-year {
+    width: 80px;
+}
+
+@media (min-width: 768px) {
+
+    .education-info-block {
+      width: 100%;
+    }
+
+    .edit-education-institution {
+        width: 450px;
+    }
+
+    .edit-education-location {
+        width: 700px;
+    }
+
+    .edit-course-description {
+        width: 700px;
+    }
 }
 
 @media (min-width: 1200px) {

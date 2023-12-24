@@ -31,6 +31,16 @@
     flex-direction: column;
 }
   
+.snippet-add-skills {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #01210a;
+    padding: 10px;
+}
+
 .snippet-add-tags {
     background-color: white;
     width: 100%;
@@ -39,6 +49,9 @@
     border-radius: 5px;
     border: 1px solid #01210a;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
 }
 
 .snippet-panel-footer {

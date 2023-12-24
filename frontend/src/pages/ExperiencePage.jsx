@@ -99,7 +99,7 @@ function ExperiencePage() {
         }
     };
 
-    const handleSubmit = async (snippet, skills, tags) => {
+    const handleSubmit = async (snippet, skills, role, course, hobby, project) => {
         try {
             const result = await API.post("api", "/snippet", {
                 headers: {
@@ -110,7 +110,10 @@ function ExperiencePage() {
                 body: {
                     snippet: snippet,
                     skills: skills,
-                    tags: tags
+                    role: role,
+                    course: course,
+                    hobby: hobby,
+                    project: project
             }
             });
             if (result) {

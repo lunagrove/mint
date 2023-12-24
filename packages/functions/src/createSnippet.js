@@ -36,47 +36,43 @@ export async function main(event) {
     };
 
     let expRoles = [];
+    let expCourses = [];
     let expHobbies = [];
     let expProjects = [];
-    let expCourses = [];
     let expCredentials = [];
-    if (body.tags && body.tags.length > 0) {
-      for (const tag of body.tags) {
-        const parts = tag.value.split('+');
-        const id = parts[0];
-        const type = parts[1];
-        if (type === "role") {
-          const expRole = await createExperienceRole(userId, snippet.experienceid, id);
-          if (expRole) {
-            expRoles.push(expRole);
-          } 
-        } 
-        if (type === "hobby") {
-          const expHobby = await createExperienceHobby(userId, snippet.experienceid, id);
-          if (expHobby) {
-            expHobbies.push(expHobby);
-          } 
-        }  
-        if (type === "project") {
-          const expProject = await createExperienceProject(userId, snippet.experienceid, id);
-          if (expProject) {
-            expProjects.push(expProject);
-          } 
-        }  
-        if (type === "course") {
-          const expCourse = await createExperienceCourse(userId, snippet.experienceid, id);
-          if (expCourse) {
-            expCourses.push(expCourse);
-          } 
-        }   
-        if (type === "credential") {
-          const expCredential = await createExperienceCredential(userId, snippet.experienceid, id);
-          if (expCredential) {
-            expCredentials.push(expCredential);
-          } 
-        } 
-      };      
-    }
+
+    console.log('body.role', body.role);
+
+    if (body.role) {
+      const expRole = await createExperienceRole(userId, snippet.experienceid, body.role.value);
+      if (expRole) {
+        expRoles.push(expRole);
+      } 
+    } 
+    if (body.hobby) {
+      const expHobby = await createExperienceHobby(userId, snippet.experienceid, body.hobby.value);
+      if (expHobby) {
+        expHobbies.push(expHobby);
+      } 
+    }  
+    if (body.project) {
+      const expProject = await createExperienceProject(userId, snippet.experienceid, body.project.value);
+      if (expProject) {
+        expProjects.push(expProject);
+      } 
+    }  
+    if (body.course) {
+      const expCourse = await createExperienceCourse(userId, snippet.experienceid, body.course.value);
+      if (expCourse) {
+        expCourses.push(expCourse);
+      } 
+    }   
+    if (body.credential) {
+      const expCredential = await createExperienceCredential(userId, snippet.experienceid, body.credential.value);
+      if (expCredential) {
+        expCredentials.push(expCredential);
+      } 
+    } 
 
     const newSnippet = {experienceId: snippet.experienceId,
                         snippet: snippet.snippet,
