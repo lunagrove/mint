@@ -249,7 +249,7 @@ function HomePage() {
             <> 
               {userData.snippets && userData.snippets.length > 0 ? (
                 userData.snippets.slice(0, MAX_SNIPPETS).map((snippet) =>
-                  <Snippet key={snippet.experienceId}
+                  <Snippet key={snippet.experienceid}
                             snippet={snippet} />)
               ) : (
                 <h2>You have no snippets saved. Try adding some snippets!</h2>

@@ -108,7 +108,7 @@
     flex-wrap: wrap;
 }
 
-.tag-rectangle {
+.tag-rectangle-grey {
     background-color: #e0e0e0; 
     padding: 5px 10px;
     margin: 5px 10px 5px 0;
@@ -116,8 +116,24 @@
     min-height: 35px;
 }
 
-.tag-rectangle2 {
+.tag-rectangle-orange {
     background-color: #f7ddcd; 
+    padding: 5px 10px;
+    margin: 5px 10px 5px 0;
+    border-radius: 5px;
+    min-height: 35px;
+}
+
+.tag-rectangle-blue {
+    background-color: #d8ebf8; 
+    padding: 5px 10px;
+    margin: 5px 10px 5px 0;
+    border-radius: 5px;
+    min-height: 35px;
+}
+
+.tag-rectangle-green {
+    background-color: #cbf8e7; 
     padding: 5px 10px;
     margin: 5px 10px 5px 0;
     border-radius: 5px;

@@ -12,15 +12,8 @@ const AddSnippet = ({ onSubmit, onClose }) => {
 
     const [skills, setSkills] = useState([]);
     const [selectedSkills, setSelectedSkills] = useState([]);
-    const [roles, setRoles] = useState([]);
-    const [selectedRole, setSelectedRole] = useState(null);
-    const [courses, setCourses] = useState([]);
-    const [selectedCourse, setSelectedCourse] = useState(null);
-    const [hobbies, setHobbies] = useState([]);
-    const [selectedHobby, setSelectedHobby] = useState(null);
-    const [projects, setProjects] = useState([]);
-    const [selectedProject, setSelectedProject] = useState(null);
-
+    const [tags, setTags] = useState([]);
+    const [selectedTag, setSelectedTag] = useState(null);
     const [snippet, setSnippet] = useState('');
     const [isTipsOpen, setIsTipsOpen] = useState(false);
     const [selectedTipIndex, setSelectedTipIndex] = useState(0);
@@ -39,50 +32,63 @@ const AddSnippet = ({ onSubmit, onClose }) => {
     }, [userData.skills]);
 
     useEffect(() => {
-        let tags = [];
+        let experienceTags = [];
+        const createCategoryOptions = (label, items) => ({
+            label,
+            options: items.map(item => ({ label: item.label, value: item.value }))
+        });
         if (userData.companies && userData.companies.length > 0) {
-            tags = userData.companies.flatMap(company =>
+            const roles = userData.companies.flatMap(company =>
                 company.details.map(role => ({
                     label: role.description,
-                    value: role.id
+                    value: `${role.id}+role`,
+                    category: 'Roles'
                 }))
             );
-            setRoles(tags);
+            experienceTags.push(createCategoryOptions('Roles', roles));
         }
-        tags = [];
         if (userData.education && userData.education.length > 0) {
-            tags = userData.education.flatMap(institution =>
+            const courses = userData.education.flatMap(institution =>
                 institution.details.map(course => ({
                     label: course.description,
-                    value: course.id
+                    value: `${course.id}+${course.type}`,
+                    category: 'Courses and Credentials'
                 }))
             );
-            setCourses(tags);
+            experienceTags.push(createCategoryOptions('Courses and Credentials', courses));
         }
-        tags = [];
         if (userData.hobbies && userData.hobbies.length > 0) {
-            tags = userData.hobbies.map(hobby => ({            
+            const hobbies = userData.hobbies.map(hobby => ({            
                 label: hobby.description,
-                value: hobby.hobbyid
+                value: `${hobby.hobbyid}+hobby`,
+                category: 'Hobbies and Clubs'
             }));
-            setHobbies(tags);
-        }  
-        tags = [];     
-        if (userData.projects && userData.projects.length > 0) {
-            tags = userData.projects.map(project => ({
-                label: project.description,
-                value: project.projectid
-            }));
-            setProjects(tags);
+            experienceTags.push(createCategoryOptions('Hobbies and Clubs', hobbies));
         }       
+        if (userData.projects && userData.projects.length > 0) {
+            const projects = userData.projects.map(project => ({
+                label: project.description,
+                value: `${project.projectid}+project`,
+                category: 'Projects'
+            }));
+            experienceTags.push(createCategoryOptions('Projects', projects));
+        }
+        setTags(experienceTags);       
     }, []);
+
+    const formatGroupLabel = (data) => (
+        <div style={{ color: '#000000', fontWeight: '900' , fontSize: '16px'}}>
+          <span>{data.label}</span>
+          <span>{` (${data.options.length})`}</span>
+        </div>
+    );
 
     const handleChange = (e) => {
         setSnippet(e.target.value);    
     };
 
     const handleSubmit = () => {
-        onSubmit(snippet, selectedSkills, selectedRole, selectedCourse, selectedHobby, selectedProject);
+        onSubmit(snippet, selectedSkills, selectedTag);
         handleClose();
     };
 
@@ -111,10 +117,10 @@ const AddSnippet = ({ onSubmit, onClose }) => {
             colors: {
                 ...theme.colors,
                 primary25: "#e0e0e0",
-                primary: 'grey'
+                primary: "#e0e0e0"
             }
         };
-    }
+    };
 
     return (
         <div className="snippet-panel-contents">
@@ -126,38 +132,14 @@ const AddSnippet = ({ onSubmit, onClose }) => {
                                                       onClick={(e) => openTips(e, 0)} />
                     </div>
                     <div className="snippet-add-tags"> 
-                        {roles && <Select options={roles}
-                                          theme={customTheme}
-                                          components={animatedComponents}
-                                          maxMenuHeight={160}
-                                          placeholder="Select role..."
-                                          isClearable={true}
-                                          menuPlacement={"auto"}
-                                          onChange={setSelectedRole} />}
-                        {courses && <Select options={courses}
-                                            theme={customTheme}
-                                            components={animatedComponents}
-                                            maxMenuHeight={160}
-                                            placeholder="Select course or credential..."
-                                            isClearable={true}
-                                            menuPlacement={"auto"}
-                                            onChange={setSelectedCourse} />}
-                        {hobbies && <Select options={hobbies}
-                                            theme={customTheme}
-                                            components={animatedComponents}
-                                            maxMenuHeight={160}
-                                            placeholder="Select hobby..."
-                                            isClearable={true}
-                                            menuPlacement={"auto"}
-                                            onChange={setSelectedHobby} />}
-                        {projects && <Select options={projects}
-                                             theme={customTheme}
-                                             components={animatedComponents}
-                                             maxMenuHeight={160}
-                                             placeholder="Select project..."
-                                             isClearable={true}
-                                             menuPlacement={"auto"}
-                                             onChange={setSelectedProject} />}
+                        {tags && <Select options={tags}
+                                         formatGroupLabel={formatGroupLabel}
+                                         theme={customTheme}
+                                         maxMenuHeight={160}
+                                         placeholder="Select..."
+                                         isClearable={true}
+                                         menuPlacement={"auto"}
+                                         onChange={setSelectedTag} />}
                     </div>
                 </div>
                 <form className="snippet-add-form">

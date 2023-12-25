@@ -367,12 +367,12 @@ export async function getSnippets(userId) {
   return res.rows;
 }
 
-export async function createSnippet(userid, snippet) {
+export async function createSnippet(userid, snippet, skillIds, tagId, tagType) {
   const res = await getPool().query(`
-  INSERT INTO experience (userId, snippet)
-  VALUES ($1, $2)
+  INSERT INTO experience (userId, snippet, skillids, tagid, tagtype)
+  VALUES ($1, $2, $3, $4, $5)
   RETURNING experienceid, *
-  `, [userid, snippet])
+  `, [userid, snippet, skillIds, tagId, tagType])
   return res.rows[0];
 }
 
@@ -394,118 +394,4 @@ export async function editSnippet(userid, snippetid, snippet) {
   RETURNING *
   `, [userid, snippetid, snippet])
   return res.rows[0]
-}
-
-export async function getExperienceSkills(userId, experienceId) {
-  const res = await getPool().query(`
-  SELECT e.skillid, s.description FROM experienceskill e
-  JOIN skill s ON s.skillid = e.skillid
-  WHERE e.userid = $1
-  AND e.experienceid = $2
-  `, [userId, experienceId]);
-  return res.rows; 
-}
-
-export async function createExperienceSkill(userId, experienceId, skillId ) {
-  const res = await getPool().query(`
-  INSERT INTO experienceskill (userid, experienceid, skillid)
-  VALUES ($1, $2, $3)
-  RETURNING *
-  `, [userId, experienceId, skillId])
-  return res.rows[0];
-}
-
-export async function getExperienceRoles(userId, experienceId) {
-  const res = await getPool().query(`
-  SELECT e.roleid, e.companyid, r.description FROM experiencerole e
-  JOIN role r ON r.roleid = e.roleid
-  WHERE e.userid = $1
-  AND e.experienceid = $2
-  `, [userId, experienceId]);
-  return res.rows; 
-}
-
-export async function createExperienceRole(userId, experienceId, companyId, roleId ) {
-  const res = await getPool().query(`
-  INSERT INTO experienceskill (userid, experienceid, companyid, skillid)
-  VALUES ($1, $2, $3, $4)
-  RETURNING *
-  `, [userId, experienceId, companyId, roleId])
-  return res.rows[0];
-}
-
-export async function getExperienceHobbies(userId, experienceId) {
-  const res = await getPool().query(`
-  SELECT e.hobbyid, h.description FROM experiencehobby e
-  JOIN hobby h ON h.hobbyid = e.hobbyid
-  WHERE e.userid = $1
-  AND e.experienceid = $2
-  `, [userId, experienceId]);
-  return res.rows; 
-}
-
-export async function createExperienceHobby(userId, experienceId, hobbyId ) {
-  const res = await getPool().query(`
-  INSERT INTO experiencehobby (userid, experienceid, hobbyid)
-  VALUES ($1, $2, $3)
-  RETURNING *
-  `, [userId, experienceId, hobbyId])
-  return res.rows[0];
-}
-
-export async function getExperienceProjects(userId, experienceId) {
-  const res = await getPool().query(`
-  SELECT e.projectid, p.description FROM experienceproject e
-  JOIN project p ON p.projectid = e.projectid
-  WHERE e.userid = $1
-  AND e.experienceid = $2
-  `, [userId, experienceId]);
-  return res.rows; 
-}
-
-export async function createExperienceProject(userId, experienceId, projectId ) {
-  const res = await getPool().query(`
-  INSERT INTO experienceproject (userid, experienceid, projectid)
-  VALUES ($1, $2, $3)
-  RETURNING *
-  `, [userId, experienceId, projectId])
-  return res.rows[0];
-}
-
-export async function getExperienceCourses(userId, experienceId) {
-  const res = await getPool().query(`
-  SELECT e.courseid, e.educationid, c.description FROM experiencecourse e
-  JOIN course c ON c.courseid = e.courseid
-  WHERE e.userid = $1
-  AND e.experienceid = $2
-  `, [userId, experienceId]);
-  return res.rows; 
-}
-
-export async function createExperienceCourse(userId, experienceId, educationId, courseId ) {
-  const res = await getPool().query(`
-  INSERT INTO experiencecourse (userid, experienceid, educationid, courseid)
-  VALUES ($1, $2, $3, $4)
-  RETURNING *
-  `, [userId, experienceId, educationId, courseId])
-  return res.rows[0];
-}
-
-export async function getExperienceCredentials(userId, experienceId) {
-  const res = await getPool().query(`
-  SELECT e.credentialid, e.educationid, c.description FROM experiencecredential e
-  JOIN credential c ON c.credentialid = e.credentialid
-  WHERE e.userid = $1
-  AND e.experienceid = $2
-  `, [userId, experienceId]);
-  return res.rows; 
-}
-
-export async function createExperienceCredential(userId, experienceId, educationId, credentialId ) {
-  const res = await getPool().query(`
-  INSERT INTO experiencecredential (userid, experienceid, educationid, credentialid)
-  VALUES ($1, $2, $3, $4)
-  RETURNING *
-  `, [userId, experienceId, educationId, credentialId])
-  return res.rows[0];
 }

@@ -7,34 +7,114 @@ import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
 import { formatLongDate } from "../utilities/dates";
 import Dialog from './Dialog';
+import { useData } from '../utilities/DataContext';
 
 const Experience = ({ snippet, onDelete, onEdit }) => {
+
+    const { userData, updateUserData } = useData();
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedSnippet, setEditedSnippet] = useState(snippet.snippet);
     const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-    const [tags, setTags] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [tag, setTag] = useState('');
+    const [tagType, setTagType] = useState('');
 
     useEffect(() => {
-        let experienceTags = [];
-        if (snippet.roles && snippet.roles.length > 0) {
-            experienceTags.push(snippet.roles);
+        const mapRoleIdToTag = (roleId) => {
+            const company = userData.companies.find(company =>
+                company.details && company.details.find(detail => detail.id === roleId)
+            );
+            if (company) {
+                const matchingDetail = company.details.find(detail => detail.id === roleId);
+                const tagObject = {
+                    id: matchingDetail.id,
+                    description: matchingDetail.description,
+                    companyId: company.companyId,
+                };
+                return tagObject;
+            }
+            return {}; 
+        };
+        const mapCourseIdToTag = (courseId) => {
+            const education = userData.education.find(education =>
+                education.details && education.details.find(detail => detail.id === courseId)
+            );
+            if (education) {
+                const matchingDetail = education.details.find(detail => detail.id === courseId);
+                const tagObject = {
+                    id: matchingDetail.id,
+                    description: matchingDetail.description,
+                    educationId: education.educationId
+                };
+                return tagObject;
+            }
+            return {}; 
+        };
+        const mapSkillIdsToTags = (skillIds) => {
+            return skillIds.map(id => {
+                let obj = {};
+                obj = userData.skills.find(skill => skill.skillid === id);
+                if (obj) {
+                    const tagObject = {
+                        id: obj.skillid,
+                        description: obj.description
+                    };
+                    return tagObject;
+                }
+                return {}; 
+            });
+        };
+        const mapHobbyIdToTag = (hobbyId) => {
+            let obj = {};
+            obj = userData.hobbies.find(hobby => hobby.hobbyid === hobbyId);
+            if (obj) {
+                const tagObject = {
+                    id: obj.hobbyid,
+                    description: obj.description
+                };
+                return tagObject;
+            }
+            return {}; 
+           
+        };
+        const mapProjectIdToTag = (projectId) => {
+            let obj = {};
+            obj = userData.projects.find(project => project.projectid === projectId);
+            if (obj) {
+                const tagObject = {
+                    id: obj.projectid,
+                    description: obj.description
+                };
+                return tagObject;
+            }
+            return {}; 
+        };
+        const skillTags = snippet.skillids ? mapSkillIdsToTags(snippet.skillids) : [];
+        if (snippet.tagtype === 'role') {
+            const role = snippet.tagid ? mapRoleIdToTag(snippet.tagid) : [];
+            setTag(role);
         }
-        if (snippet.courses && snippet.courses.length > 0) {
-            experienceTags.push(snippet.courses);
+        if (snippet.tagtype === 'hobby') {
+            const hobby = snippet.tagid ? mapHobbyIdToTag(snippet.tagid) : [];
+            setTag(hobby);
         }
-        if (snippet.credentials && snippet.credentials.length > 0) {
-            experienceTags.push(snippet.credentials);
+        if (snippet.tagtype === 'project') {
+            const project = snippet.tagid ? mapProjectIdToTag(snippet.tagid) : [];
+            setTag(project);
         }
-        if (snippet.hobbies && snippet.hobbies.length > 0) {
-            experienceTags.push(snippet.hobbies);
+        if (snippet.tagtype === 'course') {
+            const course = snippet.tagid ? mapCourseIdToTag(snippet.tagid) : [];
+            setTag(course);
         }
-        if (snippet.projects && snippet.projects.length > 0) {
-            experienceTags.push(snippet.projects);
+        if (snippet.tagtype === 'credential') {
+            const credential = snippet.tagid ? mapCourseIdToTag(snippet.tagid) : [];
+            setTag(credential);
         }
-        setTags(...experienceTags);
-    }, []);
+        setSkills(skillTags);
+        setTagType(snippet.tagtype);
+    }, [snippet]);
 
     const handleDeleteClick = () => {
         setDeleteDialogOpen(true);
@@ -42,7 +122,7 @@ const Experience = ({ snippet, onDelete, onEdit }) => {
 
     const handleConfirmDelete = () => {
         setDeleteDialogOpen(false);
-        onDelete(snippet.experienceId);
+        onDelete(snippet.experienceid);
     };
 
     const handleCancelDelete = () => {
@@ -74,20 +154,20 @@ const Experience = ({ snippet, onDelete, onEdit }) => {
                 <div className="experience-details">
                     <h3 className="experience-snippet" >{snippet.snippet}</h3>
                     <div className="experience-skills">
-                        {snippet.skills && snippet.skills.length > 0 && snippet.skills.map((skill) => (
-                            <div key={skill.id} className="tag-rectangle">
+                        {skills && skills.length > 0 && skills.map((skill) => (
+                            <div key={skill.id} className="tag-rectangle-grey">
                                 {skill.description}
                             </div>
                         ))}
                     </div>
                     <div className="experience-tags">
-                        {tags && tags.length > 0 && tags.map((tag) => (
-                            <div key={tag.id} className="tag-rectangle2">
+                        {tag && (
+                            <div key={tag.id} className={tagType === 'role' ? 'tag-rectangle-blue' : tagType === 'course' ? 'tag-rectangle-orange' : tagType === 'hobby' ? 'tag-rectangle-green' : tagType === 'credential' ? 'tag-rectangle-orange' : tagType === 'project' ? 'tag-rectangle-green' :''}>
                                 {tag.description}
                             </div>
-                        ))}
+                        )}
                     </div>
-                    <h5 className="experience-date">Created on: {formatLongDate(snippet.createdOn, false)}</h5>
+                    <h5 className="experience-date">Created on: {formatLongDate(snippet.createdon, false)}</h5>
                 </div>
                 <div className="experience-icons">
                     <BsPencil className="icon-medium edit-icon" onClick={handleEditClick}/>

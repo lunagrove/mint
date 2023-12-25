@@ -65,12 +65,12 @@ function ExperiencePage() {
             await updateUserData((prevUserData) => {
                 return {
                     ...prevUserData,
-                    snippets: prevUserData.snippets.filter(snippet => snippet.experienceId !== snippetId),
+                    snippets: prevUserData.snippets.filter(snippet => snippet.experienceid !== snippetId),
                 };
             });  
         }
         catch (error) {
-              alert(error);
+            alert(error);
         }
     };
 
@@ -95,11 +95,22 @@ function ExperiencePage() {
             });
         }
         catch (error) {
-              alert(error);
+            alert(error);
         }
     };
 
-    const handleSubmit = async (snippet, skills, role, course, hobby, project) => {
+    const handleSubmit = async (snippet, skillObjs, tag) => {
+        let skills = [];
+        if (skillObjs) {
+            skills = skillObjs.map(skill => skill.value);
+        }
+        let tagValue = null;
+        let tagType = '';
+        if (tag) {
+            const parts = tag.value.split('+');
+            tagValue = parts[0];
+            tagType = parts[1];    
+        }
         try {
             const result = await API.post("api", "/snippet", {
                 headers: {
@@ -109,12 +120,10 @@ function ExperiencePage() {
                 },
                 body: {
                     snippet: snippet,
-                    skills: skills,
-                    role: role,
-                    course: course,
-                    hobby: hobby,
-                    project: project
-            }
+                    skillIds: skills,
+                    tagId: tagValue,
+                    tagType: tagType
+                }
             });
             if (result) {
                 const newSnippet = result.snippet;
@@ -127,7 +136,7 @@ function ExperiencePage() {
             }
         }
         catch (error) {
-                alert(error);
+            alert(error);
         }
         setIsPanelOpen(false);
     };
@@ -209,10 +218,10 @@ function ExperiencePage() {
                     <h2>Add Snippet</h2>
                     {!isPanelOpen && (
                         <img
-                        className="plus-button plus-button-medium"
-                        src="./plus-icon-80x80.png"
-                        alt="Plus icon"
-                        onClick={handleAddSnippet}
+                            className="plus-button plus-button-medium"
+                            src="./plus-icon-80x80.png"
+                            alt="Plus icon"
+                            onClick={handleAddSnippet}
                         />
                     )}
                 </div>
@@ -230,7 +239,7 @@ function ExperiencePage() {
                 <>
                     <div className="experience-page-list">
                         {userData.snippets && userData.snippets.length > 0 ? (userData.snippets.map((item) =>
-                            <Experience key={item.experienceId}
+                            <Experience key={item.experienceid}
                                         snippet={item}
                                         onDelete={handleDelete}
                                         onEdit={handleEdit} />)
