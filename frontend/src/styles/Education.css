@@ -173,6 +173,11 @@
     gap: 30px;
 }
 
+.edit-course-fields {
+    display: flex;
+    gap: 30px;
+}
+
 .course-col {
     display: flex;
     flex-direction: column;

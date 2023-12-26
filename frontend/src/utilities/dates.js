@@ -6,10 +6,7 @@ function getYear() {
 }
 
 function formatLongDate(dateStr, dayName) {
-  // create a Date object from the date string
   const dateDb = new Date(dateStr);
-
-  // get the timezone offset in minutes
   const timezoneOffset = new Date().getTimezoneOffset();
   const date = new Date(dateDb.getTime() - (timezoneOffset * 60 * 1000));
 
@@ -29,43 +26,36 @@ function formatLongDate(dateStr, dayName) {
     }
   }
   
-  // Get the weekday name and day of the month
   const weekday = weekDays[date.getDay()];
   const day = date.getDate();
-  
-  // Get the ordinal suffix for the day
   const suffix = getOrdinalSuffix(day);
-  
-  // Get the month name and year
   const month = monthNames[date.getMonth()];
   const year = date.getFullYear();
   
-  // Construct the formatted date string
   return dayName ? `${weekday} ${day}${suffix} ${month} ${year}` : `${day}${suffix} ${month} ${year}`;
-  
 }
 
 function formatMonthandYear(dateStr) {
-  // create a Date object from the date string
-  const date = new Date(dateStr);
-  
-  // Get the month name and year
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
-  
-  // Construct the formatted date string
+  const parts = dateStr.split('-');
+  const mm = parseInt(parts[1]);
+  const month = monthNames[mm-1];
+  const year = parts[0];
   return `${month} ${year}`;
-  
 }
 
 function getMonthName(dateStr) {
   const date = new Date(dateStr);
-  
-  // Get the month name and year
   const month = monthNames[date.getMonth()];
-  
-  // Construct the formatted date string
+
   return `${month}`;
 }
+
+function formatFirstOfMonthDate(year, month) {
+  const monthIndex = monthNames.indexOf(month) + 1;
+  const formattedMonth = (monthIndex).toString().padStart(2, '0');
+  const formattedDate = `${year}-${formattedMonth}-01`;
+
+  return formattedDate;
+}
   
-export { getYear, formatLongDate, formatMonthandYear, getMonthName };
+export { getYear, formatLongDate, formatMonthandYear, getMonthName, formatFirstOfMonthDate };

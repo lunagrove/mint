@@ -21,6 +21,10 @@ function EducationPage() {
     const [educationCount, setEducationCount] = useState(0);
 
     useEffect(() => {
+        console.log('userData in education page: ', userData.education);
+    }, [userData.education]);
+
+    useEffect(() => {
         if (user && userData.education && userData.education.length === 0) {
             setLoadingEducation(true);
             fetchData("education");
@@ -31,6 +35,7 @@ function EducationPage() {
         if (userData.education) {
             setEducationCount(userData.education.length);
         }
+        console.log('refreshing: ', userData);
     }, [userData.education]);
 
     const handleAddInstitution = () => {
@@ -104,7 +109,7 @@ function EducationPage() {
             await updateUserData((prevUserData) => {
                 return {
                     ...prevUserData,
-                    education: prevUserData.education.filter(education => education.educationid !== educationId),
+                    education: prevUserData.education.filter(education => education.educationId !== educationId),
                 };
             });  
         }
@@ -113,26 +118,15 @@ function EducationPage() {
         }
     };
 
-    const handleDeleteCourse = async (educationId, courseId, type) => {
+    const handleDeleteCourse = async (educationId, courseId) => {
         try {
-            if (type === 'course') {
-                await API.del("api", `/course/${educationId}/${courseId}`, {
-                    headers: {
-                    Authorization: `Bearer ${(await Auth.currentSession())
-                        .getAccessToken()
-                        .getJwtToken()}`,
-                    }
-                });
-            }
-            if (type === 'credential') {
-                await API.del("api", `/credential/${educationId}/${courseId}`, {
-                    headers: {
-                    Authorization: `Bearer ${(await Auth.currentSession())
-                        .getAccessToken()
-                        .getJwtToken()}`,
-                    }
-                });
-            }
+            await API.del("api", `/course/${educationId}/${courseId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }
+            });
             await updateUserData((prevUserData) => {
                 const educationIndex = prevUserData.education.findIndex((education) => education.educationId === educationId);
                 if (educationIndex !== -1) {
@@ -147,20 +141,11 @@ function EducationPage() {
                     ];
                     const updatedSnippets = prevUserData.snippets.map((snippet) => {
                         if (snippet.educationId === educationId) {
-                            if (type === 'course') {
-                                const updatedCourses = snippet.courses.filter((course) => course.id !== courseId);
-                                    return {
-                                        ...snippet,
-                                        courses: updatedCourses,
-                                    };
-                            }
-                            if (type === 'credential') {
-                                const updatedCredentials = snippet.credentials.filter((credential) => credential.id !== courseId);
-                                    return {
-                                        ...snippet,
-                                        credentials: updatedCredentials,
-                                    };
-                            }
+                            const updatedCourses = snippet.courses.filter((course) => course.id !== courseId);
+                            return {
+                                ...snippet,
+                                courses: updatedCourses,
+                            };
                         }
                         return snippet;
                     });
@@ -179,38 +164,22 @@ function EducationPage() {
         }
     };
 
-    const handleEditCourse = async (educationId, courseId, type, description, fromDate, toDate, current) => {
+    const handleEditCourse = async (educationId, courseId, type, description, fromdate, todate, current) => {
         try {
-            if (type === 'course') {
-                await API.put("api", `/course/${educationId}/${courseId}`, {
-                    headers: {
-                    Authorization: `Bearer ${(await Auth.currentSession())
-                        .getAccessToken()
-                        .getJwtToken()}`,
-                    },
-                    body: {
-                        description: description,
-                        fromDate: fromDate,
-                        toDate: toDate,
-                        current: current
-                    }
-                });
-            }
-            if (type === 'credential') {
-                await API.put("api", `/credential/${educationId}/${courseId}`, {
-                    headers: {
-                    Authorization: `Bearer ${(await Auth.currentSession())
-                        .getAccessToken()
-                        .getJwtToken()}`,
-                    },
-                    body: {
-                        description: description,
-                        fromDate: fromDate,
-                        toDate: toDate,
-                        current: current
-                    }
-                });
-            }
+            await API.put("api", `/course/${educationId}/${courseId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: {
+                    description: description,
+                    fromdate: fromdate,
+                    todate: todate,
+                    current: current,
+                    type: type
+                }
+            });
             await updateUserData((prevUserData) => {
                 const educationIndex = prevUserData.education.findIndex((education) => education.educationId === educationId);
                 if (educationIndex !== -1) {
@@ -218,7 +187,7 @@ function EducationPage() {
                         if (course.id === courseId) {
                             return {
                                 ...course,
-                                description, fromDate, toDate, current
+                                description, fromdate, todate, current, type
                             };
                         }
                         return course;
@@ -320,7 +289,7 @@ function EducationPage() {
                                        onDelete={handleDelete}
                                        onDeleteCourse={handleDeleteCourse}
                                        onEdit={handleEdit}
-                                       onEditRole={handleEditCourse} />)
+                                       onEditCourse={handleEditCourse} />)
                         ) : (
                         <h2>You have no educational institutions saved. Try adding some educational institutions!</h2>
                         )}

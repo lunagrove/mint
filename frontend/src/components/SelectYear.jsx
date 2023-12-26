@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 const SelectYear = ({ defaultValue, onChange }) => {
 
     const splitCenturyAndYear = (value) => {
-        const century = Math.floor(value / 100);
-        const year = value % 100;
+        const century = value.substring(0, 2);;
+        const year = value.substring(2);
         return { century, year };
     };
 
@@ -17,8 +17,8 @@ const SelectYear = ({ defaultValue, onChange }) => {
     
     useEffect(() => {
         const { century, year } = splitCenturyAndYear(defaultValue);
-        setCentury(century);
-        setYear(year);
+        setCentury(parseInt(century));
+        setYear(parseInt(year));
     }, [defaultValue]);
 
     const handleCenturyChange = (increment) => {

@@ -42,9 +42,9 @@ function HomePage() {
     }));
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log('userData after update: ', userData);
-  }, [userData]);
+  }, [userData]); */
 
   useEffect(() => {
     if (user && !userData.profile.userid) {

@@ -45,7 +45,6 @@ export function API({ stack }) {
       "PUT /intro/{introId}": "packages/functions/src/editIntro.main",
       "PUT /skill/{skillId}": "packages/functions/src/editSkill.main",
       "PUT /education/{educationId}": "packages/functions/src/editEducation.main",
-      "PUT /credential/{educationId}/{credentialId}": "packages/functions/src/editCredential.main",
       "PUT /course/{educationId}/{courseId}": "packages/functions/src/editCourse.main",
       "PUT /company/{companyId}": "packages/functions/src/editCompany.main",
       "PUT /role/{companyId}/{roleId}": "packages/functions/src/editRole.main",
@@ -60,7 +59,6 @@ export function API({ stack }) {
       "DELETE /project/{projectId}": "packages/functions/src/deleteProject.main",
       "DELETE /snippet/{snippetId}": "packages/functions/src/deleteSnippet.main",
       "DELETE /role/{companyId}/{roleId}": "packages/functions/src/deleteRole.main",
-      "DELETE /credential/{educationId}/{credentialId}": "packages/functions/src/deleteCredential.main",
       "DELETE /course/{educationId}/{courseId}": "packages/functions/src/deleteCourse.main"
     },
   });

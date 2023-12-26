@@ -1,4 +1,4 @@
-import { getEducation, getCredentials, getCourses } from "@mint/core/database";
+import { getEducation, getCourses } from "@mint/core/database";
 
 export async function main(event, context) {
 
@@ -17,18 +17,22 @@ export async function main(event, context) {
         const education = await Promise.all(
             institutions.map(async (institution) => {
                 const educationId = institution.educationid;
-                const credentials = await getCredentials(userId, educationId);
                 const courses = await getCourses(userId, educationId);
-
-                const credentialDetails = credentials.map(
-                            ({ credentialid, description, fromdate, todate, current }) => ({
-                                 id: credentialid, type: "credential", description, fromdate, todate, current }));
-                const courseDetails = courses.map(
-                            ({ courseid, description, fromdate, todate, current }) => ({
-                                 id: courseid, type: "course", description, fromdate, todate, current }));
-
-                const details = [...credentialDetails, ...courseDetails];
-
+                const details = courses.map(
+                    ({ courseid, description, fromdate, todate, current, coursetype }) => {
+                        const formattedFromDate = new Date(fromdate).toISOString().split('T')[0];
+                        const formattedToDate = todate ? new Date(todate).toISOString().split('T')[0] : null;
+                
+                        return {
+                            id: courseid,
+                            description,
+                            fromdate: formattedFromDate,
+                            todate: formattedToDate,
+                            current,
+                            type: coursetype,
+                      };
+                    }
+                  );
                 return {
                     educationId: institution.educationid,
                     institution: institution.institution, 

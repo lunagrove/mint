@@ -159,7 +159,7 @@ function CompaniesPage() {
         }
     };
 
-    const handleEditRole = async (companyId, roleId, description, fromDate, toDate, current) => {
+    const handleEditRole = async (companyId, roleId, description, fromdate, todate, current) => {
         try {
             await API.put("api", `/role/${companyId}/${roleId}`, {
                 headers: {
@@ -169,8 +169,8 @@ function CompaniesPage() {
                 },
                 body: {
                     description: description,
-                    fromDate: fromDate,
-                    toDate: toDate,
+                    fromdate: fromdate,
+                    todate: todate,
                     current: current
                 }
             });
@@ -181,7 +181,7 @@ function CompaniesPage() {
                         if (role.id === roleId) {
                             return {
                                 ...role,
-                                description, fromDate, toDate, current
+                                description, fromdate, todate, current
                             };
                         }
                         return role;

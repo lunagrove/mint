@@ -17,7 +17,7 @@ export async function main(event) {
       };
     }
 
-    const role = await editRole(userId, companyId, roleId, body.description, body.fromDate, body.toDate, body.current);
+    const role = await editRole(userId, companyId, roleId, body.description, body.fromdate, body.todate, body.current);
 
     if (!role) {
       return {

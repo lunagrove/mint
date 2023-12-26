@@ -17,7 +17,7 @@ export async function main(event) {
       };
     }
 
-    const course = await editCourse(userId, educationId, courseId, body.description, body.fromDate, body.toDate, body.current);
+    const course = await editCourse(userId, educationId, courseId, body.description, body.fromdate, body.todate, body.current, body.type);
 
     if (!course) {
       return {

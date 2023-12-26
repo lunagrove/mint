@@ -152,37 +152,6 @@ export async function deleteEducation(userId, educationId) {
   return res.rows[0]
 }
 
-export async function getCredentials(userId, educationId) {
-  const res = await getPool().query(`
-  SELECT * FROM credential
-  WHERE userid = $1 AND educationid = $2
-  ORDER BY todate DESC
-  `, [userId, educationId]);
-  return res.rows;
-}
-
-export async function deleteCredential(userId, educationId, credentialId) {
-  const res = await getPool().query(`
-  DELETE FROM credential
-  WHERE userid = $1
-  AND educationid = $2
-  AND credentialid = $3
-  RETURNING *
-  `, [userId, educationId, credentialId])
-  return res.rows[0]
-}
-
-export async function editCredential(userId, educationId, credentialId, description, fromDate, toDate, current) {
-  const res = await getPool().query(`
-  UPDATE credential SET description = $4, fromdate = $5, todate = $6, current = $7
-  WHERE userid = $1
-  AND educationid = $2
-  AND credentialid = $3
-  RETURNING *
-  `, [userId, educationId, credentialId, description, fromDate, toDate, current])
-  return res.rows[0]
-}
-
 export async function getCourses(userId, educationId) {
   const res = await getPool().query(`
   SELECT * FROM course
@@ -203,14 +172,14 @@ export async function deleteCourse(userId, educationId, courseId) {
   return res.rows[0]
 }
 
-export async function editCourse(userId, educationId, courseId, description, fromDate, toDate, current) {
+export async function editCourse(userId, educationId, courseId, description, fromDate, toDate, current, type) {
   const res = await getPool().query(`
-  UPDATE course SET description = $4, fromdate = $5, todate = $6, current = $7
+  UPDATE course SET description = $4, fromdate = $5, todate = $6, current = $7, coursetype = $8
   WHERE userid = $1
   AND educationid = $2
   AND courseid = $3
   RETURNING *
-  `, [userId, educationId, courseId, description, fromDate, toDate, current])
+  `, [userId, educationId, courseId, description, fromDate, toDate, current, type])
   return res.rows[0]
 }
 
