@@ -1,0 +1,26 @@
+.add-role-form {
+    background-color: #ebfef0;
+    height: 235px;
+    width: 100%;
+    padding: 20px 20px 0 20px;
+}
+
+.role-panel-footer {
+    background-color: #ebfef0;
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.role-description {
+  width: 450px;
+}
+
+@media (min-width: 768px) {
+
+  .role-description {
+    width: 600px;
+  }    
+}

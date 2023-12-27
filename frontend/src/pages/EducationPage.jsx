@@ -21,10 +21,6 @@ function EducationPage() {
     const [educationCount, setEducationCount] = useState(0);
 
     useEffect(() => {
-        console.log('userData in education page: ', userData.education);
-    }, [userData.education]);
-
-    useEffect(() => {
         if (user && userData.education && userData.education.length === 0) {
             setLoadingEducation(true);
             fetchData("education");
@@ -35,7 +31,6 @@ function EducationPage() {
         if (userData.education) {
             setEducationCount(userData.education.length);
         }
-        console.log('refreshing: ', userData);
     }, [userData.education]);
 
     const handleAddInstitution = () => {

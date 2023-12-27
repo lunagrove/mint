@@ -1,0 +1,45 @@
+.edit-course-description {
+    width: 400px;
+}
+
+.course-edit-contents {
+    display: flex;
+    gap: 30px;
+}
+
+.edit-course-fields {
+    display: flex;
+    gap: 30px;
+}
+
+.course-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.course-current {
+    margin-top: 13px;
+}
+
+.course-edit-icons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;  
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.edit-month {
+    width: 130px;
+}
+
+.edit-year {
+    width: 80px;
+}
+
+@media (min-width: 768px) {
+    .edit-course-description {
+        width: 700px;
+    }
+}

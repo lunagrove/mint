@@ -1,0 +1,41 @@
+.edit-role-description {
+    width: 400px;
+}
+
+.role-edit-contents {
+    display: flex;
+    gap: 30px;
+}
+
+.role-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.role-current {
+    margin-top: 13px;
+}
+
+.role-edit-icons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;  
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.edit-month {
+    width: 130px;
+}
+
+.edit-year {
+    width: 80px;
+}
+
+@media (min-width: 768px) {
+
+    .edit-role-description {
+        width: 700px;
+    }
+}

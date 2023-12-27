@@ -1,0 +1,26 @@
+.add-course-form {
+    background-color: #ebfef0;
+    height: 300px;
+    width: 100%;
+    padding: 20px 20px 0 20px;
+}
+
+.course-panel-footer {
+    background-color: #ebfef0;
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.course-description {
+  width: 450px;
+}
+
+@media (min-width: 768px) {
+
+  .course-description {
+    width: 600px;
+  }    
+}

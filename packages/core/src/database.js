@@ -172,6 +172,15 @@ export async function deleteCourse(userId, educationId, courseId) {
   return res.rows[0]
 }
 
+export async function createCourse(userid, educationId, description, fromDate, toDate, current, type ) {
+  const res = await getPool().query(`
+  INSERT INTO course (userId, educationId, description, fromdate, todate, current, coursetype)
+  VALUES ($1, $2, $3, $4, $5, $6, $7)
+  RETURNING *
+  `, [userid, educationId, description, fromDate, toDate, current, type])
+  return res.rows[0];
+}
+
 export async function editCourse(userId, educationId, courseId, description, fromDate, toDate, current, type) {
   const res = await getPool().query(`
   UPDATE course SET description = $4, fromdate = $5, todate = $6, current = $7, coursetype = $8
@@ -238,6 +247,15 @@ export async function deleteRole(userId, companyId, roleId) {
   RETURNING *
   `, [userId, companyId, roleId])
   return res.rows[0]
+}
+
+export async function createRole(userid, companyId, description, fromDate, toDate, current ) {
+  const res = await getPool().query(`
+  INSERT INTO role (userId, companyId, description, fromdate, todate, current)
+  VALUES ($1, $2, $3, $4, $5, $6)
+  RETURNING *
+  `, [userid, companyId, description, fromDate, toDate, current])
+  return res.rows[0];
 }
 
 export async function editRole(userId, companyId, roleId, description, fromDate, toDate, current) {

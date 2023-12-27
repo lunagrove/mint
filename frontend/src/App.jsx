@@ -50,6 +50,10 @@ import './styles/Companies.css';
 import './styles/Education.css';
 import './styles/Dialog.css';
 import './styles/SelectYear.css';
+import './styles/AddRole.css';
+import './styles/AddCourse.css';
+import './styles/EditRole.css';
+import './styles/EditCourse.css';
 
 const amplifyConfig = {
   Auth: {

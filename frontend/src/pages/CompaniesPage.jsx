@@ -21,6 +21,10 @@ function CompaniesPage() {
     const [companiesCount, setCompaniesCount] = useState(0);
 
     useEffect(() => {
+        console.log('userData in companies page: ', userData);
+      }, [userData]);
+
+    useEffect(() => {
         if (user && userData.companies && userData.companies.length === 0) {
             setLoadingCompanies(true);
             fetchData("companies");
@@ -208,6 +212,50 @@ function CompaniesPage() {
         }
     };
 
+    const handleAddRole = async (companyId, description, fromdate, todate, current) => {
+        try {
+            const role = await API.post("api", `/role/${companyId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: {
+                    description: description,
+                    fromdate: fromdate,
+                    todate: todate,
+                    current: current
+                }
+            });
+            await updateUserData((prevUserData) => {
+                const newRole = {
+                    id: role.roleid,
+                    description: description,
+                    fromdate: fromdate,
+                    todate: todate,
+                    current: current,
+                  };
+                const companyIndex = prevUserData.companies.findIndex((company) => company.companyId === companyId);
+                if (companyIndex !== -1) {
+                    const updatedCompanies = [...userData.companies];
+                    updatedCompanies[companyIndex] = {
+                        ...updatedCompanies[companyIndex],
+                        details: [...updatedCompanies[companyIndex].details, newRole]};
+
+                    const updatedUserData = {
+                        ...userData,
+                        companies: updatedCompanies,
+                    };                  
+                    return updatedUserData;
+                }
+                return prevUserData;
+            }); 
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
     const handleClose = () => {
         setIsPanelOpen(false);
     };
@@ -283,7 +331,8 @@ function CompaniesPage() {
                                        onDelete={handleDelete}
                                        onDeleteRole={handleDeleteRole}
                                        onEdit={handleEdit}
-                                       onEditRole={handleEditRole} />)
+                                       onEditRole={handleEditRole}
+                                       onAddRole={handleAddRole} />)
                         ) : (
                         <h2>You have no companies and roles saved. Try adding some companies and roles!</h2>
                         )}

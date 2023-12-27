@@ -41,6 +41,8 @@ export function API({ stack }) {
       "POST /hobby": "packages/functions/src/createHobby.main",
       "POST /project": "packages/functions/src/createProject.main",
       "POST /snippet": "packages/functions/src/createSnippet.main",
+      "POST /role/{companyId}": "packages/functions/src/createRole.main",
+      "POST /course/{educationId}": "packages/functions/src/createCourse.main",
       "PUT /profile": "packages/functions/src/editProfile.main",
       "PUT /intro/{introId}": "packages/functions/src/editIntro.main",
       "PUT /skill/{skillId}": "packages/functions/src/editSkill.main",

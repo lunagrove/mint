@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 const SelectYear = ({ defaultValue, onChange }) => {
 
     const splitCenturyAndYear = (value) => {
-        const century = value.substring(0, 2);;
-        const year = value.substring(2);
+        const stringValue = value.toString();
+        const century = stringValue.substring(0, 2);;
+        const year = stringValue.substring(2);
         return { century, year };
     };
 
