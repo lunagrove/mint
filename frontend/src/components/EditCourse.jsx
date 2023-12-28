@@ -6,7 +6,7 @@ import SelectYear from "./SelectYear";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
 
-const EditCourse = ({ course, onSave, onCancel }) => {
+const EditCourse = ({ educationId, course, onSave, onCancel }) => {
 
     const [editedDescription, setEditedDescription] = useState('');
     const [editedType, setEditedType] = useState('course');
@@ -35,7 +35,7 @@ const EditCourse = ({ course, onSave, onCancel }) => {
     const handleSaveClick = () => {
         const editedFromDate = formatFirstOfMonthDate(editedFromYear, editedFromMonth);
         const editedToDate = formatFirstOfMonthDate(editedToYear, editedToMonth);
-        onSave(course.id, editedDescription, editedType, editedFromDate, editedToDate, editedCurrent);
+        onSave(educationId, course.id, editedDescription, editedType, editedFromDate, editedToDate, editedCurrent);
     };
 
     const handleCancelClick = () => {

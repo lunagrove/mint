@@ -13,7 +13,7 @@ import { fetchEducation } from "../utilities/fetchData";
 function EducationPage() {
 
     const {user} = useAuthenticator((context) => [context.user]);
-    const { userData, updateUserData } = useData();
+    const { userData, updateUserData, sortEducationByMaxToDate } = useData();
 
     const [loadingEducation, setLoadingEducation] = useState(false);
     const [isSpinningEducation, setIsSpinningEducation] = useState(false);
@@ -159,7 +159,7 @@ function EducationPage() {
         }
     };
 
-    const handleEditCourse = async (educationId, courseId, type, description, fromdate, todate, current) => {
+    const handleEditCourse = async (educationId, courseId, description, type, fromdate, todate, current) => {
         try {
             await API.put("api", `/course/${educationId}/${courseId}`, {
                 headers: {
@@ -199,6 +199,55 @@ function EducationPage() {
                         ...prevUserData,
                         education: updatedEducation,
                     };
+                    return updatedUserData;
+                }
+                return prevUserData;
+            }); 
+        }
+        catch (error) {
+              alert(error);
+        }
+    };
+
+    const handleAddCourse = async (educationId, description, type, fromdate, todate, current) => {
+        try {
+            const course = await API.post("api", `/course/${educationId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                },
+                body: {
+                    description: description,
+                    fromdate: fromdate,
+                    todate: todate,
+                    current: current,
+                    type: type
+                }
+            });
+            await updateUserData((prevUserData) => {
+                const newCourse = {
+                    id: course.course.courseid,
+                    description: description,
+                    fromdate: fromdate,
+                    todate: todate,
+                    current: current,
+                    type: type
+                  };
+                const educationIndex = prevUserData.education.findIndex((education) => education.educationId === educationId);
+                if (educationIndex !== -1) {
+                    const updatedEducation = [...prevUserData.education];
+                    const updatedDetails = [...updatedEducation[educationIndex].details];
+                    updatedDetails.push(newCourse);
+
+                    updatedEducation[educationIndex] = {
+                        ...updatedEducation[educationIndex],
+                        details: updatedDetails};
+
+                    const updatedUserData = {
+                        ...prevUserData,
+                        education: sortEducationByMaxToDate(updatedEducation),
+                    };                   
                     return updatedUserData;
                 }
                 return prevUserData;
@@ -284,7 +333,8 @@ function EducationPage() {
                                        onDelete={handleDelete}
                                        onDeleteCourse={handleDeleteCourse}
                                        onEdit={handleEdit}
-                                       onEditCourse={handleEditCourse} />)
+                                       onEditCourse={handleEditCourse}
+                                       onAddCourse={handleAddCourse} />)
                         ) : (
                         <h2>You have no educational institutions saved. Try adding some educational institutions!</h2>
                         )}

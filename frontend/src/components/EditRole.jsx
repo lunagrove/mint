@@ -6,7 +6,7 @@ import SelectYear from "./SelectYear";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
 
-const EditRole = ({ role, onSave, onCancel }) => {
+const EditRole = ({ companyId, role, onSave, onCancel }) => {
 
     const [editedDescription, setEditedDescription] = useState('');
     const [editedFromMonth, setEditedFromMonth] = useState('');
@@ -33,7 +33,7 @@ const EditRole = ({ role, onSave, onCancel }) => {
     const handleSaveClick = () => {
         const editedFromDate = formatFirstOfMonthDate(editedFromYear, editedFromMonth);
         const editedToDate = formatFirstOfMonthDate(editedToYear, editedToMonth);
-        onSave(role.id, editedDescription, editedFromDate, editedToDate, editedCurrent);
+        onSave(companyId, role.id, editedDescription, editedFromDate, editedToDate, editedCurrent);
     };
 
     const handleCancelClick = () => {

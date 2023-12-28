@@ -176,7 +176,7 @@ export async function createCourse(userid, educationId, description, fromDate, t
   const res = await getPool().query(`
   INSERT INTO course (userId, educationId, description, fromdate, todate, current, coursetype)
   VALUES ($1, $2, $3, $4, $5, $6, $7)
-  RETURNING *
+  RETURNING courseid, *
   `, [userid, educationId, description, fromDate, toDate, current, type])
   return res.rows[0];
 }
@@ -253,7 +253,7 @@ export async function createRole(userid, companyId, description, fromDate, toDat
   const res = await getPool().query(`
   INSERT INTO role (userId, companyId, description, fromdate, todate, current)
   VALUES ($1, $2, $3, $4, $5, $6)
-  RETURNING *
+  RETURNING roleid, *
   `, [userid, companyId, description, fromDate, toDate, current])
   return res.rows[0];
 }

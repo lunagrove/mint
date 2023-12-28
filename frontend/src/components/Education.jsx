@@ -10,7 +10,7 @@ import EditCourse from "../components/EditCourse";
 import AddCourse from "../components/AddCourse";
 import Dialog from './Dialog';
 
-const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse }) => {
+const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse, onAddCourse }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedInstitution, setEditedInstitution] = useState(education.institution);
@@ -63,9 +63,9 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse }
         setCourseIdToDelete(courseId);
     };
 
-    const handleConfirmDeleteCourse = (courseId) => {
+    const handleConfirmDeleteCourse = () => {
         setDeleteCourseDialogOpen(false);
-        onDeleteCourse(education.educationId, courseId); 
+        onDeleteCourse(education.educationId, courseIdToDelete); 
     };
 
     const handleCancelDeleteCourse = () => {
@@ -77,9 +77,9 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse }
         setCourseToEdit(course);    
     };
     
-    const handleSave = (courseId, description, type, fromDate, toDate, current) => {
+    const handleSave = (educationId, courseId, description, type, fromDate, toDate, current) => {
         setIsEditingCourse(false);
-        onEditCourse(education.educationId, courseId, type, description, fromDate, toDate, current);
+        onEditCourse(educationId, courseId, description, type, fromDate, toDate, current);
     };
 
     const handleCancel = () => {
@@ -90,8 +90,9 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse }
         setIsAddingCourse(true);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (educationId, description, type, fromDate, toDate, current) => {
         setIsAddingCourse(false);
+        onAddCourse(educationId, description, type, fromDate, toDate, current);
     };
 
     const handleClose = () => {
@@ -159,7 +160,8 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse }
                 <div className={`education-overlay ${isEditingCourse ? 'show' : 'hide'}`}></div>)}
             {isEditingCourse && (
                 <div className={`course-edit-block ${isEditingCourse ? 'show' : 'hide'}`}>
-                    <EditCourse course={courseToEdit}
+                    <EditCourse educationId={education.educationId}
+                                course={courseToEdit}
                                 onSave={handleSave}
                                 onCancel={handleCancel} />    
                 </div>
@@ -177,7 +179,8 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse }
                 <div className={`education-overlay ${isAddingCourse ? 'show' : 'hide'}`}></div>)}
             {isAddingCourse && (                  
                 <div className={`course-add-block ${isAddingCourse ? 'show' : 'hide'}`}>
-                    <AddCourse onSubmit={handleSubmit}
+                    <AddCourse educationId={education.educationId}
+                               onSubmit={handleSubmit}
                                onClose={handleClose} />
                 </div>  
             )}
@@ -196,7 +199,7 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse }
                     heading="Confirm Delete Course/Credential"
                     text="Are you sure you want to delete this course/credential? If any experience snippets are tagged with this course/credential, those tags will be removed."
                     onCancel={handleCancelDeleteCourse}
-                    onConfirm={() => handleConfirmDeleteCourse(courseIdToDelete, courseType)}
+                    onConfirm={() => handleConfirmDeleteCourse(courseIdToDelete)}
                 />
             )}
         </div>

@@ -63,9 +63,9 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole, onAddR
         setRoleIdToDelete(roleId);       
     };
 
-    const handleConfirmDeleteRole = (roleId) => {
+    const handleConfirmDeleteRole = () => {
         setDeleteRoleDialogOpen(false);
-        onDeleteRole(company.companyId, roleId); 
+        onDeleteRole(company.companyId, roleIdToDelete); 
     };
 
     const handleCancelDeleteRole = () => {
@@ -77,9 +77,9 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole, onAddR
         setRoleToEdit(role);    
     };
 
-    const handleSave = (roleId, description, fromDate, toDate, current) => {
+    const handleSave = (companyId, roleId, description, fromDate, toDate, current) => {
         setIsEditingRole(false);
-        onEditRole(company.companyId, roleId, description, fromDate, toDate, current);
+        onEditRole(companyId, roleId, description, fromDate, toDate, current);
     };
 
     const handleCancel = () => {
@@ -90,9 +90,9 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole, onAddR
         setIsAddingRole(true);
     };
 
-    const handleSubmit = (description, fromDate, toDate, current) => {
+    const handleSubmit = (companyId, description, fromDate, toDate, current) => {
+        onAddRole(companyId, description, fromDate, toDate, current);
         setIsAddingRole(false);
-        onAddRole(company.companyId, description, fromDate, toDate, current);
     };
 
     const handleClose = () => {
@@ -162,7 +162,8 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole, onAddR
                 <div className={`company-overlay ${isEditingRole ? 'show' : 'hide'}`}></div>)}
             {isEditingRole && (
                 <div className={`role-edit-block ${isEditingRole ? 'show' : 'hide'}`}>
-                    <EditRole role={roleToEdit}
+                    <EditRole companyId={company.companyId}
+                              role={roleToEdit}
                               onSave={handleSave}
                               onCancel={handleCancel} />    
                 </div>
@@ -180,7 +181,8 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole, onAddR
                 <div className={`company-overlay ${isAddingRole ? 'show' : 'hide'}`}></div>)}
             {isAddingRole && (                  
                 <div className={`role-add-block ${isAddingRole ? 'show' : 'hide'}`}>
-                    <AddRole onSubmit={handleSubmit}
+                    <AddRole companyId={company.companyId}
+                             onSubmit={handleSubmit}
                              onClose={handleClose} />
                 </div>  
             )}

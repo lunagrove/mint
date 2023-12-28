@@ -43,26 +43,26 @@ const SelectYear = ({ defaultValue, onChange }) => {
 
     return (
         <div>
-        <button className="spin-control-down" onClick={() => handleCenturyChange(-1)}>-</button>
-        <input
-            id="centuryInput"
-            className="form-input century-input"
-            type="text"
-            value={century}
-            readOnly
-        />
-        <button className="spin-control-up" onClick={() => handleCenturyChange(1)}>+</button>
+            <button className="spin-control-down" onClick={() => handleCenturyChange(-1)}>-</button>
+            <input
+                id="centuryInput"
+                className="form-input century-input"
+                type="text"
+                value={century}
+                readOnly
+            />
+            <button className="spin-control-up" onClick={() => handleCenturyChange(1)}>+</button>
 
-        <button className="spin-control-down" onClick={() => handleYearChange(-1)}>-</button>
-        <input
-            id="yearInput"
-            className="form-input year-input"
-            type="text"
-            value={formatTwoDigitYear(year)}
-            onChange={handleYearInputChange}
-            maxLength={2}
-        />
-        <button className="spin-control-up" onClick={() => handleYearChange(1)}>+</button>
+            <button className="spin-control-down" onClick={() => handleYearChange(-1)}>-</button>
+            <input
+                id="yearInput"
+                className="form-input year-input"
+                type="text"
+                value={formatTwoDigitYear(year)}
+                onChange={handleYearInputChange}
+                maxLength={2}
+            />
+            <button className="spin-control-up" onClick={() => handleYearChange(1)}>+</button>
         </div>
     );
 };

@@ -18,46 +18,45 @@ export const DataProvider = ({ children }) => {
     setUserData(newData);
   };
 
-  const calculateSortOrder = (items) => {
-    if (items.length === 0) {   /* companies or education with no details appear top of the list */
+  const calculateMaxToDate = (details) => {
+    if (details.length === 0) {
       return Infinity;
     }
-    const maxToDate = items.reduce((maxDate, item) => {
-      const allEntries = item.details || [];
-      const maxEntryToDate = allEntries.reduce((maxEntryToDate, entry) => {
-        let toDate;
-
-        if (entry.current) {
-          toDate = new Date().getTime();
-        } else {
-          toDate = new Date(entry.toDate).getTime();
-        }
-
-        return Math.max(maxEntryToDate, toDate);
-      }, 0);
-
-      return Math.max(maxDate, maxEntryToDate);
+    return details.reduce((maxDate, entry) => {
+      const toDate = entry.current ? new Date().getTime() : new Date(entry.todate).getTime();
+      return Math.max(maxDate, toDate);
     }, 0);
-
-    return maxToDate;
   };
 
-  const sortedEducation = [...userData.education].sort((a, b) => {
-    const sortOrderA = calculateSortOrder(a.details || []);
-    const sortOrderB = calculateSortOrder(b.details || []);
-    return sortOrderB - sortOrderA;
-  });
+  const sortCompaniesByMaxToDate = (companiesData) => {
+    const sortedCompanies = [...companiesData].sort((a, b) => {
+      const maxToDateA = calculateMaxToDate(a.details || []);
+      const maxToDateB = calculateMaxToDate(b.details || []);
+      return maxToDateB - maxToDateA;
+    });
+    return sortedCompanies;
+  };
 
-  const sortedCompanies = [...userData.companies].sort((a, b) => {
-    const sortOrderA = calculateSortOrder(a.details || []);
-    const sortOrderB = calculateSortOrder(b.details || []);
-    return sortOrderB - sortOrderA;
-  });
+  const sortEducationByMaxToDate = (educationData) => {
+    const sortedEducation = [...educationData].sort((a, b) => {
+      const maxToDateA = calculateMaxToDate(a.details || []);
+      const maxToDateB = calculateMaxToDate(b.details || []);
+      return maxToDateB - maxToDateA;
+    });
+    return sortedEducation;
+  };
 
   return (
     <DataContext.Provider
-        value={{ userData: { ...userData, education: sortedEducation, companies: sortedCompanies },
-                 updateUserData }}>
+    value={{
+      userData: {...userData,
+                 education: sortEducationByMaxToDate(userData.education),
+                 companies: sortCompaniesByMaxToDate(userData.companies)
+      },
+      updateUserData,
+      sortCompaniesByMaxToDate,
+      sortEducationByMaxToDate
+    }}>
       {children}
     </DataContext.Provider>
   );

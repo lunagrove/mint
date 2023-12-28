@@ -13,7 +13,7 @@ import { fetchCompanies } from "../utilities/fetchData";
 function CompaniesPage() {
 
     const {user} = useAuthenticator((context) => [context.user]);
-    const { userData, updateUserData } = useData();
+    const { userData, updateUserData, sortCompaniesByMaxToDate } = useData();
 
     const [loadingCompanies, setLoadingCompanies] = useState(false);
     const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
@@ -108,7 +108,7 @@ function CompaniesPage() {
             await updateUserData((prevUserData) => {
                 return {
                     ...prevUserData,
-                    companies: prevUserData.companies.filter(company => company.companyid !== companyId),
+                    companies: prevUserData.companies.filter(company => company.companyId !== companyId),
                 };
             });  
         }
@@ -229,7 +229,7 @@ function CompaniesPage() {
             });
             await updateUserData((prevUserData) => {
                 const newRole = {
-                    id: role.roleid,
+                    id: role.role.roleid,
                     description: description,
                     fromdate: fromdate,
                     todate: todate,
@@ -237,14 +237,17 @@ function CompaniesPage() {
                   };
                 const companyIndex = prevUserData.companies.findIndex((company) => company.companyId === companyId);
                 if (companyIndex !== -1) {
-                    const updatedCompanies = [...userData.companies];
+                    const updatedCompanies = [...prevUserData.companies];
+                    const updatedDetails = [...updatedCompanies[companyIndex].details];
+                    updatedDetails.push(newRole);
+
                     updatedCompanies[companyIndex] = {
                         ...updatedCompanies[companyIndex],
-                        details: [...updatedCompanies[companyIndex].details, newRole]};
+                        details: updatedDetails};
 
                     const updatedUserData = {
-                        ...userData,
-                        companies: updatedCompanies,
+                        ...prevUserData,
+                        companies: sortCompaniesByMaxToDate(updatedCompanies),
                     };                  
                     return updatedUserData;
                 }

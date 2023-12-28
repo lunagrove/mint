@@ -4,7 +4,7 @@ import { monthNames } from "../utilities/constants";
 import { formatMonthandYear, formatFirstOfMonthDate, formatShortDate } from "../utilities/dates";
 import SelectYear from "./SelectYear";
 
-const AddRole = ({ onSubmit, onClose }) => {
+const AddRole = ({ companyId, onSubmit, onClose }) => {
 
     const [description, setDescription] = useState('');
     const [fromMonth, setFromMonth] = useState('');
@@ -51,7 +51,7 @@ const AddRole = ({ onSubmit, onClose }) => {
     const handleSubmit = () => {
         const newFromDate = formatFirstOfMonthDate(fromYear, fromMonth);
         const newToDate = formatFirstOfMonthDate(toYear, toMonth);
-        onSubmit(description, newFromDate, newToDate, current);
+        onSubmit(companyId, description, newFromDate, newToDate, current);
         handleClose();
     };
 
@@ -62,7 +62,7 @@ const AddRole = ({ onSubmit, onClose }) => {
     return (
         <div className="role-panel-contents">
             <h2>Add Role</h2>
-            <form className="add-role-form">
+            <div className="add-role-form">
                 <h5 className="form-label">Description</h5>
                 <input type="text"
                         id="description"
@@ -120,9 +120,9 @@ const AddRole = ({ onSubmit, onClose }) => {
                         />
                     </div>
                 </div>
-            </form>
+            </div>
             <div className="role-panel-footer">
-                <button type="submit"
+                <button type="button"
                         className="formbutton focused"
                         id="submitBtn"
                         onClick={handleSubmit}>Save</button>
