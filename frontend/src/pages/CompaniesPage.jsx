@@ -13,7 +13,7 @@ import { fetchCompanies } from "../utilities/fetchData";
 function CompaniesPage() {
 
     const {user} = useAuthenticator((context) => [context.user]);
-    const { userData, updateUserData, sortCompaniesByMaxToDate } = useData();
+    const { userData, updateUserData, sortCompaniesByMaxToDate, sortDetailsByMaxToDate } = useData();
 
     const [loadingCompanies, setLoadingCompanies] = useState(false);
     const [isSpinningCompanies, setIsSpinningCompanies] = useState(false);
@@ -134,7 +134,7 @@ function CompaniesPage() {
                         ...prevUserData.companies.slice(0, companyIndex),
                         {
                             ...prevUserData.companies[companyIndex],
-                            details: updatedDetails
+                            details: sortDetailsByMaxToDate(updatedDetails)
                         },
                         ...prevUserData.companies.slice(companyIndex + 1)
                     ];
@@ -150,7 +150,7 @@ function CompaniesPage() {
                     });
                     const updatedUserData = {
                         ...prevUserData,
-                        companies: updatedCompanies,
+                        companies: sortCompaniesByMaxToDate(updatedCompanies),
                         snippets: updatedSnippets,
                     };
                     return updatedUserData;
@@ -190,18 +190,15 @@ function CompaniesPage() {
                         }
                         return role;
                     });
-                    const updatedCompanies = [
-                        ...prevUserData.companies.slice(0, companyIndex),
-                        {
-                            ...prevUserData.companies[companyIndex],
-                            details: updatedDetails,
-                        },
-                        ...prevUserData.companies.slice(companyIndex + 1),
-                    ];
+                    const updatedCompanies = [...prevUserData.companies];
+                    updatedCompanies[companyIndex] = {
+                        ...prevUserData.companies[companyIndex],
+                        details: sortDetailsByMaxToDate(updatedDetails)
+                    };
                     const updatedUserData = {
                         ...prevUserData,
-                        companies: updatedCompanies,
-                    };
+                        companies: sortCompaniesByMaxToDate(updatedCompanies),
+                    }; 
                     return updatedUserData;
                 }
                 return prevUserData;
@@ -243,7 +240,8 @@ function CompaniesPage() {
 
                     updatedCompanies[companyIndex] = {
                         ...updatedCompanies[companyIndex],
-                        details: updatedDetails};
+                        details: sortDetailsByMaxToDate(updatedDetails)
+                    };
 
                     const updatedUserData = {
                         ...prevUserData,
