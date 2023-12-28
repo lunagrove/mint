@@ -28,10 +28,21 @@ export const DataProvider = ({ children }) => {
     }, 0);
   };
 
+  const sortDetailsByMaxToDate = (detailsData) => {
+    const sortedDetails = [...detailsData].sort((a, b) => {
+        const maxToDateA = a.current ? new Date().getTime() : new Date(a.todate).getTime();
+        const maxToDateB = b.current ? new Date().getTime() : new Date(b.todate).getTime();
+        return maxToDateB - maxToDateA;
+    });
+    return sortedDetails;   
+};
+
   const sortCompaniesByMaxToDate = (companiesData) => {
     const sortedCompanies = [...companiesData].sort((a, b) => {
-      const maxToDateA = calculateMaxToDate(a.details || []);
-      const maxToDateB = calculateMaxToDate(b.details || []);
+      const sortedDetailsA = sortDetailsByMaxToDate(a.details || []);
+      const sortedDetailsB = sortDetailsByMaxToDate(b.details || []);
+      const maxToDateA = calculateMaxToDate(sortedDetailsA);
+      const maxToDateB = calculateMaxToDate(sortedDetailsB);
       return maxToDateB - maxToDateA;
     });
     return sortedCompanies;
@@ -39,8 +50,10 @@ export const DataProvider = ({ children }) => {
 
   const sortEducationByMaxToDate = (educationData) => {
     const sortedEducation = [...educationData].sort((a, b) => {
-      const maxToDateA = calculateMaxToDate(a.details || []);
-      const maxToDateB = calculateMaxToDate(b.details || []);
+      const sortedDetailsA = sortDetailsByMaxToDate(a.details || []);
+      const sortedDetailsB = sortDetailsByMaxToDate(b.details || []);
+      const maxToDateA = calculateMaxToDate(sortedDetailsA || []);
+      const maxToDateB = calculateMaxToDate(sortedDetailsB || []);
       return maxToDateB - maxToDateA;
     });
     return sortedEducation;
@@ -55,7 +68,8 @@ export const DataProvider = ({ children }) => {
       },
       updateUserData,
       sortCompaniesByMaxToDate,
-      sortEducationByMaxToDate
+      sortEducationByMaxToDate,
+      sortDetailsByMaxToDate
     }}>
       {children}
     </DataContext.Provider>

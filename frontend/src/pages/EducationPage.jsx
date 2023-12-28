@@ -13,7 +13,7 @@ import { fetchEducation } from "../utilities/fetchData";
 function EducationPage() {
 
     const {user} = useAuthenticator((context) => [context.user]);
-    const { userData, updateUserData, sortEducationByMaxToDate } = useData();
+    const { userData, updateUserData, sortEducationByMaxToDate, sortDetailsByMaxToDate } = useData();
 
     const [loadingEducation, setLoadingEducation] = useState(false);
     const [isSpinningEducation, setIsSpinningEducation] = useState(false);
@@ -146,7 +146,7 @@ function EducationPage() {
                     });
                     const updatedUserData = {
                         ...prevUserData,
-                        education: updatedEducation,
+                        education: sortEducationByMaxToDate(updatedEducation),
                         snippets: updatedSnippets,
                     };
                     return updatedUserData;
@@ -187,18 +187,15 @@ function EducationPage() {
                         }
                         return course;
                     });
-                    const updatedEducation = [
-                        ...prevUserData.education.slice(0, educationIndex),
-                        {
-                            ...prevUserData.education[educationIndex],
-                            details: updatedDetails,
-                        },
-                        ...prevUserData.education.slice(educationIndex + 1),
-                    ];
+                    const updatedEducation = [...prevUserData.education];
+                    updatedEducation[educationIndex] = {
+                        ...prevUserData.education[educationIndex],
+                        details: sortDetailsByMaxToDate(updatedDetails)
+                    };
                     const updatedUserData = {
                         ...prevUserData,
-                        education: updatedEducation,
-                    };
+                        education: sortEducationByMaxToDate(updatedEducation),
+                    }; 
                     return updatedUserData;
                 }
                 return prevUserData;
@@ -242,7 +239,8 @@ function EducationPage() {
 
                     updatedEducation[educationIndex] = {
                         ...updatedEducation[educationIndex],
-                        details: updatedDetails};
+                        details: sortDetailsByMaxToDate(updatedDetails)
+                    };
 
                     const updatedUserData = {
                         ...prevUserData,
