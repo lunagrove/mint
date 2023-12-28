@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { FaUserCircle } from 'react-icons/fa';
 import { FaEllipsis } from "react-icons/fa6";
@@ -10,7 +9,6 @@ import { menuItems } from "../utilities/constants";
 
 function Navbar() {
 
-    const navigate = useNavigate();
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const {user} = useAuthenticator((context) => [context.user]);
     
@@ -18,7 +16,7 @@ function Navbar() {
         try {
           await Auth.signOut();
           setDropdownVisible(false);
-          navigate('/login', { replace: true });
+          window.location.href = '/';
         } catch (error) {
           alert(error);
         }
@@ -57,7 +55,7 @@ function Navbar() {
                                     ))} 
                                 </div>
                             </div>
-                            <Link to="#" className="nav-logout" onClick={handleSignOut}>Logout</Link>
+                            <Link to="/" className="nav-logout" onClick={handleSignOut}>Logout</Link>
                         </div>
                     )}
                 </div>              

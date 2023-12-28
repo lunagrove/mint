@@ -79,37 +79,29 @@ function App() {
 
   const {user} = useAuthenticator((context) => [context.user]);
 
-  if (!user) {
-    return (
-      <BrowserRouter>
-        <DataProvider>
-          <Navbar />
-          <main>
-            <LoginPage />
-          </main>
-        </DataProvider>
-      </BrowserRouter>
-    );
-  }
-
   return (
     <BrowserRouter>
       <DataProvider>
-        <Navbar></Navbar>
+        <Navbar />
         <main>
           <div className="App">
             <div className="container">
               <div className="wrapper">
                 <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  {menuItems.map(({ route, element }, index) => (
-                      <Route
+                  {user ? (
+                    <>
+                      {menuItems.map(({ route, element }, index) => (
+                        <Route
                           key={index}
                           path={route}
                           element={<RouteGuard>{React.createElement(eval(element))}</RouteGuard>}
-                      />
-                  ))}     
+                        />
+                  ))}
+                    </>
+                  ) : (
+                    <Route path="/*" element={<LoginPage />} />
+                  )}
+                  
                 </Routes>
               </div>
             </div>
