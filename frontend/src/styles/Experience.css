@@ -14,7 +14,7 @@
 }
 
 .experience-row.editing {
-    margin-bottom: 260px;
+    margin-bottom: 390px;
 }
 
 .experience-edit-block {
@@ -27,6 +27,11 @@
     background-color: #fff;
     border: 1px solid #ccc;
     overflow: hidden;
+}
+
+.experience-edit-block.show {
+    border: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .experience-overlay {
@@ -48,25 +53,11 @@
 }
 
 .experience-edit-block.show {
-    height: 240px;
+    height: 375px;
 }
 
 .experience-edit-block.hide {
     height: 0;
-}
-
-.experience-edit-icons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;  
-    gap: 5px;
-}
-
-.experience-edit-contents {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 20px;
 }
 
 .experience-block {

@@ -3,9 +3,8 @@ import { useState, useEffect } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { BsPencil } from "react-icons/bs";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
-import { MdOutlineCancel } from "react-icons/md";
-import { FiCheckCircle } from "react-icons/fi";
 import { formatLongDate } from "../utilities/dates";
+import EditSnippet from './EditSnippet';
 import Dialog from './Dialog';
 import { useData } from '../utilities/DataContext';
 
@@ -134,17 +133,13 @@ const Experience = ({ snippet, onDelete, onEdit }) => {
     };
 
     const handleSaveClick = () => {
-        onEdit(snippet.snippetid, editedSnippet);
+        onEdit(snippet.experienceid, editedSnippet);
         setIsEditing(false);
     };
 
     const handleCancelClick = () => {
         setIsEditing(false);
         setEditedSnippet(snippet.snippet);
-    };
-
-    const handleSnippetChange = (e) => {
-        setEditedSnippet(e.target.value);
     };
 
     return (
@@ -155,9 +150,11 @@ const Experience = ({ snippet, onDelete, onEdit }) => {
                     <h3 className="experience-snippet" >{snippet.snippet}</h3>
                     <div className="experience-skills">
                         {skills && skills.length > 0 && skills.map((skill) => (
-                            <div key={skill.id} className="tag-rectangle-grey">
-                                {skill.description}
-                            </div>
+                            skill.id ? (
+                                <div key={skill.id} className="tag-rectangle-grey">
+                                    {skill.description}
+                                </div>
+                            ) : null
                         ))}
                     </div>
                     <div className="experience-tags">
@@ -174,23 +171,13 @@ const Experience = ({ snippet, onDelete, onEdit }) => {
                     <IoTrashOutline className="icon-medium edit-icon" onClick={handleDeleteClick}/>
                 </div>
             </div>
-            {isEditing && <div className={`experience-overlay ${isEditing ? 'show' : 'hide'}`}></div>}
+            {isEditing && (
+                <div className={`experience-overlay ${isEditing ? 'show' : 'hide'}`}></div>)}
             {isEditing && (
                 <div className={`experience-edit-block ${isEditing ? 'show' : 'hide'}`}>
-                    <h5 className="form-label">Description</h5>
-                    <div className="experience-edit-contents">
-                        <textarea className="form-textarea"
-                            id="snippet" 
-                            value={editedSnippet}
-                            rows="2"
-                            cols="160"
-                            onChange={handleSnippetChange}>
-                        </textarea>
-                        <div className="experience-edit-icons">
-                            <FiCheckCircle className="icon-large save-icon" onClick={handleSaveClick} />
-                            <MdOutlineCancel className="icon-large cancel-icon" onClick={handleCancelClick} />
-                        </div>
-                    </div>
+                    <EditSnippet snippet={snippet}
+                                 onSave={handleSaveClick}
+                                 onCancel={handleCancelClick} /> 
                 </div>
             )}
             {isDeleteDialogOpen && (

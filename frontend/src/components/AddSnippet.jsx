@@ -15,6 +15,7 @@ const AddSnippet = ({ onSubmit, onClose }) => {
     const [tags, setTags] = useState([]);
     const [selectedTag, setSelectedTag] = useState(null);
     const [snippet, setSnippet] = useState('');
+    const [characterCount, setCharacterCount] = useState(0);
     const [isTipsOpen, setIsTipsOpen] = useState(false);
     const [selectedTipIndex, setSelectedTipIndex] = useState(0);
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -84,7 +85,8 @@ const AddSnippet = ({ onSubmit, onClose }) => {
     );
 
     const handleChange = (e) => {
-        setSnippet(e.target.value);    
+        setSnippet(e.target.value); 
+        setCharacterCount(e.target.value.length);   
     };
 
     const handleSubmit = () => {
@@ -108,7 +110,6 @@ const AddSnippet = ({ onSubmit, onClose }) => {
         setIsTipsOpen(false);
     };
 
-    const characterCount = snippet.length;
     const isCharacterCountExceeded = characterCount > 300;
 
     function customTheme(theme) {

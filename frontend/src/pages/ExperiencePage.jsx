@@ -21,6 +21,10 @@ function ExperiencePage() {
     const [snippetCount, setSnippetCount] = useState(0);
 
     useEffect(() => {
+        console.log('userData in experience page: ', userData);
+    }, [userData]);
+
+    useEffect(() => {
         if (user && userData.snippets && userData.snippets.length === 0) {
             setLoadingSnippets(true);
             fetchData("snippets");

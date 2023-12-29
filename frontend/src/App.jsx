@@ -54,6 +54,7 @@ import './styles/AddRole.css';
 import './styles/AddCourse.css';
 import './styles/EditRole.css';
 import './styles/EditCourse.css';
+import './styles/EditSnippet.css';
 
 const amplifyConfig = {
   Auth: {

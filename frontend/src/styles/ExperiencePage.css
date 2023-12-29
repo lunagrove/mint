@@ -54,7 +54,7 @@
   
 .experience-page-panel2.open {
     justify-content: flex-start;
-    height: 520px;
+    height: 480px;
     padding: 0 20px;
     z-index: 1;
     animation: slideDown2 0.5s ease forwards;
@@ -72,13 +72,13 @@
       height: 120px;
     }
     to {
-      height: 520px;
+      height: 480px;
     }
 }
   
 @keyframes slideUp2 {
     from {
-      height: 520px;
+      height: 480px;
     }
     to {
       height: 120px;

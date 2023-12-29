@@ -22,7 +22,7 @@ function CompaniesPage() {
 
     useEffect(() => {
         console.log('userData in companies page: ', userData);
-      }, [userData]);
+    }, [userData]);
 
     useEffect(() => {
         if (user && userData.companies && userData.companies.length === 0) {
@@ -39,7 +39,7 @@ function CompaniesPage() {
 
     const handleAddCompany = () => {
         setIsPanelOpen(true);
-      };
+    };
 
     const handleEdit = async (companyId, description, name) => {
         try {
@@ -66,7 +66,7 @@ function CompaniesPage() {
         }
     };
     
-      const handleSubmit = async (companyName, description) => {
+    const handleSubmit = async (companyName, description) => {
         try {
             const result = await API.post("api", "/company", {
                 headers: {
