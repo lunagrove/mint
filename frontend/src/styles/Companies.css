@@ -13,7 +13,7 @@
 }
 
 .company-row.editing {
-    margin-bottom: 260px;
+    margin-bottom: 325px;
 }
 
 .company-row.adding {
@@ -157,7 +157,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    height: 240px;
+    height: 310px;
     padding: 20px;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -205,6 +205,10 @@
 
 @media (min-width: 1200px) {
 
+    .company-row.editing {
+        margin-bottom: 240px;
+    }
+
     .company-row-edit-icons {
       justify-content: space-between;
     }
@@ -218,5 +222,9 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .role-edit-block {
+        height: 230px;
     }
 }

@@ -4,7 +4,13 @@
 
 .role-edit-contents {
     display: flex;
-    gap: 30px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.role-edit-dates {
+    display: flex;
+    gap: 20px;
 }
 
 .role-col {
@@ -34,8 +40,17 @@
 }
 
 @media (min-width: 768px) {
-
+    
     .edit-role-description {
         width: 700px;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    .role-edit-contents {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
     }
 }

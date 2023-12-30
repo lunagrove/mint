@@ -16,9 +16,8 @@ const EditSnippet = ({ snippet, onSave, onCancel }) => {
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [tags, setTags] = useState([]);
     const [selectedTag, setSelectedTag] = useState(null);
-    const [editedSnippet, setEditedSnippet] = useState(snippet);
-    const [characterCount, setCharacterCount] = useState(snippet.snippet.length)
-    const [editedDescription, setEditedDescription] = useState(snippet.snippet);
+    const [characterCount, setCharacterCount] = useState(snippet.snippet ? snippet.snippet.length : 0);
+    const [editedDescription, setEditedDescription] = useState(snippet.snippet ? snippet.snippet : '');
     const [isTipsOpen, setIsTipsOpen] = useState(false);
     const [selectedTipIndex, setSelectedTipIndex] = useState(0);
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -83,13 +82,19 @@ const EditSnippet = ({ snippet, onSave, onCancel }) => {
             let detail = {};
             if (type === 'role') {
                 for (const company of userData.companies) {
-                    detail = company.details.find((detail) => detail.id === id);
+                    detail = company.details.find((detailObj) => detailObj.id === id);
+                    if (detail) {
+                        break;
+                    }
                 }
             }
             if (type === 'course' || type === 'credential') {
                 for (const education of userData.education) {
-                    detail = education.details.find((detail) => detail.id === id &&
-                                                                detail.type === type);
+                    detail = education.details.find((detailObj) => detailObj.id === id &&
+                                                                   detailObj.type === type);
+                    if (detail) {
+                        break;
+                    }
                 }
             }
             return detail;
@@ -120,6 +125,18 @@ const EditSnippet = ({ snippet, onSave, onCancel }) => {
             }
             setSelectedTag({ value: `${snippet.tagid}+${snippet.tagtype}`, label: desc });
         };
+
+        if (snippet.skillids && snippet.skillids.length > 0) {
+            let skillObjs = [];
+            skillObjs = snippet.skillids.map((skillid) => {
+                const foundSkill = userData.skills.find((skill) => skill.skillid === skillid);
+                return {
+                    label: foundSkill.description,
+                    value: skillid
+                };
+            });
+            setSelectedSkills(skillObjs);
+        }
     }, []);
 
     const formatGroupLabel = (data) => (
@@ -135,7 +152,7 @@ const EditSnippet = ({ snippet, onSave, onCancel }) => {
     };
 
     const handleSave = () => {
-        onSave(editedSnippet, selectedSkills, selectedTag);
+        onSave(snippet.experienceid, editedDescription, selectedSkills, selectedTag);
         handleCancel();
     };
 
@@ -179,7 +196,6 @@ const EditSnippet = ({ snippet, onSave, onCancel }) => {
                                                         onClick={(e) => openTips(e, 0)} />
                         </div>
                         <div className="snippet-edit-tags"> 
-                            {selectedTag && console.log('selectedTag', selectedTag)}
                             {tags && <Select options={tags}
                                             formatGroupLabel={formatGroupLabel}
                                             theme={customTheme}
@@ -224,7 +240,7 @@ const EditSnippet = ({ snippet, onSave, onCancel }) => {
                                             placeholder="Select skills..."
                                             isMulti={true}
                                             options={skills}
-                                            value={[{selectedSkills}]}
+                                            value={selectedSkills}
                                             blurInputOnSelect={false}
                                             id="skills"
                                             maxMenuHeight={160}

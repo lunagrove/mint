@@ -4,7 +4,13 @@
 
 .course-edit-contents {
     display: flex;
-    gap: 30px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.course-edit-dates {
+    display: flex;
+    gap: 20px;
 }
 
 .edit-course-fields {
@@ -41,5 +47,14 @@
 @media (min-width: 768px) {
     .edit-course-description {
         width: 700px;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    .course-edit-contents {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
     }
 }

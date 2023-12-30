@@ -98,55 +98,59 @@ const EditCourse = ({ educationId, course, onSave, onCancel }) => {
                 </div>
             </div>
             <div className="course-edit-contents">
-                <div className="course-col">
-                    <h5 className="form-label">From:</h5>
-                    {editedFromMonth && (
-                        <select className="form-select edit-month"
-                                value={editedFromMonth}
-                                onChange={handleFromMonthChange}>
-                            {monthNames.map((month, index) => (
-                                <option key={index} value={month}>{month}</option>
-                            ))}
-                        </select>
-                    )}
+                <div className="course-edit-dates">
+                    <div className="course-col">
+                        <h5 className="form-label">From:</h5>
+                        {editedFromMonth && (
+                            <select className="form-select edit-month"
+                                    value={editedFromMonth}
+                                    onChange={handleFromMonthChange}>
+                                {monthNames.map((month, index) => (
+                                    <option key={index} value={month}>{month}</option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
+                    <div className="course-col">
+                        <h5 className="form-label">&nbsp;</h5>
+                        {editedFromYear && (
+                            <SelectYear defaultValue={editedFromYear}
+                                        onChange={handleFromYearChange}>
+                            </SelectYear>)}
+                    </div>
                 </div>
-                <div className="course-col">
-                    <h5 className="form-label">&nbsp;</h5>
-                    {editedFromYear && (
-                        <SelectYear defaultValue={editedFromYear}
-                                    onChange={handleFromYearChange}>
-                        </SelectYear>)}
-                </div>
-                <div className="course-col">
-                    <h5 className="form-label">To:</h5>
-                    {editedToMonth && (
-                        <select className="form-select edit-month"
-                                value={editedToMonth}
-                                onChange={handleToMonthChange}>
-                            {monthNames.map((month, index) => (
-                                <option key={index} value={month}>{month}</option>
-                            ))}
-                        </select>
-                    )}
-                </div>
-                <div className="course-col">
-                    <h5 className="form-label">&nbsp;</h5>
-                    {editedToYear && (
-                        <SelectYear defaultValue={editedToYear}
-                                    onChange={handleToYearChange}>
-                        </SelectYear>)}
-                </div>
-                <div className="course-col">
-                    <h5 className="form-label">or  Current?</h5>
-                    <input type="checkbox"
-                            className="course-current"
-                            checked={editedCurrent}
-                            onChange={handleCurrentChange}
-                    />
-                </div>
-                <div className="course-edit-icons">
-                    <FiCheckCircle className="icon-xlarge save-icon" onClick={handleSaveClick} />
-                    <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleCancelClick} />
+                <div className="course-edit-dates">
+                    <div className="course-col">
+                        <h5 className="form-label">To:</h5>
+                        {editedToMonth && (
+                            <select className="form-select edit-month"
+                                    value={editedToMonth}
+                                    onChange={handleToMonthChange}>
+                                {monthNames.map((month, index) => (
+                                    <option key={index} value={month}>{month}</option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
+                    <div className="course-col">
+                        <h5 className="form-label">&nbsp;</h5>
+                        {editedToYear && (
+                            <SelectYear defaultValue={editedToYear}
+                                        onChange={handleToYearChange}>
+                            </SelectYear>)}
+                    </div>
+                    <div className="course-col">
+                        <h5 className="form-label">or  Current?</h5>
+                        <input type="checkbox"
+                                className="course-current"
+                                checked={editedCurrent}
+                                onChange={handleCurrentChange}
+                        />
+                    </div>
+                    <div className="course-edit-icons">
+                        <FiCheckCircle className="icon-xlarge save-icon" onClick={handleSaveClick} />
+                        <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleCancelClick} />
+                    </div>
                 </div>
             </div>  
         </>

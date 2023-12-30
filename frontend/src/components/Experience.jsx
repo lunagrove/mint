@@ -132,8 +132,8 @@ const Experience = ({ snippet, onDelete, onEdit }) => {
         setIsEditing(true);    
     };
 
-    const handleSaveClick = () => {
-        onEdit(snippet.experienceid, editedSnippet);
+    const handleSaveClick = (experienceid, description, skills, tag) => {
+        onEdit(experienceid, description, skills, tag);
         setIsEditing(false);
     };
 

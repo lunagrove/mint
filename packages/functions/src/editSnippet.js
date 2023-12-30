@@ -16,7 +16,7 @@ export async function main(event) {
       };
     }
 
-    const snippet = await editSnippet(userId, snippetId, body.description);
+    const snippet = await editSnippet(userId, snippetId, body.snippet, body.skillIds, body.tagId, body.tagType);
 
     if (!snippet) {
       return {

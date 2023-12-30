@@ -74,58 +74,68 @@ const EditRole = ({ companyId, role, onSave, onCancel }) => {
                 onChange={handleDescriptionChange}
             />
             <div className="role-edit-contents">
-                <div className="role-col">
-                    <h5 className="form-label">From:</h5>
-                    {editedFromMonth && (
-                        <select className="form-select edit-month"
-                                value={editedFromMonth}
-                                onChange={handleFromMonthChange}>
-                            {monthNames.map((month, index) => (
-                                <option key={index} value={month}>{month}</option>
-                            ))}
-                        </select>
-                    )}
+
+                <div className="role-edit-dates">
+
+                    <div className="role-col">
+                        <h5 className="form-label">From:</h5>
+                        {editedFromMonth && (
+                            <select className="form-select edit-month"
+                                    value={editedFromMonth}
+                                    onChange={handleFromMonthChange}>
+                                {monthNames.map((month, index) => (
+                                    <option key={index} value={month}>{month}</option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
+                    <div className="role-col">
+                        <h5 className="form-label">&nbsp;</h5>
+                        {editedFromYear && (
+                            <SelectYear defaultValue={editedFromYear}
+                                        onChange={handleFromYearChange}>
+                            </SelectYear>
+                        )}
+                    </div>
+
                 </div>
-                <div className="role-col">
-                    <h5 className="form-label">&nbsp;</h5>
-                    {editedFromYear && (
-                        <SelectYear defaultValue={editedFromYear}
-                                    onChange={handleFromYearChange}>
-                        </SelectYear>
-                    )}
+                <div className="role-edit-dates">
+
+                    <div className="role-col">
+                        <h5 className="form-label">To:</h5>
+                        {editedToMonth && (
+                            <select className="form-select edit-month"
+                                    value={editedToMonth}
+                                    onChange={handleToMonthChange}>
+                                {monthNames.map((month, index) => (
+                                    <option key={index} value={month}>{month}</option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
+                    <div className="role-col">
+                        <h5 className="form-label">&nbsp;</h5>
+                        {editedToYear && (
+                            <SelectYear defaultValue={editedToYear}
+                                        onChange={handleToYearChange}>
+                            </SelectYear>
+                        )}
+                    </div>
+                    <div className="role-col">
+                        <h5 className="form-label">or  Current?</h5>
+                        <input type="checkbox"
+                                className="role-current"
+                                checked={editedCurrent}
+                                onChange={handleCurrentChange}
+                        />
+                    </div>
+                    <div className="role-edit-icons">
+                        <FiCheckCircle className="icon-xlarge save-icon" onClick={handleSaveClick} />
+                        <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleCancelClick} />
+                    </div>
+
                 </div>
-                <div className="role-col">
-                    <h5 className="form-label">To:</h5>
-                    {editedToMonth && (
-                        <select className="form-select edit-month"
-                                value={editedToMonth}
-                                onChange={handleToMonthChange}>
-                            {monthNames.map((month, index) => (
-                                <option key={index} value={month}>{month}</option>
-                            ))}
-                        </select>
-                    )}
-                </div>
-                <div className="role-col">
-                    <h5 className="form-label">&nbsp;</h5>
-                    {editedToYear && (
-                        <SelectYear defaultValue={editedToYear}
-                                    onChange={handleToYearChange}>
-                        </SelectYear>
-                    )}
-                </div>
-                <div className="role-col">
-                    <h5 className="form-label">or  Current?</h5>
-                    <input type="checkbox"
-                            className="role-current"
-                            checked={editedCurrent}
-                            onChange={handleCurrentChange}
-                    />
-                </div>
-                <div className="role-edit-icons">
-                    <FiCheckCircle className="icon-xlarge save-icon" onClick={handleSaveClick} />
-                    <MdOutlineCancel className="icon-xlarge cancel-icon" onClick={handleCancelClick} />
-                </div>
+
             </div>
         </>
     );

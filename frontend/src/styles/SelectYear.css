@@ -1,3 +1,7 @@
+.date-input-fields {
+    display: flex;
+}
+
 .century-input {
     width: 45px;
     border-radius: 0;

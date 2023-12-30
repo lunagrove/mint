@@ -373,12 +373,12 @@ export async function deleteSnippet(userId, snippetId) {
   return res.rows[0]
 }
 
-export async function editSnippet(userid, snippetid, snippet) {
+export async function editSnippet(userid, snippetid, snippet, skills, tagid, tagtype) {
   const res = await getPool().query(`
-  UPDATE experience SET snippet = $3 
+  UPDATE experience SET snippet = $3, skillids = $4, tagid = $5, tagtype = $6 
   WHERE userId = $1
-  AND snippetid = $2
+  AND experienceid = $2
   RETURNING *
-  `, [userid, snippetid, snippet])
+  `, [userid, snippetid, snippet, skills, tagid, tagtype])
   return res.rows[0]
 }

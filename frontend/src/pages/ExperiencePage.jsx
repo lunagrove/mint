@@ -78,25 +78,42 @@ function ExperiencePage() {
         }
     };
 
-    const handleEdit = async (snippetId, snippet) => {
+    const handleEdit = async (snippetId, description, skillObjs, tag) => {
+        let skills = [];
+        if (skillObjs) {
+            skills = skillObjs.map(skill => skill.value);
+        }
+        let tagValue = null;
+        let tagType = '';
+        if (tag) {
+            const parts = tag.value.split('+');
+            tagValue = parts[0];
+            tagType = parts[1];    
+        }
         try {
-            await API.put("api", `/snippet/${snippetId}`, {
+            const result = await API.put("api", `/snippet/${snippetId}`, {
                 headers: {
                 Authorization: `Bearer ${(await Auth.currentSession())
                     .getAccessToken()
                     .getJwtToken()}`,
                 },
-                body: { description: description,
-                        snippet: snippet }
+                body: {
+                    snippet: description,
+                    skillIds: skills,
+                    tagId: tagValue,
+                    tagType: tagType
+                }
             });
-            await updateUserData((prevUserData) => {
-                return {
-                    /* ...prevUserData,
-                    projects: prevUserData.projects.map((project) =>
-                        project.projectid === projectId ? { ...project, description: description, snippet: snippet } : project
-                    ), */
-                };
-            });
+            if (result) {
+                const updatedSnippet = result;
+                await updateUserData((prevUserData) => {
+                    return {
+                        ...prevUserData,
+                        snippets: prevUserData.snippets.map((snippet) =>
+                            snippet.experienceid === snippetId ? { ...snippet, ...updatedSnippet } : snippet
+                        )};
+                });      
+            }
         }
         catch (error) {
             alert(error);
