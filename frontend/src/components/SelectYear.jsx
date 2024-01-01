@@ -20,11 +20,13 @@ const SelectYear = ({ defaultValue, onChange }) => {
 
     const handleCenturyChange = (increment) => {
         const newCentury = parseInt(century) + increment > 20 ? 19 : parseInt(century) + increment < 19 ? 20 : parseInt(century) + increment;
+        setCentury(newCentury);
         onChange(newCentury * 100 + parseInt(year));
     };
 
     const handleYearChange = (increment) => {
         const newYear = parseInt(year) + increment > 99 ? 0 : parseInt(year) + increment < 0 ? 99 : parseInt(year) + increment;
+        setYear(newYear);
         onChange(parseInt(century) * 100 + newYear);
     };
 
@@ -32,7 +34,19 @@ const SelectYear = ({ defaultValue, onChange }) => {
         const inputValue = e.target.value;
         if (/^\d{0,2}$/.test(inputValue)) {
             setYear(inputValue);
-            onChange(parseInt(century) * 100 + parseInt(inputValue));
+        }
+    };
+    
+    const handleYearInputBlur = () => {
+        const newYear = year === '' ? '00' : year;
+        onChange(parseInt(century) * 100 + parseInt(newYear));
+    };
+    
+    const handleYearInputKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const newYear = year === '' ? '00' : year;
+            onChange(parseInt(century) * 100 + parseInt(newYear));
         }
     };
 
@@ -58,6 +72,8 @@ const SelectYear = ({ defaultValue, onChange }) => {
                     value={year}
                     onChange={handleYearInputChange}
                     maxLength={2}
+                    onBlur={handleYearInputBlur}
+                    onKeyDown={handleYearInputKeyDown}
                 />
                 <button className="spin-control-up" onClick={() => handleYearChange(1)}>+</button>
             </div>

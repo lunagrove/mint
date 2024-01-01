@@ -58,7 +58,7 @@
     .modal {
       position: relative;
       width: 600px;
-      height: 770px;
+      height: 90%;
       z-index: 1001; 
       overflow-y: unset;
     }

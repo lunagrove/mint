@@ -156,7 +156,7 @@ const EditSkills = ( {onAdd, onDelete} ) => {
                                      disabled={isAnySkillBeingEdited} />
                         </form>
                         <BsSearch className="icon-large icon-margin-top" />
-                        {search && filteredSkills.length === 0 ? (
+                        {search && (search !== '' && !filteredSkills.some((item) => item.description.toLowerCase().includes(search))) ? (
                               <img
                                     className="plus-button add-skill-button"
                                     src="./plus-icon-80x80.png"

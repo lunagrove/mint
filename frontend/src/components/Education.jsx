@@ -118,7 +118,7 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse, 
                             <div className="education-info-details">
                                 <h3 className="education-info-description" >{item.description}</h3>
                                 <p className="education-info-dates">From: {formatMonthandYear(item.fromdate)}</p>
-                                {item.current ? <p>To: Current</p>
+                                {item.current ? <p className="education-info-dates">To: Current</p>
                                               : <p className="education-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                                 <div className="education-row-edit-icons">
                                 <BsPencil className="icon-medium edit-icon" onClick={() => handleEditCourseClick(item)}/>

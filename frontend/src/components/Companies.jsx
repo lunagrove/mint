@@ -120,7 +120,7 @@ const Companies = ({ company, onDelete, onDeleteRole, onEdit, onEditRole, onAddR
                             <div className="company-info-details">                           
                                 <h3 className="company-info-description" >{item.description}</h3>
                                 <p className="company-info-dates">From: {formatMonthandYear(item.fromdate)}</p>
-                                {item.current ? <p>To: Current</p>
+                                {item.current ? <p className="company-info-dates">To: Current</p>
                                               : <p className="company-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                                 <div className="company-row-edit-icons">
                                     <BsPencil className="icon-medium edit-icon" onClick={() => handleEditRoleClick(item)}/>
