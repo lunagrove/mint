@@ -1,6 +1,6 @@
 import { Auth, API } from "aws-amplify";
 
-const fetchProfile = async () => {
+const fetchProfile = async (userId, email) => {
   let response;
   try {
     const session = await Auth.currentSession();
@@ -10,16 +10,21 @@ const fetchProfile = async () => {
         Authorization: `Bearer ${token}`
       }
     });
+    console.log('response', response);
     if (!response.profile) {       
       const res = await API.post("api", "/user", {
         headers: {
           Authorization: `Bearer ${token}`
         },
         body: {
-          userId: user.attributes.sub,
-          email: user.attributes.email
+          userId: userId,
+          email: email
           }
         });
+        console.log('res', res);
+        if (res) {
+          response = res;
+        }
     }
   } catch (error) {
     console.log(error);

@@ -2,18 +2,18 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
-import HomePage from './pages/HomePage';
 import Navbar from "./components/Navbar";
 import { menuItems } from "./utilities/constants";
 import RouteGuard from "./utilities/RouteGuard";
 import { getYear } from "./utilities/dates";
 import { DataProvider } from './utilities/DataContext';
+import HomePage from './pages/HomePage';
 import CompaniesPage from './pages/CompaniesPage';
 import EducationPage from './pages/EducationPage';
 import ProjectsPage from './pages/ProjectsPage';
 import HobbiesPage from './pages/HobbiesPage';
 import ExperiencePage from './pages/ExperiencePage';
-import LoginPage from './pages/LoginPage';
+import Login from './components/Login';
 
 import './styles/App.css';
 import './styles/Amplify.css';
@@ -62,6 +62,11 @@ const amplifyConfig = {
     region: import.meta.env.VITE_APP_REGION,
     userPoolId: import.meta.env.VITE_APP_USER_POOL_ID,
     userPoolWebClientId: import.meta.env.VITE_APP_USER_POOL_CLIENT_ID,
+    authenticator: {
+      signIn: {
+        emailLabel: 'Enter your email address',
+      },
+    },
   },
   API: {
     endpoints: [
@@ -80,6 +85,8 @@ function App() {
 
   const {user} = useAuthenticator((context) => [context.user]);
 
+  console.log('user', user);
+
   return (
     <BrowserRouter>
       <DataProvider>
@@ -97,10 +104,14 @@ function App() {
                           path={route}
                           element={<RouteGuard>{React.createElement(eval(element))}</RouteGuard>}
                         />
-                  ))}
+                      ))}
+                      <Route path="/login" element={<Login />} />
                     </>
                   ) : (
-                    <Route path="/*" element={<LoginPage />} />
+                    <>
+                      <Route path="/" element={<Login />} />
+                      <Route path="/login" element={<Login />} />
+                    </>
                   )}
                   
                 </Routes>

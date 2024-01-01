@@ -4,40 +4,35 @@ const SelectYear = ({ defaultValue, onChange }) => {
 
     const splitCenturyAndYear = (value) => {
         const stringValue = value.toString();
-        const century = stringValue.substring(0, 2);;
+        const century = stringValue.substring(0, 2);
         const year = stringValue.substring(2);
         return { century, year };
     };
-
-    const formatTwoDigitYear = (value) => {
-        return value < 10 ? `0${value}` : value.toString();
-    };
     
-    const [century, setCentury] = useState(0);
-    const [year, setYear] = useState(0);
+    const [century, setCentury] = useState('20');
+    const [year, setYear] = useState('00');
     
     useEffect(() => {
         const { century, year } = splitCenturyAndYear(defaultValue);
-        setCentury(parseInt(century));
-        setYear(parseInt(year));
+        setCentury(century);
+        setYear(year);
     }, [defaultValue]);
 
     const handleCenturyChange = (increment) => {
-        const newCentury = century + increment > 20 ? 19 : century + increment < 19 ? 20 : century + increment;
-        onChange(newCentury * 100 + year);
+        const newCentury = parseInt(century) + increment > 20 ? 19 : parseInt(century) + increment < 19 ? 20 : parseInt(century) + increment;
+        onChange(newCentury * 100 + parseInt(year));
     };
 
     const handleYearChange = (increment) => {
-        const newYear = year + increment > 99 ? 0 : year + increment < 0 ? 99 : year + increment;
-        onChange(century * 100 + newYear);
+        const newYear = parseInt(year) + increment > 99 ? 0 : parseInt(year) + increment < 0 ? 99 : parseInt(year) + increment;
+        onChange(parseInt(century) * 100 + newYear);
     };
 
     const handleYearInputChange = (e) => {
         const inputValue = e.target.value;
-        const parsedValue = parseInt(inputValue, 10);
-        if (!isNaN(parsedValue) && inputValue !== '') {
-            setYear(parsedValue);
-            onChange(century * 100 + (isNaN(parsedValue) ? 0 : parsedValue));
+        if (/^\d{0,2}$/.test(inputValue)) {
+            setYear(inputValue);
+            onChange(parseInt(century) * 100 + parseInt(inputValue));
         }
     };
 
@@ -60,7 +55,7 @@ const SelectYear = ({ defaultValue, onChange }) => {
                     id="yearInput"
                     className="form-input year-input"
                     type="text"
-                    value={formatTwoDigitYear(year)}
+                    value={year}
                     onChange={handleYearInputChange}
                     maxLength={2}
                 />

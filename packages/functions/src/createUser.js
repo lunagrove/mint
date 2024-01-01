@@ -15,9 +15,9 @@ export async function main(event) {
       };
     }
 
-    const user = await createUser(body.userId, body.email);
+    const profile = await createUser(body.userId, body.email);
 
-    if (!user) {
+    if (!profile) {
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Failed to create user record' })
@@ -26,7 +26,7 @@ export async function main(event) {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ user: user }),
+      body: JSON.stringify({ profile: profile }),
     }
   } catch (error) {
     // Error handling logic

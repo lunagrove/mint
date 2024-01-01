@@ -13,22 +13,22 @@ const MAX_HOBBIES = 2;
 const MAX_PROJECTS = 2;
 
 const cardTypes = [
-    'Profile',
-    'Companies',
-    'Education',
-    'Side Projects',
-    'Hobbies',
-    'Skills'
-  ]
+  'Profile',
+  'Companies',
+  'Education',
+  'Side Projects',
+  'Hobbies',
+  'Skills'
+]
 
 const iconMap = {
-    0: FaRegUser,
-    1: BsBriefcase,
-    2: IoSchoolOutline,
-    3: HiOutlineClipboardDocumentList,
-    4: GrGroup,
-    5: TbTools
-  };
+  0: FaRegUser,
+  1: BsBriefcase,
+  2: IoSchoolOutline,
+  3: HiOutlineClipboardDocumentList,
+  4: GrGroup,
+  5: TbTools
+};
 
 const stopWords = [
   'in',

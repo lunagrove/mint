@@ -16,7 +16,7 @@ function Navbar() {
         try {
           await Auth.signOut();
           setDropdownVisible(false);
-          window.location.href = '/';
+          window.location.href = '/login';
         } catch (error) {
           alert(error);
         }
@@ -38,9 +38,15 @@ function Navbar() {
                     )}
                 </div>
                 <div className="nav-center">
-                    <Link to="/">
-                        <img className="logo-main" src="./logo-main.png" alt="Mint logo" />
-                    </Link>
+                    {user ? (
+                        <Link to="/">
+                            <img className="logo-main" src="./logo-main.png" alt="Mint logo" />
+                        </Link>
+                    ) : (
+                        <Link to="/login">
+                            <img className="logo-main" src="./logo-main.png" alt="Mint logo" />
+                        </Link>
+                    )}
                 </div>
                 <div className="nav-right">
                     {user && (

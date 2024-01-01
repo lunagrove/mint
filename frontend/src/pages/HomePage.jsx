@@ -125,7 +125,7 @@ function HomePage() {
 
   const fetchData = async (dataType) => {
     if (dataType === "profile") {
-      const profile = await fetchProfile();
+      const profile = await fetchProfile(user.attributes.sub, user.attributes.email);
       if (profile) {
         setIsSpinningProfile(false);
         setLoadingProfile(false);
