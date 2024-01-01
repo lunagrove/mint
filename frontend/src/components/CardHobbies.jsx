@@ -29,9 +29,11 @@ const CardHobbies = () => {
                                     <li key={index} className="hobby-name">
                                         {hobby.description}
                                         <ul className="hobby-group">
-                                            <li className="hobby-snippet">
-                                                {hobby.snippet}
-                                            </li>
+                                            {hobby.snippet &&
+                                                <li className="hobby-snippet">
+                                                    {hobby.snippet}
+                                                </li>
+                                            }
                                         </ul>
                                     </li>
                                 ))}

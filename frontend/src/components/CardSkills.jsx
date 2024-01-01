@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { BsPencil } from "react-icons/bs";
 import { cardTypes, MAX_SKILLS, cardConfig } from "../utilities/constants";
 import EditModal from './EditModal';
@@ -66,12 +67,17 @@ const CardSkills = () => {
                     </div>
                 </div>
             ) : (
-                <img
-                    className="plus-button"
-                    src="./plus-icon-80x80.png"
-                    alt="Plus icon"
-                    onClick={handleAddClick}
-                />  
+                <>
+                    <Link to={cardConfig[cardNumber]?.to}>
+                        <img
+                            className="plus-button"
+                            src="./plus-icon-80x80.png"
+                            alt="Plus icon"
+                            onClick={handleAddClick}
+                        />
+                    </Link>
+                    <h5>{cardConfig[cardNumber]?.heading}</h5>
+                </>
             )}
             {isModalOpen && (
                 <EditModal onClose={handleCloseModal}

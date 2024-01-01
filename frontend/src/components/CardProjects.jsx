@@ -29,9 +29,11 @@ const CardProjects = () => {
                                     <li key={index} className="project-name">
                                         {project.description}
                                         <ul className="project-group">
+                                        {project.snippet &&
                                             <li className="project-snippet">
                                                 {project.snippet}
                                             </li>
+                                        }
                                         </ul>
                                     </li>
                                 ))}

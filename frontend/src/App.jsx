@@ -83,6 +83,22 @@ Amplify.configure(amplifyConfig);
 
 function App() {
 
+  const componentMap = {
+    HomePage,
+    CompaniesPage,
+    EducationPage,
+    ProjectsPage,
+    HobbiesPage,
+    ExperiencePage,
+  };
+
+  const menuItemsWithComponents = menuItems.map(({ route, element, ...rest }, index) => ({
+    route,
+    element: componentMap[element], 
+    ...rest,
+    key: index, 
+  }));
+
   const {user} = useAuthenticator((context) => [context.user]);
 
   console.log('user', user);
@@ -98,11 +114,11 @@ function App() {
                 <Routes>
                   {user ? (
                     <>
-                      {menuItems.map(({ route, element }, index) => (
+                      {menuItemsWithComponents.map(({ route, element: Element, key }) => (
                         <Route
-                          key={index}
+                          key={key}
                           path={route}
-                          element={<RouteGuard>{React.createElement(eval(element))}</RouteGuard>}
+                          element={<RouteGuard><Element /></RouteGuard>}
                         />
                       ))}
                       <Route path="/login" element={<Login />} />
