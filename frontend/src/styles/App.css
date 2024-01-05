@@ -56,6 +56,12 @@ button {
   color: #ebfef0;
 }
 
+.button-icon-wide {
+  width: 180px;
+  height: 45px;
+  color: #ebfef0;
+}
+
 input[type="checkbox"] {
   height: 23px;
 }

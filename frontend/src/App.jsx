@@ -14,6 +14,7 @@ import ProjectsPage from './pages/ProjectsPage';
 import HobbiesPage from './pages/HobbiesPage';
 import ExperiencePage from './pages/ExperiencePage';
 import Login from './components/Login';
+import ResumePage from './pages/ResumePage';
 
 import './styles/App.css';
 import './styles/Amplify.css';
@@ -38,6 +39,7 @@ import './styles/CompaniesPage.css';
 import './styles/HobbiesPage.css';
 import './styles/ProjectsPage.css';
 import './styles/ExperiencePage.css';
+import './styles/ResumePage.css';
 import './styles/Project.css';
 import './styles/AddProject.css';
 import './styles/Hobby.css';
@@ -121,6 +123,7 @@ function App() {
                           element={<RouteGuard><Element /></RouteGuard>}
                         />
                       ))}
+                      <Route path="/resume" element={<ResumePage />} />
                       <Route path="/login" element={<Login />} />
                     </>
                   ) : (

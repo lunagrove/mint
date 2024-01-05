@@ -196,7 +196,9 @@ function HobbiesPage() {
             )}
             
             <IconButton iconType="back"
-                        caption="Dashboard" />
+                        caption="Dashboard"
+                        linkTo="/"
+                        size="normal" />
         </div>
     );
 };

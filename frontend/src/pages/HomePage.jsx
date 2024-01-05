@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import ExperienceBanner from "../components/ExperienceBanner";
 import Card from "../components/Card";
 import Snippet from "../components/Snippet";
+import IconButton from "../components/IconButton";
 import { Auth, API } from "aws-amplify";
 import { cardTypes, MAX_SNIPPETS } from "../utilities/constants";
 import { FaSpinner } from "react-icons/fa";
@@ -278,6 +279,13 @@ function HomePage() {
                 refreshProjects={handleRefreshProjects} />
         ))} 
       </div>
+      <div className="button-container">
+        <IconButton iconType="document"
+                    caption="Build Resume"
+                    linkTo="/resume"
+                    size="wide" />
+      </div>
+      
     </>      
   );
 }

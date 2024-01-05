@@ -10,7 +10,6 @@ const fetchProfile = async (userId, email) => {
         Authorization: `Bearer ${token}`
       }
     });
-    console.log('response', response);
     if (!response.profile) {       
       const res = await API.post("api", "/user", {
         headers: {

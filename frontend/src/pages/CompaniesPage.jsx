@@ -342,7 +342,9 @@ function CompaniesPage() {
             )}
             
             <IconButton iconType="back"
-                        caption="Dashboard" />
+                        caption="Dashboard"
+                        linkTo="/"
+                        size="normal" />
         </div>
   )};
   
