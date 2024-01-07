@@ -139,11 +139,11 @@ function CompaniesPage() {
                         ...prevUserData.companies.slice(companyIndex + 1)
                     ];
                     const updatedSnippets = prevUserData.snippets.map((snippet) => {
-                        if (snippet.companyId === companyId) {
-                            const updatedRoles = snippet.roles.filter((role) => role.id !== roleId);
+                        if (snippet.tagid === roleId && snippet.tagtype === 'role') {
                             return {
                                 ...snippet,
-                                roles: updatedRoles,
+                                tagid: '',
+                                tagtype: '',
                             };
                         }
                         return snippet;

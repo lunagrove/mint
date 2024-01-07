@@ -1,4 +1,4 @@
-import { deleteRole } from "@mint/core/database";
+import { deleteRole, removeTag } from "@mint/core/database";
 
 export async function main(event) {
   
@@ -21,6 +21,15 @@ export async function main(event) {
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Failed to delete role record' })
+      };
+    }
+
+    const result = await removeTag(userId, roleId, 'role');
+
+    if (!result.success) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Failed to remove role from experience snippets', details: result.error })
       };
     }
 

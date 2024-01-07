@@ -1,4 +1,4 @@
-import { deleteHobby } from "@mint/core/database";
+import { deleteHobby, removeTag } from "@mint/core/database";
 
 export async function main(event) {
   
@@ -20,6 +20,15 @@ export async function main(event) {
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Failed to delete hobby record' })
+      };
+    }
+
+    const result = await removeTag(userId, hobbyId, 'hobby');
+
+    if (!result.success) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Failed to remove hobby from experience snippets', details: result.error })
       };
     }
 

@@ -95,10 +95,16 @@ const EditSkills = ( {onAdd, onDelete} ) => {
                         });
                         updateUserData((prevUserData) => {
                               return {
-                                ...prevUserData,
-                                skills: prevUserData.skills.filter(skill => skill.skillid !== skillId),
+                                    ...prevUserData,
+                                    skills: prevUserData.skills.filter((skill) => skill.skillid !== skillId),
+                                    snippets: prevUserData.snippets.map((snippet) => {
+                                          return {
+                                                ...snippet,
+                                                skillids: snippet.skillids || [].filter((id) => id !== skillId),
+                                          };
+                                    }),
                               };
-                        });  
+                        });
                   }
             }
             catch (error) {

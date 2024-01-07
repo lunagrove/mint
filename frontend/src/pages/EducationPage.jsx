@@ -113,13 +113,16 @@ function EducationPage() {
         }
     };
 
-    const handleDeleteCourse = async (educationId, courseId) => {
+    const handleDeleteCourse = async (educationId, courseId, type) => {
         try {
             await API.del("api", `/course/${educationId}/${courseId}`, {
                 headers: {
                 Authorization: `Bearer ${(await Auth.currentSession())
                     .getAccessToken()
                     .getJwtToken()}`,
+                },
+                body: {
+                    type: type
                 }
             });
             await updateUserData((prevUserData) => {
@@ -135,11 +138,11 @@ function EducationPage() {
                         ...prevUserData.education.slice(educationIndex + 1)
                     ];
                     const updatedSnippets = prevUserData.snippets.map((snippet) => {
-                        if (snippet.educationId === educationId) {
-                            const updatedCourses = snippet.courses.filter((course) => course.id !== courseId);
+                        if (snippet.tagid === courseId && snippet.tagtype === type) {
                             return {
                                 ...snippet,
-                                courses: updatedCourses,
+                                tagid: '',
+                                tagtype: '',
                             };
                         }
                         return snippet;

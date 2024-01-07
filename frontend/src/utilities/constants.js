@@ -119,7 +119,7 @@ const educationTypes = [
 
 const resumeTemplates = [
   {
-    caption: 'Template 1',
+    caption: 'Greyscale-Simple',
     component: 'ResumeTemplate1'
   },
   {

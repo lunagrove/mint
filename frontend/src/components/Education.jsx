@@ -18,6 +18,7 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse, 
     const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [isDeleteCourseDialogOpen, setDeleteCourseDialogOpen] = useState(false);
     const [courseIdToDelete, setCourseIdToDelete] = useState(null);
+    const [courseTypeToDelete, setCourseTypeToDelete] = useState('');
     const [isEditingCourse, setIsEditingCourse] = useState(false);
     const [courseToEdit, setCourseToEdit] = useState(null);
     const [isAddingCourse, setIsAddingCourse] = useState(false);
@@ -58,14 +59,15 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse, 
         setEditedLocation(e.target.value);
     };
     
-    const handleDeleteCourseClick = (courseId) => {
+    const handleDeleteCourseClick = (courseId, type) => {
         setDeleteCourseDialogOpen(true);
         setCourseIdToDelete(courseId);
+        setCourseTypeToDelete(type);
     };
 
     const handleConfirmDeleteCourse = () => {
         setDeleteCourseDialogOpen(false);
-        onDeleteCourse(education.educationId, courseIdToDelete); 
+        onDeleteCourse(education.educationId, courseIdToDelete, courseTypeToDelete); 
     };
 
     const handleCancelDeleteCourse = () => {
@@ -122,7 +124,7 @@ const Education = ({ education, onDelete, onDeleteCourse, onEdit, onEditCourse, 
                                               : <p className="education-info-dates">To: {formatMonthandYear(item.todate)}</p>}
                                 <div className="education-row-edit-icons">
                                 <BsPencil className="icon-medium edit-icon" onClick={() => handleEditCourseClick(item)}/>
-                                    <IoTrashOutline className="icon-medium edit-icon" onClick={() => handleDeleteCourseClick(item.id)}/>
+                                    <IoTrashOutline className="icon-medium edit-icon" onClick={() => handleDeleteCourseClick(item.id, item.type)}/>
                                 </div>
                             </div>
                         </div>

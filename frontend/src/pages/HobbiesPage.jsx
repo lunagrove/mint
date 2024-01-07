@@ -46,13 +46,22 @@ function HobbiesPage() {
                     .getJwtToken()}`,
                 }
             });
-              
             await updateUserData((prevUserData) => {
                 return {
                     ...prevUserData,
-                    hobbies: prevUserData.hobbies.filter(hobby => hobby.hobbyid !== hobbyId),
+                    hobbies: prevUserData.hobbies.filter((hobby) => hobby.hobbyid !== hobbyId),
+                    snippets: prevUserData.snippets.map((snippet) => {
+                        if (snippet.tagid === hobbyId && snippet.tagtype === 'hobby') {
+                            return {
+                                ...snippet,
+                                tagid: '',
+                                tagtype: '',
+                            };
+                        }
+                        return snippet;
+                    }),
                 };
-            });  
+            });
         }
         catch (error) {
               alert(error);

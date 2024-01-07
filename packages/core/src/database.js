@@ -382,3 +382,34 @@ export async function editSnippet(userid, snippetid, snippet, skills, tagid, tag
   `, [userid, snippetid, snippet, skills, tagid, tagtype])
   return res.rows[0]
 }
+
+export async function removeTag(userid, tagid, tagtype) {
+  try {
+    const res = await getPool().query(`
+      UPDATE experience 
+      SET tagid = null, tagtype = '' 
+      WHERE userId = $1
+        AND tagid = $2
+        AND tagtype = $3
+    `, [userid, tagid, tagtype]);
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function removeSkillTag(userid, skillId) {
+  try {
+    console.log('userId', userid);
+    console.log('skillId', skillId);
+    const res = await getPool().query(`
+      UPDATE experience 
+      SET skillids = array_remove(skillids, $2::UUID)
+      WHERE userId = $1
+        AND $2::UUID = ANY(skillids);
+    `, [userid, skillId]);
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}

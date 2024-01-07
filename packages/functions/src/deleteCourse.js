@@ -1,4 +1,4 @@
-import { deleteCourse } from "@mint/core/database";
+import { deleteCourse, removeTag } from "@mint/core/database";
 
 export async function main(event) {
   
@@ -7,6 +7,8 @@ export async function main(event) {
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
     const educationId = event.pathParameters.educationId;
     const courseId = event.pathParameters.courseId;
+
+    const body = JSON.parse(event.body); 
 
     if (!userId || !educationId || !courseId) {
       return {
@@ -21,6 +23,15 @@ export async function main(event) {
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Failed to delete course record' })
+      };
+    }
+
+    const result = await removeTag(userId, courseId, body.type);
+
+    if (!result.success) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: `Failed to remove ${body.type} from experience snippets`, details: result.error })
       };
     }
 

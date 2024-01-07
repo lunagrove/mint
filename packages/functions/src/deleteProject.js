@@ -1,4 +1,4 @@
-import { deleteProject } from "@mint/core/database";
+import { deleteProject, removeTag } from "@mint/core/database";
 
 export async function main(event) {
   
@@ -20,6 +20,15 @@ export async function main(event) {
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Failed to delete project record' })
+      };
+    }
+
+    const result = await removeTag(userId, projectId, 'project');
+
+    if (!result.success) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Failed to remove project from experience snippets', details: result.error })
       };
     }
 

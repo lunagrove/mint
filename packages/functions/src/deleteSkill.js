@@ -1,4 +1,4 @@
-import { deleteSkill } from "@mint/core/database";
+import { deleteSkill, removeSkillTag } from "@mint/core/database";
 
 export async function main(event) {
   
@@ -20,6 +20,15 @@ export async function main(event) {
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Failed to delete skill record' })
+      };
+    }
+
+    const result = await removeSkillTag(userId, skillId);
+
+    if (!result.success) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Failed to remove skill from experience snippets', details: result.error })
       };
     }
 

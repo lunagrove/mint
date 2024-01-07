@@ -51,6 +51,16 @@ function ProjectsPage() {
                 return {
                     ...prevUserData,
                     projects: prevUserData.projects.filter(project => project.projectid !== projectId),
+                    snippets: prevUserData.snippets.map((snippet) => {
+                        if (snippet.tagid === projectId && snippet.tagtype === 'project') {
+                            return {
+                                ...snippet,
+                                tagid: '',
+                                tagtype: '',
+                            };
+                        }
+                        return snippet;
+                    }),
                 };
             });  
         }
