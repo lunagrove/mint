@@ -8,8 +8,15 @@
     flex-direction: column;
     align-items: center;
 }
+
+.experience-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
   
-.experience-add {
+.experience-add, .experience-resume {
     margin: auto;
     text-align: center;
 }

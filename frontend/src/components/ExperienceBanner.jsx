@@ -9,15 +9,27 @@ const ExperienceBanner = ({ snippetCount }) => {
                 <img className="mint-leaf-medium" src="./Mint-leaf-transparent.png" alt="<Mint leaf>"/>
                 <h2>Experience ({snippetCount})</h2>
             </div>
-            <div className="experience-add">
-                <Link to="/experience">
-                    <img
-                        className="plus-button plus-button-large"
-                        src="./plus-icon-80x80.png"
-                        alt="Plus icon"
-                    />
-                </Link>
-                <h3>Add a new snippet</h3>
+            <div className="experience-buttons">
+                <div className="experience-add">
+                    <Link to="/experience">
+                        <img
+                            className="plus-button plus-button-large"
+                            src="./plus-icon-80x80.png"
+                            alt="Plus icon"
+                        />
+                    </Link>
+                    <h3>Add a Snippet</h3>
+                </div>
+                <div className="experience-resume">
+                    <Link to="/resume">
+                        <img
+                            className="plus-button plus-button-large"
+                            src="./hammer-icon-80x80.png"
+                            alt="Plus icon"
+                        />
+                    </Link>
+                    <h3>Build a Resume</h3>
+                </div>
             </div>
         </div>
     );

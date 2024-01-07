@@ -279,13 +279,6 @@ function HomePage() {
                 refreshProjects={handleRefreshProjects} />
         ))} 
       </div>
-      <div className="button-container">
-        <IconButton iconType="document"
-                    caption="Build Resume"
-                    linkTo="/resume"
-                    size="wide" />
-      </div>
-      
     </>      
   );
 }

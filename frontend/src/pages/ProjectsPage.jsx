@@ -197,8 +197,10 @@ function ProjectsPage() {
             
             <IconButton iconType="back"
                         caption="Dashboard"
+                        type="link"
                         linkTo="/"
-                        size="normal" />
+                        size="normal"
+                        onClick={null} />
         </div>
   )};
   

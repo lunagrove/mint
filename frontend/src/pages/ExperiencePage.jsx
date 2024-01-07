@@ -272,9 +272,11 @@ function ExperiencePage() {
             )}
 
             <IconButton iconType="back"
-                        caption="Dashboard"
-                        linkTo="/"
-                        size="normal" />
+                caption="Dashboard"
+                type="link"
+                linkTo="/"
+                size="normal"
+                onClick={null} />
         </div>
   )};
   

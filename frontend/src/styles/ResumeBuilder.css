@@ -1,0 +1,126 @@
+.react-tabs {
+    -webkit-tap-highlight-color: transparent;
+    min-height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.react-tabs__tab-list {
+    border-bottom: 1px solid #aaa;
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+.react-tabs__tab {
+    display: inline-block;
+    border: 1px solid transparent;
+    border-bottom: none;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.react-tabs__tab--selected {
+    background: #f7ddcd;
+    border-color: #aaa;
+    color: black;
+    border-radius: 5px 5px 0 0;
+}
+
+.react-tabs__tab--disabled {
+    color: GrayText;
+    cursor: default;
+}
+
+.react-tabs__tab:focus {
+    outline: none;
+}
+
+.react-tabs__tab:focus:after {
+    content: "";
+    position: absolute;
+    height: 5px;
+    left: -4px;
+    right: -4px;
+    bottom: -5px;
+    background: #fff;
+}
+
+.react-tabs__tab-panel {
+    display: none;
+}
+
+.react-tabs__tab-panel--selected {
+    display: block;
+    flex: 1;
+}
+
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.layout-container h3 {
+    padding: 10px 0;
+}
+
+.input-fields {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.select-template {
+    width: 250px;
+}
+
+.checkbox-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.checkbox-label {
+    font-weight: normal;
+}
+
+.export-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 30px;
+    padding-top: 20px;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.resume-name {
+    width: 250px;
+}
+
+.panel-footer {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    min-height: 45px;
+}
+
+.panel-show-hide {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.panel-show-hide:hover {
+    cursor: pointer;
+}

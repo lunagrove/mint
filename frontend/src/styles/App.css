@@ -57,13 +57,14 @@ button {
 }
 
 .button-icon-wide {
-  width: 180px;
+  width: 185px;
   height: 45px;
   color: #ebfef0;
 }
 
 input[type="checkbox"] {
   height: 23px;
+  width: 23px;
 }
 
 input[type="checkbox"]:checked {

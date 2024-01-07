@@ -1,0 +1,1 @@
+Lists all companies, roles, courses and credentials, in order, even if no snippets are chosen.

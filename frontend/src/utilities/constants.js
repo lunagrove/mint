@@ -74,6 +74,11 @@ const menuItems = [
     route: '/experience',
     element: 'ExperiencePage'
   },
+  {
+    label: 'Resume Builder',
+    route: '/resume',
+    element: 'ResumePage'
+  },
 ];
 
 const cardConfig = {
@@ -93,7 +98,11 @@ const tips = [
   {
     title: 'Tip 2',
     filename: 'Tip2.md',
-    }
+  },
+  {
+    title: 'Show all history',
+    filename: 'Tip3.md',
+  }
 ];
 
 const monthNames = [
@@ -108,4 +117,16 @@ const educationTypes = [
   'course', 'credential'
 ];
 
-export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig, MAX_EDUCATION, MAX_SNIPPETS, MAX_COMPANIES, MAX_HOBBIES, MAX_PROJECTS, tips, monthNames, weekDays, educationTypes }
+const resumeTemplates = [
+  {
+    caption: 'Template 1',
+    component: 'ResumeTemplate1'
+  },
+  {
+    caption: 'Template 2',
+    component: 'ResumeTemplate2'
+  }
+]
+
+export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig, MAX_EDUCATION, MAX_SNIPPETS, MAX_COMPANIES, MAX_HOBBIES, MAX_PROJECTS, tips, monthNames, weekDays, educationTypes,
+resumeTemplates }

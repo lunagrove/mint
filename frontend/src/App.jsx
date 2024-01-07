@@ -13,8 +13,8 @@ import EducationPage from './pages/EducationPage';
 import ProjectsPage from './pages/ProjectsPage';
 import HobbiesPage from './pages/HobbiesPage';
 import ExperiencePage from './pages/ExperiencePage';
-import Login from './components/Login';
 import ResumePage from './pages/ResumePage';
+import Login from './components/Login';
 
 import './styles/App.css';
 import './styles/Amplify.css';
@@ -40,6 +40,8 @@ import './styles/HobbiesPage.css';
 import './styles/ProjectsPage.css';
 import './styles/ExperiencePage.css';
 import './styles/ResumePage.css';
+import './styles/Resume.css';
+import './styles/ResumeBuilder.css';
 import './styles/Project.css';
 import './styles/AddProject.css';
 import './styles/Hobby.css';
@@ -92,6 +94,7 @@ function App() {
     ProjectsPage,
     HobbiesPage,
     ExperiencePage,
+    ResumePage,
   };
 
   const menuItemsWithComponents = menuItems.map(({ route, element, ...rest }, index) => ({

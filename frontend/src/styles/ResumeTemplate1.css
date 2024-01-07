@@ -1,0 +1,26 @@
+.t1-template-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.t1-resume-heading {
+    text-align: left;
+}
+
+.t1-resume-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+}
+
+.t1-intro-statement {
+    margin-bottom: 10px;
+}
+
+hr {
+    line-height: .5em;
+    color: #01210a;
+    width: 100%;
+}
