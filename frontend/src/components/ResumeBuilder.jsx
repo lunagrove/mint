@@ -1,5 +1,8 @@
 import React from 'react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { FaSpinner } from "react-icons/fa";
+import { LuRefreshCw } from "react-icons/lu";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { resumeTemplates } from "../utilities/constants";
 import IconButton from "../components/IconButton";
@@ -7,22 +10,75 @@ import html2pdf from 'html2pdf.js';
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { PiFolderOpenLight } from "react-icons/pi";
 import Tips from '../components/Tips';
+import { useData } from '../utilities/DataContext';
+import { fetchResumes } from "../utilities/fetchData";
+import { formatLongDate } from "../utilities/dates";
 
 const ResumeBuilder = ({ onApply }) => {
 
+  const {user} = useAuthenticator((context) => [context.user]);
+  const { userData, updateUserData } = useData();
+
+  const [loadingResumes, setLoadingResumes] = useState(false);
+  const [isSpinningResumes, setIsSpinningResumes] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [resumeToEdit, setResumeToEdit] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState('');
+  const [templateName, setTemplateName] = useState('');
   const [showEmail, setShowEmail] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
-  const [showIntro, setShowIntro] = useState(false);
-  const [editedName, setEditedName] = useState('');
+  const [useIntro, setUseIntro] = useState(false);
+  const [editedName, setEditedName] = useState('Default');
   const [isTipsOpen, setIsTipsOpen] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(true);
   const [selectedTipIndex, setSelectedTipIndex] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
+  useEffect(() => {
+    if (user && userData.resumes && userData.resumes.length === 0) {
+        setLoadingResumes(true);
+        fetchData("resumes");
+    }  
+  }, []);
+
+  const handleUpdateData = (newData) => {
+    updateUserData((prevUserData) => {
+        return {
+        ...prevUserData,
+        resumes: newData,
+        };
+    });
+  };
+
+  useEffect(() => {
+    if (isSpinningResumes) {
+        fetchData("resumes");
+    }
+  }, [isSpinningResumes]);
+
+  const fetchData = async (dataType) => {
+    if (dataType === "resumes") {
+      const resumes = await fetchResumes();
+      if (resumes) {
+        setIsSpinningResumes(false);
+        setLoadingResumes(false);
+        handleUpdateData(resumes);
+      }
+    }
+  };
+
+  const handleRefreshResumes = () => {
+    setLoadingResumes(true);
+    setIsSpinningResumes(true);
+  };
+
   const handleSelectTemplate = (e) => {
+    const selectedIndex = e.target.selectedIndex;
+    const selectedText = e.target.options[selectedIndex].text;
     setSelectedTemplate(e.target.value);
+    setTemplateName(selectedText);
   };
 
   const handleShowEmailChange = (e) => {
@@ -33,8 +89,8 @@ const ResumeBuilder = ({ onApply }) => {
     setShowPhone(e.target.checked);
   };
 
-  const handleShowIntroChange = (e) => {
-    setShowIntro(e.target.checked);
+  const handleUseIntroChange = (e) => {
+    setUseIntro(e.target.checked);
   };
 
   const handleNameChange = (e) => {
@@ -51,7 +107,7 @@ const ResumeBuilder = ({ onApply }) => {
   };
 
   const handleApplyClick = () => {
-    onApply(selectedTemplate, showEmail, showPhone, showIntro);   
+    onApply(resumeToEdit.resumeId, selectedTemplate, templateName, showEmail, showPhone, useIntro);   
   };
 
   const handlePanelClick = () => {
@@ -130,8 +186,8 @@ const ResumeBuilder = ({ onApply }) => {
               <div className="checkbox-row">
                 <input type="checkbox"
                        className="checkbox-resume"
-                       checked={showIntro}
-                       onChange={handleShowIntroChange}
+                       checked={useIntro}
+                       onChange={handleUseIntroChange}
                 />
                 <h3 className="checkbox-label">Use intro statements?</h3>
               </div>
@@ -203,15 +259,42 @@ const ResumeBuilder = ({ onApply }) => {
 
         <TabPanel>
           <div className="layout-container">
-            <div>
-
-            </div>
-            <div className="panel-footer">
-              <div className="panel-show-hide" onClick={handlePanelClick}>
-                {isPanelOpen ? <MdOutlineKeyboardArrowRight /> : <MdOutlineKeyboardArrowLeft />}
-                  <h5>{isPanelOpen ? 'Hide' : 'Show'} panel</h5>
-              </div>
-            </div>
+            {loadingResumes ? (
+                <div className="resume-list resume-list-loading">
+                    <FaSpinner className="spin icon-large" />
+                </div>
+            ) : (
+              <>
+                {userData.resumes && userData.resumes.length > 0 &&
+                  <div className="resumes-panel-heading">
+                    <h3>Resumes</h3>
+                    <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningResumes ? 'spin' : ''}`}
+                                onClick={handleRefreshResumes} />
+                  </div>
+                }
+                <div className="resume-list">
+                  {userData.resumes && userData.resumes.length > 0 ? (  
+                    userData.resumes.map((resume) => (
+                      <div className="resume-row">
+                        <p key={resume.resumeid}>{resume.resumename}</p>
+                        <p>{formatLongDate(resume.createdon, false)}</p>
+                        <PiFolderOpenLight className="icon-medium"/>
+                      </div>
+                    ))           
+                  ) : (
+                    <div className="center-vertically">
+                      <h2>You have no resumes saved!</h2>
+                    </div>
+                  )}
+                </div>
+                <div className="panel-footer">
+                  <div className="panel-show-hide" onClick={handlePanelClick}>
+                    {isPanelOpen ? <MdOutlineKeyboardArrowRight /> : <MdOutlineKeyboardArrowLeft />}
+                      <h5>{isPanelOpen ? 'Hide' : 'Show'} panel</h5>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </TabPanel>
       </Tabs>

@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/ResumeTemplate1.css';
 import { useData } from '../utilities/DataContext';
 
-const ResumeTemplate1 = ({ showemail, showphone, showintro }) => {
+const ResumeTemplate1 = ({ showemail, showphone, useintro }) => {
 
   const { userData, updateUserData } = useData();
 
@@ -12,8 +12,7 @@ const ResumeTemplate1 = ({ showemail, showphone, showintro }) => {
         <div className="t1-resume-user">
           <div>
             <h2>{userData.profile.firstname} {userData.profile.lastname}</h2>
-            {console.log('showIntro', showintro)}
-            {showintro && userData.intro.length > 0 ? (
+            {useintro && userData.intro.length > 0 ? (
               <div>
                 {userData.intro.map((item) => (
                   <div key={item.introid} className="t1-intro-statement">

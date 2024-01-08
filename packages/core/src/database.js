@@ -413,3 +413,37 @@ export async function removeSkillTag(userid, skillId) {
     return { success: false, error: error.message };
   }
 }
+
+export async function getResumes(userId) {
+  const res = await getPool().query(`
+  SELECT * FROM resume
+  WHERE userid = $1
+  ORDER BY createdon DESC
+  `, [userId]);
+  return res.rows;
+}
+
+export async function createResume(userid, resumeName, template, includeSkills, showEmail, showPhone,
+                                   useDescs, showHistory, useIntro ) {
+  const res = await getPool().query(`
+  INSERT INTO resume (userId, resumename, template, includeskills, showemail, showphone,
+    usedescs, showhistory, useintro)
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+  RETURNING *
+  `, [userid, resumeName, template, includeSkills, showEmail, showPhone,
+    useDescs, showHistory, useIntro])
+  return res.rows[0];
+}
+
+export async function editResume(userid, resumeid, resumeName, template, includeSkills, showEmail, showPhone,
+  useDescs, showHistory, useIntro) {
+  const res = await getPool().query(`
+  UPDATE resume SET resumename = $3, template = $4, includeSkills = $5,
+    showEmail = $6, showPhone = $7, useDescs = $8, showHistory = $9, useIntro = $10 
+  WHERE userId = $1
+  AND resumeid = $2
+  RETURNING *
+  `, [userid, resumeid, resumeName, template, includeSkills, showEmail, showPhone,
+    useDescs, showHistory, useIntro])
+  return res.rows[0]
+}

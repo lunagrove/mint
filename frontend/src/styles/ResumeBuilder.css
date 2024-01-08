@@ -68,6 +68,25 @@
     padding: 10px 0;
 }
 
+.resume-list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.resume-list .center-vertically {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.resume-list-loading {
+    align-items: center;
+    justify-content: center;
+}
+
 .input-fields {
     flex-grow: 1;
     display: flex;
@@ -106,6 +125,18 @@
 
 .resume-name {
     width: 250px;
+}
+
+.resumes-panel-heading {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.resume-row {
+    display: flex;
+    justify-content: space-between;
 }
 
 .panel-footer {

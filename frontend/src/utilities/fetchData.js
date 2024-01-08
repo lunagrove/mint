@@ -142,5 +142,21 @@ const fetchProjects = async () => {
   }
   return response ? response.projects : null;
 };
+
+const fetchResumes = async () => {
+  let response;
+  try {
+    const session = await Auth.currentSession();
+    const token = session.getAccessToken().getJwtToken();
+    response = await API.get("api", "/resumes", {
+      headers: {
+        Authorization: `Bearer ${token}`  
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  return response ? response.resumes : null;
+};
   
-export { fetchProfile, fetchIntro, fetchSnippets, fetchSkills, fetchEducation, fetchCompanies, fetchHobbies, fetchProjects };
+export { fetchProfile, fetchIntro, fetchSnippets, fetchSkills, fetchEducation, fetchCompanies, fetchHobbies, fetchProjects, fetchResumes };

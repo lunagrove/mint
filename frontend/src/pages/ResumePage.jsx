@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Auth, API } from "aws-amplify";
 import IconButton from "../components/IconButton";
 import Resume from "../components/Resume";
 import ResumeBuilder from "../components/ResumeBuilder";
@@ -13,18 +14,83 @@ const ResumePage = () => {
     const [template, setTemplate] = useState('');
     const [showEmail, setShowEmail] = useState(false);
     const [showPhone, setShowPhone] = useState(false);
-    const [showIntro, setShowIntro] = useState(false);
+    const [useIntro, setUseIntro] = useState(false);
 
     useEffect(() => {
-        console.log('template: ', template);
         console.log('userData: ', userData);
-    }, [template, showEmail, showPhone]);
+    }, [userData]); 
 
-    const handleApplyClick = (newTemplate, newShowEmail, newShowPhone, newShowIntro) => {
+    useEffect(() => {
+    }, [template, showEmail, showPhone, useIntro]);
+
+    const handleApplyClick = async (resumeId, newTemplate, newTemplateName, newShowEmail, newShowPhone, newUseIntro) => {
         setTemplate(newTemplate);
         setShowEmail(newShowEmail);
         setShowPhone(newShowPhone);
-        setShowIntro(newShowIntro);
+        setUseIntro(newUseIntro);
+        if (!resumeId) {
+            try {
+                const result = await API.post("api", "/resume", {
+                    headers: {
+                        Authorization: `Bearer ${(await Auth.currentSession())
+                        .getAccessToken()
+                        .getJwtToken()}`,
+                    },
+                    body: { resumeName: 'Default',
+                            template: newTemplateName,
+                            includeSkills: false,
+                            showEmail: newShowEmail,
+                            showPhone: newShowPhone,
+                            useDescs: false,
+                            showHistory: false,
+                            useIntro: newUseIntro }
+                });
+                if (result) {
+                    const newResume = result.resume;
+                    await updateUserData((prevUserData) => {
+                        return {
+                            ...prevUserData,
+                            resumes: [newResume, ...prevUserData.resumes]
+                        };
+                    });      
+                }
+            }
+            catch (error) {
+                    alert(error);
+            }
+        }
+        else {
+            try {
+                await API.put("api", `/resume/${resumeId}`, {
+                    headers: {
+                    Authorization: `Bearer ${(await Auth.currentSession())
+                        .getAccessToken()
+                        .getJwtToken()}`,
+                    },
+                    body: { resumeName: 'Default',
+                            template: newTemplateName,
+                            includeSkills: false,
+                            showEmail: newShowEmail,
+                            showPhone: newShowPhone,
+                            useDescs: false,
+                            showHistory: false,
+                            useIntro: newUseIntro }
+                });
+                await updateUserData((prevUserData) => {
+                    return {
+                        ...prevUserData,
+                        resumes: prevUserData.resumes.map((resume) =>
+                            resume.resumeid === resumeId ? { ...resume, resumeName: '', template: snippet,
+                                        includeSkills: false, showEmail: newShowEmail, showPhone: newShowPhone,
+                                        useDescs: false, showHistory: false, useIntro: newUseIntro } : resume
+                        ),
+                    };
+                });
+            }
+            catch (error) {
+                  alert(error);
+            }
+        }
     };
 
     return (
@@ -39,7 +105,7 @@ const ResumePage = () => {
                         <Resume template={template}
                                 showEmail={showEmail}
                                 showPhone={showPhone}
-                                showIntro={showIntro} />
+                                useIntro={useIntro} />
                     </div>
                 </div>
                 <div className="resume-builder">
