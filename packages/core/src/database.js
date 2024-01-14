@@ -447,3 +447,13 @@ export async function editResume(userid, resumeid, resumeName, template, include
     useDescs, showHistory, useIntro])
   return res.rows[0]
 }
+
+export async function deleteResume(userId, resumeId) {
+  const res = await getPool().query(`
+  DELETE FROM resume
+  WHERE userid = $1
+  AND resumeid = $2
+  RETURNING *
+  `, [userId, resumeId])
+  return res.rows[0]
+}

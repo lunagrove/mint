@@ -87,6 +87,13 @@
     justify-content: center;
 }
 
+.resume-list-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;  
+    gap: 5px;
+}
+
 .input-fields {
     flex-grow: 1;
     display: flex;

@@ -63,6 +63,7 @@ export function API({ stack }) {
       "DELETE /hobby/{hobbyId}": "packages/functions/src/deleteHobby.main",
       "DELETE /project/{projectId}": "packages/functions/src/deleteProject.main",
       "DELETE /snippet/{snippetId}": "packages/functions/src/deleteSnippet.main",
+      "DELETE /resume/{resumeId}": "packages/functions/src/deleteResume.main",
       "DELETE /role/{companyId}/{roleId}": "packages/functions/src/deleteRole.main",
       "DELETE /course/{educationId}/{courseId}": "packages/functions/src/deleteCourse.main"
     },

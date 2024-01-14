@@ -25,6 +25,10 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
+.custom-dialog-content h2 {
+  text-align: center;
+}
+
 .custom-dialog-body {
   background-color: #fff;
   padding: 20px;

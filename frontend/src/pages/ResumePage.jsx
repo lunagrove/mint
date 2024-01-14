@@ -15,81 +15,114 @@ const ResumePage = () => {
     const [showEmail, setShowEmail] = useState(false);
     const [showPhone, setShowPhone] = useState(false);
     const [useIntro, setUseIntro] = useState(false);
+    const [includeSkills, setIncludeSkills] = useState(false);
+    const [useDescs, setUseDescs] = useState(false);
+    const [showHistory, setShowHistory] = useState(false);
+    const [addedResume, setAddedResume] = useState(null);
+    const [resumePageKey, setResumePageKey] = useState(0);
 
     useEffect(() => {
-        console.log('userData: ', userData);
-    }, [userData]); 
+    //    console.log('userData: ', userData);
+    }, [userData, resumePageKey]);
 
-    useEffect(() => {
-    }, [template, showEmail, showPhone, useIntro]);
-
-    const handleApplyClick = async (resumeId, newTemplate, newTemplateName, newShowEmail, newShowPhone, newUseIntro) => {
+    const handleApplyClick = async (doUpdate, newResume, newTemplate, newTemplateName, newIncludeSkills, newShowEmail, newShowPhone, newUseDescs, newShowHistory, newUseIntro) => {
         setTemplate(newTemplate);
+        setIncludeSkills(newIncludeSkills);
         setShowEmail(newShowEmail);
         setShowPhone(newShowPhone);
+        setUseDescs(newUseDescs);
+        setShowHistory(newShowHistory);
         setUseIntro(newUseIntro);
-        if (!resumeId) {
-            try {
-                const result = await API.post("api", "/resume", {
-                    headers: {
+        if (doUpdate) {
+            if (!newResume) {
+                try {
+                    const result = await API.post("api", "/resume", {
+                        headers: {
+                            Authorization: `Bearer ${(await Auth.currentSession())
+                            .getAccessToken()
+                            .getJwtToken()}`,
+                        },
+                        body: { resumeName: 'Default',
+                                template: newTemplateName,
+                                includeSkills: newIncludeSkills,
+                                showEmail: newShowEmail,
+                                showPhone: newShowPhone,
+                                useDescs: newUseDescs,
+                                showHistory: newShowHistory,
+                                useIntro: newUseIntro }
+                    });
+                    if (result) {
+                        const newResume = result.resume;
+                        setAddedResume(newResume);
+                        await updateUserData((prevUserData) => {
+                            return {
+                                ...prevUserData,
+                                resumes: [newResume, ...prevUserData.resumes]
+                            };
+                        });      
+                    }
+                }
+                catch (error) {
+                        alert(error);
+                }
+            }
+            else {
+                setAddedResume(newResume);
+                try {
+                    await API.put("api", `/resume/${newResume.resumeid}`, {
+                        headers: {
                         Authorization: `Bearer ${(await Auth.currentSession())
-                        .getAccessToken()
-                        .getJwtToken()}`,
-                    },
-                    body: { resumeName: 'Default',
-                            template: newTemplateName,
-                            includeSkills: false,
-                            showEmail: newShowEmail,
-                            showPhone: newShowPhone,
-                            useDescs: false,
-                            showHistory: false,
-                            useIntro: newUseIntro }
-                });
-                if (result) {
-                    const newResume = result.resume;
+                            .getAccessToken()
+                            .getJwtToken()}`,
+                        },
+                        body: { resumeName: 'Default',
+                                template: newTemplateName,
+                                includeSkills: newIncludeSkills,
+                                showEmail: newShowEmail,
+                                showPhone: newShowPhone,
+                                useDescs: newUseDescs,
+                                showHistory: newShowHistory,
+                                useIntro: newUseIntro }
+                    });
                     await updateUserData((prevUserData) => {
                         return {
                             ...prevUserData,
-                            resumes: [newResume, ...prevUserData.resumes]
+                            resumes: prevUserData.resumes.map((resume) =>
+                                resume.resumeid === newResume.resumeid ? { ...resume, resumename: 'Default', template: newTemplateName,
+                                            includeskills: newIncludeSkills, showemail: newShowEmail, showphone: newShowPhone, usedescs: newUseDescs, showhistory: newShowHistory, useintro: newUseIntro } : resume
+                            ),
                         };
-                    });      
+                    });
                 }
-            }
-            catch (error) {
+                catch (error) {
                     alert(error);
+                }
             }
         }
         else {
-            try {
-                await API.put("api", `/resume/${resumeId}`, {
-                    headers: {
-                    Authorization: `Bearer ${(await Auth.currentSession())
-                        .getAccessToken()
-                        .getJwtToken()}`,
-                    },
-                    body: { resumeName: 'Default',
-                            template: newTemplateName,
-                            includeSkills: false,
-                            showEmail: newShowEmail,
-                            showPhone: newShowPhone,
-                            useDescs: false,
-                            showHistory: false,
-                            useIntro: newUseIntro }
-                });
-                await updateUserData((prevUserData) => {
-                    return {
-                        ...prevUserData,
-                        resumes: prevUserData.resumes.map((resume) =>
-                            resume.resumeid === resumeId ? { ...resume, resumeName: '', template: snippet,
-                                        includeSkills: false, showEmail: newShowEmail, showPhone: newShowPhone,
-                                        useDescs: false, showHistory: false, useIntro: newUseIntro } : resume
-                        ),
-                    };
-                });
-            }
-            catch (error) {
-                  alert(error);
-            }
+            setResumePageKey((prevKey) => prevKey + 1);
+        }
+    };
+
+    const handleDeleteClick = async (resumeId) => {
+    try {
+            await API.del("api", `/resume/${resumeId}`, {
+                headers: {
+                Authorization: `Bearer ${(await Auth.currentSession())
+                    .getAccessToken()
+                    .getJwtToken()}`,
+                }
+            });
+                
+            await updateUserData((prevUserData) => {
+                return {
+                    ...prevUserData,
+                    resumes: prevUserData.resumes.filter(resume => resume.resumeid !== resumeId),
+                };
+            });  
+        }
+        catch (error) {
+                alert(error);
         }
     };
 
@@ -103,8 +136,11 @@ const ResumePage = () => {
                     </div>
                     <div id="resume-page" className="resume-page">
                         <Resume template={template}
+                                includeSkills={includeSkills}
                                 showEmail={showEmail}
                                 showPhone={showPhone}
+                                useDescs={useDescs}
+                                showHistory={showHistory}
                                 useIntro={useIntro} />
                     </div>
                 </div>
@@ -114,7 +150,9 @@ const ResumePage = () => {
                         <h2>Resume Builder</h2>
                     </div>
                     <div className="resume-panel">
-                        <ResumeBuilder onApply={handleApplyClick} />
+                        <ResumeBuilder onApply={handleApplyClick}
+                                       onDelete={handleDeleteClick}
+                                       resume={addedResume} />
                         
                     </div>
                 </div>

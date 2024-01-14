@@ -1,4 +1,4 @@
-import { editResume } from "@mint/core/database";
+import { deleteResume } from "@mint/core/database";
 
 export async function main(event) {
   
@@ -7,8 +7,6 @@ export async function main(event) {
     const userId = event.requestContext.authorizer?.jwt.claims.sub;
     const resumeId = event.pathParameters.resumeId;
 
-    const body = JSON.parse(event.body); 
-
     if (!userId || !resumeId) {
       return {
         statusCode: 400,
@@ -16,19 +14,18 @@ export async function main(event) {
       };
     }
 
-    const resume = await editResume(userId, resumeId, body.resumeName, body.template, body.includeSkills,
-                                    body.showEmail, body.showPhone, body.useDescs, body.showHistory, body.useIntro);
+    const resume = await deleteResume(userId, resumeId);
 
     if (!resume) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to update resume record' })
+        body: JSON.stringify({ error: 'Failed to delete resume record' })
       };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify(resume),
+      body: JSON.stringify({}),
     }
   } catch (error) {
     // Error handling logic

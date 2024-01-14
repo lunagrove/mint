@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/ResumeTemplate1.css';
 import { useData } from '../utilities/DataContext';
 
-const ResumeTemplate1 = ({ showemail, showphone, useintro }) => {
+const ResumeTemplate1 = ({ includeSkills, showEmail, showPhone, useDescs, showHistory, useIntro }) => {
 
   const { userData, updateUserData } = useData();
 
@@ -12,7 +12,7 @@ const ResumeTemplate1 = ({ showemail, showphone, useintro }) => {
         <div className="t1-resume-user">
           <div>
             <h2>{userData.profile.firstname} {userData.profile.lastname}</h2>
-            {useintro && userData.intro.length > 0 ? (
+            {useIntro && userData.intro.length > 0 ? (
               <div>
                 {userData.intro.map((item) => (
                   <div key={item.introid} className="t1-intro-statement">
@@ -23,8 +23,8 @@ const ResumeTemplate1 = ({ showemail, showphone, useintro }) => {
             ) : null}
           </div>
           <div>
-            <h3>{showemail ? userData.profile.emailaddress : ''}</h3>
-            <h3>{showphone ? userData.profile.phonenumber : ''}</h3>
+            <h3>{showEmail ? userData.profile.emailaddress : ''}</h3>
+            <h3>{showPhone ? userData.profile.phonenumber : ''}</h3>
             <h3>{userData.profile.linkedin ? userData.profile.linkedin : ''}</h3>
             <h3>{userData.profile.website ? userData.profile.website : ''}</h3>
           </div>

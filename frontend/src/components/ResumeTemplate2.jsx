@@ -1,7 +1,10 @@
 import React from 'react';
 import '../styles/ResumeTemplate2.css';
+import { useData } from '../utilities/DataContext';
 
-const ResumeTemplate2 = ({ showemail, showphone, showintro }) => {
+const ResumeTemplate2 = ({ includeSkills, showEmail, showPhone, useDescs, showHistory, useIntro }) => {
+
+  const { userData, updateUserData } = useData();
 
   return (
     <>
@@ -11,7 +14,7 @@ const ResumeTemplate2 = ({ showemail, showphone, showintro }) => {
             <li>Item 4</li>
             <li>Item 5</li>
             <li>Item 6</li>
-            <li>{userinfo.firstname} {userinfo.lastname}</li>
+            <li>{userData.profile.firstname} {userData.profile.lastname}</li>
         </ul>
     </>
   );

@@ -6,17 +6,19 @@ import { LuRefreshCw } from "react-icons/lu";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { resumeTemplates } from "../utilities/constants";
 import IconButton from "../components/IconButton";
-import html2pdf from 'html2pdf.js';
+import html2pdf from "html2pdf.js";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { PiFolderOpenLight } from "react-icons/pi";
+import { IoTrashOutline } from "react-icons/io5";
 import Tips from '../components/Tips';
 import { useData } from '../utilities/DataContext';
 import { fetchResumes } from "../utilities/fetchData";
 import { formatLongDate } from "../utilities/dates";
+import Dialog from './Dialog';
 
-const ResumeBuilder = ({ onApply }) => {
+const ResumeBuilder = ({ onApply, onDelete, resume }) => {
 
   const {user} = useAuthenticator((context) => [context.user]);
   const { userData, updateUserData } = useData();
@@ -24,23 +26,30 @@ const ResumeBuilder = ({ onApply }) => {
   const [loadingResumes, setLoadingResumes] = useState(false);
   const [isSpinningResumes, setIsSpinningResumes] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [resumeToEdit, setResumeToEdit] = useState('');
+  const [resumeToEdit, setResumeToEdit] = useState(resume);
+  const [resumeToDelete, setResumeToDelete] = useState(null);
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState('');
   const [templateName, setTemplateName] = useState('');
+  const [includeSkills, setIncludeSkills] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
+  const [useDescs, setUseDescs] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [useIntro, setUseIntro] = useState(false);
   const [editedName, setEditedName] = useState('Default');
   const [isTipsOpen, setIsTipsOpen] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(true);
   const [selectedTipIndex, setSelectedTipIndex] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [tabIndex, setTabIndex] = useState(3);
 
   useEffect(() => {
     if (user && userData.resumes && userData.resumes.length === 0) {
         setLoadingResumes(true);
         fetchData("resumes");
-    }  
+    }
+    setResumeToEdit(resume); 
   }, []);
 
   const handleUpdateData = (newData) => {
@@ -81,12 +90,24 @@ const ResumeBuilder = ({ onApply }) => {
     setTemplateName(selectedText);
   };
 
+  const handleIncludeSkillsChange = (e) => {
+    setIncludeSkills(e.target.checked);
+  };
+
   const handleShowEmailChange = (e) => {
     setShowEmail(e.target.checked);
   };
 
   const handleShowPhoneChange = (e) => {
     setShowPhone(e.target.checked);
+  };
+
+  const handleUseDescsChange = (e) => {
+    setUseDescs(e.target.checked);
+  };
+
+  const handleShowHistoryChange = (e) => {
+    setShowHistory(e.target.checked);
   };
 
   const handleUseIntroChange = (e) => {
@@ -98,8 +119,16 @@ const ResumeBuilder = ({ onApply }) => {
   };
 
   const generatePDF = () => {
+    var opt = {
+      margin:       1,
+      filename:     'resume.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      enablelinks:  true,
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'A4', orientation: 'portrait' }
+    };
     const content = document.getElementById('resume-page');
-    html2pdf().from(content).save('resume.pdf');
+    html2pdf().set(opt).from(content).save('resume.pdf');
   };
 
   const savePDF = () => {
@@ -107,11 +136,51 @@ const ResumeBuilder = ({ onApply }) => {
   };
 
   const handleApplyClick = () => {
-    onApply(resumeToEdit.resumeId, selectedTemplate, templateName, showEmail, showPhone, useIntro);   
+    onApply(true, resumeToEdit, selectedTemplate, templateName, includeSkills, showEmail, showPhone,
+            useDescs, showHistory, useIntro);  
   };
 
   const handlePanelClick = () => {
     setIsPanelOpen(!isPanelOpen);
+  };
+
+  const handleOpenResume = (resume) => {
+    setResumeToEdit(resume);
+    setIsEditing(true);
+    loadResume(resume.resumeid);
+    onApply(false, resumeToEdit, selectedTemplate, templateName, includeSkills, showEmail, showPhone,
+            useDescs, showHistory, useIntro); 
+  };
+
+  const loadResume = (resumeid) => {
+    const resumeIndex = userData.resumes.findIndex((resume) => resume.resumeid === resumeid);
+    if (resumeIndex !== -1) {
+      const resume = userData.resumes[resumeIndex];
+      const template = resumeTemplates.find((template) => template.caption === resume.template);
+      setSelectedTemplate(template.component);
+      setTemplateName(resume.template);
+      setIncludeSkills(resume.includeskills);
+      setShowEmail(resume.showemail);
+      setShowPhone(resume.showphone);
+      setUseDescs(resume.usedescs);
+      setShowHistory(resume.showhistory);
+      setUseIntro(resume.useintro);
+      setTabIndex(0);
+    }
+  };
+
+  const handleDeleteClick = (resume) => {
+    setResumeToDelete(resume);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+      setDeleteDialogOpen(false);
+      onDelete(resumeToDelete.resumeid);
+  };
+
+  const handleCancelDelete = () => {
+      setDeleteDialogOpen(false);
   };
 
   const openTips = (e, index) => {
@@ -128,7 +197,7 @@ const ResumeBuilder = ({ onApply }) => {
 
   return (
     <>
-      <Tabs>
+      <Tabs selectedIndex={tabIndex ? tabIndex : 0} onSelect={(index) => setTabIndex(index)}>
         <TabList>
           <Tab>Layout</Tab>
           <Tab>Content</Tab>
@@ -140,7 +209,8 @@ const ResumeBuilder = ({ onApply }) => {
             <div className="input-fields">
               <h3>Resume template</h3>
               <select className="form-select select-template"
-                      onChange={handleSelectTemplate}>
+                      onChange={handleSelectTemplate}
+                      value={selectedTemplate}>
                 <option value="">Select template...</option>
                 {resumeTemplates.map((template, index) => (
                   <option key={index} value={template.component}>{template.caption}</option>
@@ -269,16 +339,21 @@ const ResumeBuilder = ({ onApply }) => {
                   <div className="resumes-panel-heading">
                     <h3>Resumes</h3>
                     <LuRefreshCw className={`icon-medium refresh-icon ${isSpinningResumes ? 'spin' : ''}`}
-                                onClick={handleRefreshResumes} />
+                                 onClick={handleRefreshResumes} />
                   </div>
                 }
                 <div className="resume-list">
                   {userData.resumes && userData.resumes.length > 0 ? (  
                     userData.resumes.map((resume) => (
-                      <div className="resume-row">
-                        <p key={resume.resumeid}>{resume.resumename}</p>
+                      <div className="resume-row" key={resume.resumeid}>
+                        <p>{resume.resumename}</p>
                         <p>{formatLongDate(resume.createdon, false)}</p>
-                        <PiFolderOpenLight className="icon-medium"/>
+                        <div className="resume-list-icons">
+                          <PiFolderOpenLight className="icon-medium edit-icon"
+                                            onClick={() => handleOpenResume(resume)} />
+                          <IoTrashOutline className="icon-medium edit-icon"
+                                          onClick={() => handleDeleteClick(resume)}/>
+                        </div>
                       </div>
                     ))           
                   ) : (
@@ -301,6 +376,15 @@ const ResumeBuilder = ({ onApply }) => {
       {isTipsOpen && <Tips tipIndex={selectedTipIndex}
                            onClose={closeTips}
                            position={position} />}
+      {isDeleteDialogOpen && (
+          <Dialog
+              type="Warning"
+              heading="Confirm Delete Resume"
+              text="Are you sure you want to delete this resume?"
+              onCancel={handleCancelDelete}
+              onConfirm={handleConfirmDelete}
+          />
+      )}
     </>
   );
 };
