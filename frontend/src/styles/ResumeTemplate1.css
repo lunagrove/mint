@@ -24,3 +24,29 @@ hr {
     color: #01210a;
     width: 100%;
 }
+
+.t1-resume-information {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.t1-resume-details {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+}
+
+.t1-resume-skills {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+    border: 1px solid #01210a;
+    padding: 10px;
+}
+
+.t1-resume-skill-item {
+    margin-left: 5px;
+}

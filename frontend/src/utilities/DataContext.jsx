@@ -12,7 +12,8 @@ export const DataProvider = ({ children }) => {
     companies: [],
     projects: [],
     hobbies: [],
-    resumes: []
+    resumes: [],
+    currentResume: {}
   }); 
 
   const updateUserData = (newData) => {

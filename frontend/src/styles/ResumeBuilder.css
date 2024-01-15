@@ -68,6 +68,17 @@
     padding: 10px 0;
 }
 
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.content-container h3 {
+    padding: 10px 0;
+}
+
 .resume-list {
     display: flex;
     flex-direction: column;

@@ -17,8 +17,10 @@ import { useData } from '../utilities/DataContext';
 import { fetchResumes } from "../utilities/fetchData";
 import { formatLongDate } from "../utilities/dates";
 import Dialog from './Dialog';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
-const ResumeBuilder = ({ onApply, onDelete, resume }) => {
+const ResumeBuilder = ({ onApply, onSave, onDelete, resume }) => {
 
   const {user} = useAuthenticator((context) => [context.user]);
   const { userData, updateUserData } = useData();
@@ -42,12 +44,24 @@ const ResumeBuilder = ({ onApply, onDelete, resume }) => {
   const [isPanelOpen, setIsPanelOpen] = useState(true);
   const [selectedTipIndex, setSelectedTipIndex] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [tabIndex, setTabIndex] = useState(3);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [skills, setSkills] = useState([]);
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
+  const animatedComponents = makeAnimated();
 
   useEffect(() => {
     if (user && userData.resumes && userData.resumes.length === 0) {
         setLoadingResumes(true);
         fetchData("resumes");
+    }
+    if (Array.isArray(userData.skills)) {
+      const formattedSkills = userData.skills.map(skill => ({
+          value: skill.skillid,
+          label: skill.description
+      }));
+      console.log('formatted skills', formattedSkills);
+      setSkills(formattedSkills);
     }
     setResumeToEdit(resume); 
   }, []);
@@ -87,7 +101,16 @@ const ResumeBuilder = ({ onApply, onDelete, resume }) => {
     const selectedIndex = e.target.selectedIndex;
     const selectedText = e.target.options[selectedIndex].text;
     setSelectedTemplate(e.target.value);
-    setTemplateName(selectedText);
+    if (selectedIndex === 0) {
+      setTemplateName('');
+    }
+    else {
+      setTemplateName(selectedText);
+    }
+    setIncludeSkills(true);
+    setShowEmail(true);
+    setShowPhone(true);
+    setUseIntro(true);
   };
 
   const handleIncludeSkillsChange = (e) => {
@@ -121,23 +144,21 @@ const ResumeBuilder = ({ onApply, onDelete, resume }) => {
   const generatePDF = () => {
     var opt = {
       margin:       1,
-      filename:     'resume.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
       enablelinks:  true,
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'in', format: 'A4', orientation: 'portrait' }
+      jsPDF:        { unit: 'cm', format: 'A4', orientation: 'portrait' }
     };
     const content = document.getElementById('resume-page');
-    html2pdf().set(opt).from(content).save('resume.pdf');
+    html2pdf().set(opt).from(content).save(`${editedName}.pdf`);
   };
 
-  const savePDF = () => {
-     
+  const saveResume = () => {
+    onSave(resumeToEdit, selectedTemplate, templateName, includeSkills, showEmail, showPhone,
+      useDescs, showHistory, useIntro); 
   };
 
   const handleApplyClick = () => {
-    onApply(true, resumeToEdit, selectedTemplate, templateName, includeSkills, showEmail, showPhone,
-            useDescs, showHistory, useIntro);  
+    onApply(resumeToEdit, selectedTemplate, templateName, includeSkills, showEmail, showPhone,
+      useDescs, showHistory, useIntro, selectedSkills); 
   };
 
   const handlePanelClick = () => {
@@ -195,6 +216,17 @@ const ResumeBuilder = ({ onApply, onDelete, resume }) => {
       setIsTipsOpen(false);
   };
 
+  function customTheme(theme) {
+    return {
+        ...theme,
+        colors: {
+            ...theme.colors,
+            primary25: "#e0e0e0",
+            primary: "#e0e0e0"
+        }
+    };
+  };
+
   return (
     <>
       <Tabs selectedIndex={tabIndex ? tabIndex : 0} onSelect={(index) => setTabIndex(index)}>
@@ -220,6 +252,8 @@ const ResumeBuilder = ({ onApply, onDelete, resume }) => {
               <div className="checkbox-row">
                 <input type="checkbox"
                        className="checkbox-resume"
+                       checked={includeSkills}
+                       onChange={handleIncludeSkillsChange}
                 />
                 <h3 className="checkbox-label">Include skills list?</h3>
               </div>
@@ -242,12 +276,16 @@ const ResumeBuilder = ({ onApply, onDelete, resume }) => {
               <div className="checkbox-row">
                 <input type="checkbox"
                        className="checkbox-resume"
+                       checked={useDescs}
+                       onChange={handleUseDescsChange}
                 />
                 <h3 className="checkbox-label">Use company and institution descriptions?</h3>
               </div>
               <div className="checkbox-row">
                 <input type="checkbox"
                        className="checkbox-resume"
+                       checked={showHistory}
+                       onChange={handleShowHistoryChange}
                 />
                 <h3 className="checkbox-label">Show all history?</h3>
                 <IoMdInformationCircleOutline className="icon-large tips-icon"
@@ -276,9 +314,33 @@ const ResumeBuilder = ({ onApply, onDelete, resume }) => {
 
         </TabPanel>
         <TabPanel>
-          <div className="layout-container">
+          <div className="content-container">
             <div>
-
+              {useIntro && (
+                <>
+                  <h3>Which introductory statements do you want to include?</h3>
+                  {userData.intro && userData.intro.length > 0 && (
+                    userData.intro.map((item) => (
+                      <div key={item.introid} className="t1-intro-statement">
+                        {item.snippet}
+                      </div>
+                    ))
+                  )}
+                </>
+              )}
+              <h3>What skills do you want to demonstrate?</h3>
+              {skills && <Select closeMenuOnSelect={false}
+                                 theme={customTheme}
+                                 components={animatedComponents}
+                                 placeholder="Select skills..."
+                                 isMulti={true}
+                                 options={skills}
+                                 blurInputOnSelect={false}
+                                 id="skills"
+                                 maxMenuHeight={300}
+                                 menuPlacement={"auto"}
+                                 onChange={setSelectedSkills} />}
+              <h3>Matching Experience</h3>
             </div>
             <div className="panel-footer">
               <div className="panel-show-hide" onClick={handlePanelClick}>
@@ -315,7 +377,7 @@ const ResumeBuilder = ({ onApply, onDelete, resume }) => {
                             type="click"
                             linkTo=""
                             size="wide"
-                            onClick={savePDF} />
+                            onClick={saveResume} />
               </div>
             </div>
             <div className="panel-footer">

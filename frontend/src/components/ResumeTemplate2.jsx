@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/ResumeTemplate2.css';
 import { useData } from '../utilities/DataContext';
 
-const ResumeTemplate2 = ({ includeSkills, showEmail, showPhone, useDescs, showHistory, useIntro }) => {
+const ResumeTemplate2 = () => {
 
   const { userData, updateUserData } = useData();
 

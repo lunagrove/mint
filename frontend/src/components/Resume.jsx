@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 
-const Resume = ({ template, includeSkills, showEmail, showPhone, useDescs, showHistory, useIntro }) => {
+const Resume = ({ template }) => {
 
   const TemplateComponent = lazy(() => import(`../components/${template}`));
 
@@ -10,12 +10,7 @@ const Resume = ({ template, includeSkills, showEmail, showPhone, useDescs, showH
         <h2 className="resume-no-template">You have no resume template selected!</h2>
       ) : (
         <Suspense fallback={<div>Loading...</div>}>
-          <TemplateComponent includeSkills={includeSkills}
-                             showEmail={showEmail}
-                             showPhone={showPhone}
-                             useDescs={useDescs}
-                             showHistory={showHistory}
-                             useIntro={useIntro} />
+          <TemplateComponent />
         </Suspense>
       )}
     </div>
