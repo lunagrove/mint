@@ -122,10 +122,10 @@ const resumeTemplates = [
     caption: 'Greyscale-Simple',
     component: 'ResumeTemplate1'
   },
-  {
-    caption: 'Template 2',
-    component: 'ResumeTemplate2'
-  }
+//  {
+//    caption: 'Template 2',
+//    component: 'ResumeTemplate2'
+//  }
 ]
 
 export { cardTypes, iconMap, MAX_SKILLS, stopWords, menuItems, cardConfig, MAX_EDUCATION, MAX_SNIPPETS, MAX_COMPANIES, MAX_HOBBIES, MAX_PROJECTS, tips, monthNames, weekDays, educationTypes,

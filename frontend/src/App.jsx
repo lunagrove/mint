@@ -41,7 +41,6 @@ import './styles/ProjectsPage.css';
 import './styles/ExperiencePage.css';
 import './styles/ResumePage.css';
 import './styles/Resume.css';
-import './styles/ResumeBuilder.css';
 import './styles/Project.css';
 import './styles/AddProject.css';
 import './styles/Hobby.css';

@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 
-const Resume = ({ template }) => {
+const Resume = ({ template, showTemplate }) => {
 
   const TemplateComponent = lazy(() => import(`../components/${template}`));
 
@@ -10,7 +10,7 @@ const Resume = ({ template }) => {
         <h2 className="resume-no-template">You have no resume template selected!</h2>
       ) : (
         <Suspense fallback={<div>Loading...</div>}>
-          <TemplateComponent />
+          <TemplateComponent showTemplate={showTemplate} />
         </Suspense>
       )}
     </div>

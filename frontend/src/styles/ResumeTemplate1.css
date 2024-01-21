@@ -50,3 +50,18 @@ hr {
 .t1-resume-skill-item {
     margin-left: 5px;
 }
+
+.t1-resume-role {
+    display: flex;
+    gap: 10px;
+}
+
+.t1-resume-course {
+    display: flex;
+    gap: 10px;
+}
+
+.t1-resume-other {
+    display: flex;
+    gap: 10px;
+}

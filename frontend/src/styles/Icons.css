@@ -40,6 +40,14 @@
 .icon-margin-top {
     margin-top: 33px;
 }
+
+.icon-negative-margin-top {
+    margin-top: -8px;
+}
+
+.icon-color-white {
+    color: white;
+}
   
 .icon-button {
     color: #ebfef0;
